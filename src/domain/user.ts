@@ -1,28 +1,28 @@
-import { ObjectId } from "mongoose";
+// import { ObjectId } from "mongoose";
 
 interface User {
-    _id: ObjectId;
+    _id?: string;
   Username: string;
-  Email: string;
+  email: string;
   Password: string;
-  Role: 'Admin' | 'User'; // Assuming 'Admin' or 'User' are the only valid roles
-  Profile_pic: string | null;
-  Blogs: ObjectId[] | null;
-  Total_posts: number | null;
-  Total_reads: number | null;
-  Bio: string | null;
-  social_media_links: {
-    Facebook: string | null;
-    Instagram: string | null;
-    Twitter: string | null;
-    Website: string | null;
-    Youtube: string | null;
+  Role?: string; 
+  Profile_pic?: string | null;
+  Blogs?: string[] | null;
+  Total_posts?: number | null;
+  Total_reads?: number | null;
+  Bio?: string | null;
+  social_media_links?: {
+    Facebook?: string | null;
+    Instagram?: string | null;
+    Twitter?: string | null;
+    Website?: string | null;
+    Youtube?: string | null;
   }[];
-  IsBlock: boolean;
-  Followers: string | null;
-  Following: string | null;
-  Subscription: ObjectId | null;
-  HasLimit: boolean;
+  IsBlock?: boolean;
+  Followers?: string | null;
+  Following?: string | null;
+  Subscription?: string | null;
+  HasLimit?: boolean;
 
 }
 
