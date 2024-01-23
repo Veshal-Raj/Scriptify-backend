@@ -22,28 +22,13 @@ class userRepository implements userInterface{
 
 
     // check whether email  exist or not
-    async emailExistCheck(Email: string): Promise<any> {
-        console.log('repository --> ',Email)
-        const userFound = await UserModel.find({Email})
-        console.log('userFound', userFound)
-        if (!userFound) {
-            console.log("first")
-            return null
-        }
-        return userFound;    
-    }
-
     async findByEmail(Email: string) {
         try {
             const user = await UserModel.findOne({ Email: Email })
             console.log('inside userRepository findEmail --> ', user)
-            if (user) {
-                return user
-
-            } else {
-                return null
-
-            }
+            return user
+            // if (user) return user
+            // else return null
         } catch (error) {
             throw error
         }

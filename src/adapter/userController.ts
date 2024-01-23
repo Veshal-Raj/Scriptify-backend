@@ -13,9 +13,9 @@ class userController {
         try {
             console.log('reached inside userController --> Adapter')
             const user = req.body
-            console.log('user --> ',user)
+            console.log('user (adapter/userController/signup) --> ',user)
             const userFound = await this.userUsecase.emailExistCheck(user.Email)
-          console.log(userFound, "---99----")
+          console.log( "---userFound----",userFound)
             if (userFound == null) {   
             const userSave = await this.userUsecase.saveUser(user)
             res.status(200).json({data: true, userSave})
