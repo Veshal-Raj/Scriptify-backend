@@ -18,15 +18,26 @@ export class SendMail implements ISendMail {
     }
 
     sendEmailVerification(name: string, email: string, verificationCode: string): Promise<{success : boolean}> {
-        console.log('send email verification')
+       
         return new Promise((resolve, reject) => {
             const mailOptions: nodemailer.SendMailOptions = {
                 from: process.env.SMTP_MAIL,
                 to: email,
-                subject: 'Scriptify Email Verification ',
-                text: `Hi ${name}, \n\n Your Verification Code is ${verificationCode}. Do not share this code with anyone.`,
+                subject: 'Scriptify Email Verification',
+                // Using HTML for styling
+                html: `
+                    <html>
+                        <body>
+                            <p style="font-size: 16px; color: #333;">Hi ${name},</p>
+                            <p style="font-size: 16px; color: #333;">
+                                Your Verification Code is <strong>${verificationCode}</strong>.
+                                Do not share this code with anyone.
+                            </p>
+                        </body>
+                    </html>
+                `,
             };
-            console.log('mailOptions --> ', mailOptions)
+            
             this.transporter.sendMail(mailOptions, (err) => {
                 if (err) {
                     console.log('error in sendMail')

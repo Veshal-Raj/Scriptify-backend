@@ -1,6 +1,6 @@
-import mongoose,{Types} from 'mongoose';
-import {IOtp} from '../../../../entitiesLayer/otp'
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
+import { IOtp } from '../../../../entitiesLayer/otp'; 
 
 const otpSchema = new mongoose.Schema<IOtp>({
 
@@ -12,28 +12,32 @@ userMail:String,
   expiresAt: {
     type: Date,
     required: true,
+    default:Date.now,
+    expires: 30 * 60,
   },
   createdAt:{
     type:Date,
-    required:true
+    required:true,
+    default:Date.now
   }
 });
 
-// delete the document after a certain time
-otpSchema.post<IOtp>('save', function(doc) {
+// delete the document after a certain time 
+otpSchema.post<IOtp>('save', function (doc) {
   setTimeout(async () => {
     try {
       const deletedDoc = await OTP.findByIdAndDelete(doc._id);
       if (!deletedDoc) {
-        console.error('Document not found');        
+        console.error('Document not found');
       } else {
-        console.log(`Document deleted: ${deletedDoc}`)
+        console.log(`Document deleted: ${deletedDoc}`);
       }
-    } catch (error) {
-      console.error(`Error deleting document: ${error}`);
+    } catch (err) {
+      console.error(`Error deleting document: ${err}`);
     }
-  }, 30*60*1000)
-})
+  }, 30 * 60 * 1000); 
+});
+
 
 const OTP = mongoose.model<IOtp>('OTP', otpSchema);
 

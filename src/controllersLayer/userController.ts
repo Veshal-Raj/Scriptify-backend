@@ -21,14 +21,18 @@ export class UserController {
     async createUser(req: Req, res: Res, next: Next) {
         console.log('inside userController')
         try {
-            let {name, email, password, confirmPassword} = req.body
-
-            name = name ? name.trim() : null
+            
+            let {firstname, lastname, email, password, confirmpassword} = req.body
+            
+            firstname = firstname? firstname.trim(): null
+            lastname = lastname? lastname.trim(): null
+            let name = firstname+" "+lastname
             email = email ? email.trim(): null
             password = password ? password.trim() : null
-            confirmPassword = confirmPassword ? confirmPassword.trim() : null
+            confirmpassword = confirmpassword ? confirmpassword.trim() : null
+            
 
-            if (!name || !email || !password || !confirmPassword) {
+            if (!name || !email || !password || !confirmpassword) {
                 return res.status(400).json({
                     success: false,
                     message: 'missing required fields'
@@ -49,7 +53,7 @@ export class UserController {
                 })
             }
 
-            if (password !== confirmPassword) {
+            if (password !== confirmpassword) {
                 return res.status(400).json({
                     success: false,
                     message: "password mismatches"
@@ -57,7 +61,11 @@ export class UserController {
             }
 
             const user = {...req.body}
+         
+            user.name = firstname+" "+lastname
             delete user.confirmPassword
+            delete user.firstname
+            delete user.lastname
             const newUser = await this.userUseCase.createUser(user)
             console.log('newUser -------> ', newUser)
         } catch (error) {
