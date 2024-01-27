@@ -26,14 +26,16 @@ export class SendMail implements ISendMail {
                 subject: 'Scriptify Email Verification ',
                 text: `Hi ${name}, \n\n Your Verification Code is ${verificationCode}. Do not share this code with anyone.`,
             };
-
+            console.log('mailOptions --> ', mailOptions)
             this.transporter.sendMail(mailOptions, (err) => {
                 if (err) {
+                    console.log('error in sendMail')
                     console.error(err.message);
                     reject({
                         success: false,
                     });
                 } else {
+                    console.log('no error in sendMail')
                     resolve ({
                         success: true,
                     })

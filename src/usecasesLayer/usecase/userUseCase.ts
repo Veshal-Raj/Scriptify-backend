@@ -13,7 +13,7 @@ export class UserUsecase {
   private readonly otpGenerator: ICreateOtp;
   private readonly sendMail: ISendMail;
   private readonly  otpRepository: IOtpRepository;
-  66constructor(
+  constructor(
     userRepository: IUserRepository,
     bcrypt: IHashpassword,
     otpGenerator: ICreateOtp,
