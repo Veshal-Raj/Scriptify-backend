@@ -99,7 +99,7 @@ export class UserController {
 
             // store user data in Redis
             redis.hmset(email, user) // 'email' is a unique identifier
-
+            console.log('stored inside redis')
             const newUser = await this.userUseCase.createUser(user)
             console.log('newUser -------> ', newUser)
         } catch (error) {
