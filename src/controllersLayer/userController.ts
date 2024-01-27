@@ -1,6 +1,8 @@
 import { Req, Res, Next } from "../infrastructureLayer/types/serverPackageTypes";
 import { UserUsecase } from "../usecasesLayer/usecase/userUseCase";
 import { IUserRepository } from "../usecasesLayer/interface/repository/userRepository";
+import { redis } from "../infrastructureLayer/webserver/config/redis";
+
 
 export class UserController {
     private userUseCase: UserUsecase
@@ -13,10 +15,31 @@ export class UserController {
     }
 
     // validate email
-    validateEmail(email: string):boolean {
+    private validateEmail(email: string):boolean {
         let emailRegex:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email)
     }
+
+    private validatePassword(password: string): boolean {
+        // Password should be at least 6 characters long.
+        const isLengthValid = password.length >= 6;
+    
+        // Password should contain at least one digit.
+        const containsDigit = /\d/.test(password);
+    
+        // Password should contain at least one alphabet.
+        const containsAlphabet = /[a-zA-Z]/.test(password);
+    
+        // Password should contain at least one special character.
+        const containsSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+        // Password should not contain spaces.
+        const noSpaces = !/\s/.test(password);
+    
+        // All validation conditions should be true for the password to be considered valid.
+        return isLengthValid && containsDigit && containsAlphabet && containsSpecialCharacter && noSpaces;
+    }
+    
 
     async createUser(req: Req, res: Res, next: Next) {
         console.log('inside userController')
@@ -53,6 +76,13 @@ export class UserController {
                 })
             }
 
+            if (!this.validatePassword(password)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Password should be at least 6 characters long"
+                });
+            }
+
             if (password !== confirmpassword) {
                 return res.status(400).json({
                     success: false,
@@ -66,6 +96,10 @@ export class UserController {
             delete user.confirmPassword
             delete user.firstname
             delete user.lastname
+
+            // store user data in Redis
+            redis.hmset(email, user) // 'email' is a unique identifier
+
             const newUser = await this.userUseCase.createUser(user)
             console.log('newUser -------> ', newUser)
         } catch (error) {

@@ -1,6 +1,8 @@
 import fetch from 'node-fetch';
 import { Request, Response, NextFunction } from 'express';
-require('dotenv').config()
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 interface GoogleResponse {
     success: boolean;
@@ -28,7 +30,7 @@ async function recaptcha(req: Request, res: Response, next: NextFunction) {
         if (google_response.success) {
             next();
         } else {
-            res.status(403).json("Error");
+            res.status(403).json("You are not Human!");
         }
     } catch (error) {
         res.json({ error });
