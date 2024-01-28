@@ -25,7 +25,7 @@ async function recaptcha(req: Request, res: Response, next: NextFunction) {
 
         const google_response = await response.json() as GoogleResponse;
 
-        console.log(google_response.success);
+        console.log('recaptcha status --> ',google_response.success);
 
         if (google_response.success) {
             next();

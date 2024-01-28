@@ -1,7 +1,7 @@
 import { Req, Res, Next } from "../infrastructureLayer/types/serverPackageTypes";
 import { UserUsecase } from "../usecasesLayer/usecase/userUseCase";
 import { IUserRepository } from "../usecasesLayer/interface/repository/userRepository";
-import { redis } from "../infrastructureLayer/webserver/config/redis";
+// import { redis } from "../infrastructureLayer/webserver/config/redis";
 
 
 export class UserController {
@@ -45,17 +45,17 @@ export class UserController {
         console.log('inside userController')
         try {
             
-            let {firstname, lastname, email, password, confirmpassword} = req.body
+            let {firstname, lastname, email, password, confirmPassword} = req.body
             
             firstname = firstname? firstname.trim(): null
             lastname = lastname? lastname.trim(): null
             let name = firstname+" "+lastname
             email = email ? email.trim(): null
             password = password ? password.trim() : null
-            confirmpassword = confirmpassword ? confirmpassword.trim() : null
+            confirmPassword = confirmPassword ? confirmPassword.trim() : null
             
 
-            if (!name || !email || !password || !confirmpassword) {
+            if (!name || !email || !password || !confirmPassword) {
                 return res.status(400).json({
                     success: false,
                     message: 'missing required fields'
@@ -83,7 +83,7 @@ export class UserController {
                 });
             }
 
-            if (password !== confirmpassword) {
+            if (password !== confirmPassword) {
                 return res.status(400).json({
                     success: false,
                     message: "password mismatches"
@@ -98,8 +98,8 @@ export class UserController {
             delete user.lastname
 
             // store user data in Redis
-            redis.hmset(email, user) // 'email' is a unique identifier
-            console.log('stored inside redis')
+            // redis.hmset(email, user) // 'email' is a unique identifier
+            // console.log('stored inside redis')
             const newUser = await this.userUseCase.createUser(user)
             console.log('newUser -------> ', newUser)
         } catch (error) {
