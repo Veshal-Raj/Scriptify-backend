@@ -55,11 +55,6 @@ async verificationToken(user:IUser):Promise<string>{
     }
     
 
-    // verifyJWT(data: any): any {
-    //     const verify = JWT.verify(data, `${process.env.JWT_SECRET_KEY}`)
-    //     return verify;
-    // }
-
 }
 
 export default JwtToken

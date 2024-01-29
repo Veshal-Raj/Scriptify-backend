@@ -1,12 +1,13 @@
 import { Req, Res, Next } from "../infrastructureLayer/types/serverPackageTypes";
 import { UserUsecase } from "../usecasesLayer/usecase/userUseCase";
 import { IUserRepository } from "../usecasesLayer/interface/repository/userRepository";
-// import { redis } from "../infrastructureLayer/webserver/config/redis";
+
 
 
 export class UserController {
     private userUseCase: UserUsecase
     private userRepository: IUserRepository
+    
 
     constructor(userUseCase: UserUsecase, userRepository: IUserRepository){
 
@@ -43,6 +44,7 @@ export class UserController {
 
     async createUser(req: Req, res: Res, next: Next) {
         console.log('inside userController')
+        
         try {
             
             let {firstname, lastname, email, password, confirmPassword} = req.body
@@ -93,15 +95,27 @@ export class UserController {
             const user = {...req.body}
          
             user.name = firstname+" "+lastname
+            let reCaptchaToken = user.token
             delete user.confirmPassword
             delete user.firstname
             delete user.lastname
 
-            // store user data in Redis
-            // redis.hmset(email, user) // 'email' is a unique identifier
-            // console.log('stored inside redis')
-            const newUser = await this.userUseCase.createUser(user)
-            console.log('newUser -------> ', newUser)
+        
+            console.log('checking the user variable whether the data is present or not', user)
+            const newUserResponse = await this.userUseCase.registerUser(user);
+            console.log('newUserResponse --> ', newUserResponse)
+      if (newUserResponse.success) {
+        // Set the user data in the cookie
+        const userData = newUserResponse.userData;
+        
+        console.log('user data --- ', userData)
+        
+        res.cookie("verificationToken", userData, {
+            httpOnly: true,
+            sameSite: "strict",
+            expires: new Date(Date.now() + 30 * 60 * 1000),
+          }).json({message: 'verification Token'});        
+    }
         } catch (error) {
             console.error(error);
             res.status(500).json({

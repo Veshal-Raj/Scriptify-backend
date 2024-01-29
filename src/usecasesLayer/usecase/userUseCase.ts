@@ -6,7 +6,7 @@ import { ISendMail } from "../interface/services/sendMail";
 import { redis } from "../../infrastructureLayer/webserver/config/redis";
 
 
-import { createUser } from "./user/index";
+import { createUser , registerUser} from "./user/index";
 
 console.log('reached inside userusecase')
 export class UserUsecase {
@@ -29,16 +29,35 @@ export class UserUsecase {
     this.otpRepository = otpRepository;
   }
 
-  async createUser({
+  async registerUser({
     name,
     email,
     password,
   }: {
     name: string;
-    email: string;
+    email: string;  
     password: string;
   }) {
     console.log('reached inside the createUser function --> src/usecasesLayer/usecase/userUseCase');
+
+    // Step 0: check whether the user is exist or not
+    this.userRepository.findUserByEmail(email)
+  .then((isUserExist) => {
+    console.log('isUserExist --> ', isUserExist);
+
+    // Now you can continue with the rest of your logic
+    if (isUserExist.userExist) {
+      // User exists, do something
+      console.log('User exists!');
+      return {message: 'user exist!'}
+    } else {
+      // User does not exist, do something else
+      console.log('User does not exist.');
+    }
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 
     // Step 1: Generate OTP
     const Otp = await this.otpGenerator.generateOTP();
@@ -58,32 +77,19 @@ export class UserUsecase {
       Otp
       );
       
-   
-   // Step 4: Store User Data in Redis
-const user = {
-  name,
-  email,
-  password,  // Note: It's not recommended to store plain passwords, consider hashing before storage
-};
 
-try {
-  const response = await redis.hmset(email, user);
-  console.log('Redis response:', response);
-  console.log('Data stored in Redis successfully');
-} catch (error) {
-  console.error('Error storing data in Redis:', error);
-  // Handle error here
-}
-
-    // Step 5: Create User
-    const NewUser = await createUser(
-      this.userRepository,
-      this.bcrypt,
+    // Step 4: Create User
+    
+    const userData = {
       name,
       email,
-      password
-    );
+      password,
+      // Add other user data as needed
+    };
 
-    return NewUser;
+    // You can return this user data to be used in the UserController
+    return { success: true, message: 'Registration successful! Check your email for verification.', userData };
+      
+    
   }
 }
