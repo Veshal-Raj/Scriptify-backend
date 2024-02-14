@@ -5,6 +5,11 @@ import { IOtpRepository } from "../../../../usecasesLayer/interface/repository/I
 
 
 export class OtpRepository implements IOtpRepository {
+    findUser(email: string): unknown {
+        throw new Error("Method not implemented.");
+    }
+
+    
     async createOtpUserCollection(newUser: IOtp): Promise<IOtp> {
         try {
             const result = await OtpModel.create(newUser);

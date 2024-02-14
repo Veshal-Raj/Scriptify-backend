@@ -1,5 +1,5 @@
 import IUser from "../../../entitiesLayer/user";
-import { IJsonResponse } from "../services/IjsonResponse";
+
 
 
 export interface IUserRepository {
