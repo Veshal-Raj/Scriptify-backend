@@ -25,6 +25,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     blogs: [{ type: Schema.Types.ObjectId, ref: 'Blog' }], // Assuming 'Blog' is the name of your blog model
     role: { type: String, enum: ['user', 'advertiser', 'admin'], default: 'user' },
     status: { type: String, enum: ['active', 'freeze'] },
+    isVerified: {type: Boolean, default: false},
     isSubscribed: { type: Boolean, default: false },
     joinedAt: { type: Date, default: Date.now },
 })

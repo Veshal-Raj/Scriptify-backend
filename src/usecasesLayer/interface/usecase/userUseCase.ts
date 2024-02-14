@@ -1,6 +1,5 @@
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
-import { IJsonResponse } from "../services/IjsonResponse";
 
 export interface IUserUseCase {
   // saving user details temporary
