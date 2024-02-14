@@ -6,6 +6,10 @@ export const findUserByEmail = async(
     email: string,
     userModels: typeof UserModel
 ) => {
-    const existingUser = await userModels.findOne({email})
-    return existingUser
+   try {
+        const existingUser = await userModels.findOne({email})
+        return existingUser
+   } catch (error) {
+        throw error
+   }
 }
