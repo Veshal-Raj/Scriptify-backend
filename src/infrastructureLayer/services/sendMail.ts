@@ -3,7 +3,7 @@ require("dotenv").config()
 
 import { ISendMail } from '../../usecasesLayer/interface/services/sendMail'
 
-export class sendMail implements ISendMail {
+export class SendMail implements ISendMail {
     private transporter: nodemailer.Transporter
 
     constructor() {

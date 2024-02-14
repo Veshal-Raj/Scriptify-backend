@@ -15,7 +15,7 @@ export class JWTtoken implements IJwt {
         return verifyToken
     }
 
-    async createAccessAndRefreshToken(id: string): Promise<IToken> {
+    async createAccessAndRefreshToken(_id: string): Promise<IToken> {
         const accessToken = jwt.sign({ id: _id }, this.JWT_ACCESS_KEY, {
             expiresIn: "5h",
         });

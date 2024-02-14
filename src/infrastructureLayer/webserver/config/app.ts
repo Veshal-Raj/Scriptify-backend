@@ -10,7 +10,6 @@ require('dotenv').config()
 
 //routes
 import { userRoute } from '../routes/userRoute'
-
 export const app = express()
 
 // app.use(cors({
@@ -29,6 +28,6 @@ app.use(helmet())
 app.use(compression())
 app.use(morgan('dev'))
 
-app.use('/api/v1/user/', userRoute(express.Router()))
+app.use('/api/v1/', userRoute(express.Router()))
 
 app.use(errorMiddleWare)

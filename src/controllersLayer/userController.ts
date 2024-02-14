@@ -15,10 +15,10 @@ export class UserController {
     async registerUser(req: Req, res: Res, next: Next) {
         try {
             // input validation
-            const { username, email, password } = req.body;
+            const { fullname, email, password } = req.body;
             const validationErrors: string[] = [];
             
-            if (!validateUsername(username)) {
+            if (!validateUsername(fullname)) {
                 validationErrors.push("Invalid username format");
             }
             if (!validateEmail(email)) {
@@ -54,10 +54,10 @@ export class UserController {
     async createUser(req: Req, res: Res, next: Next) {
         try {
             // input validation
-            const { username, email, password } = req.body;
+            const { fullname, email, password } = req.body;
             const validationErrors: string[] = [];
             
-            if (!validateUsername(username)) {
+            if (!validateUsername(fullname)) {
                 validationErrors.push("Invalid username format");
             }
             if (!validateEmail(email)) {
@@ -70,7 +70,7 @@ export class UserController {
             if (validationErrors.length > 0) {
                 return next(validationErrors);
             }
-            
+
             
             let token = req.cookies.verficationToken;
             const result = await this.userUseCase.createUser(

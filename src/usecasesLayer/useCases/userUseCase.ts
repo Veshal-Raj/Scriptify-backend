@@ -3,7 +3,7 @@ import { IUserUseCase } from "../interface/usecase/userUseCase";
 import { IUserRepository } from "../interface/repository/IuserRepository";
 import { NextFunction } from "express";
 import { ErrorHandler } from "../middlewares/errorHandler";
-import { Req, Res, Next } from "../../infrastructureLayer/types/serverPackageTypes";}
+import { Req, Res, Next } from "../../infrastructureLayer/types/serverPackageTypes";
 
 import { createUser, registerUser } from "./user/index";
 import { IHashpassword } from "../interface/services/IhashPassword";
@@ -39,7 +39,7 @@ export class UserUseCase implements IUserUseCase {
     }
 
    // register user
-   async registerUser({ name, email, password, }: { name: string; email: string; password: string; }, next: NextFunction): Promise<string | void | never> {
+   async registerUser({ fullname, email, password, }: { fullname: string; email: string; password: string; }, next: NextFunction): Promise<string | void | never> {
        try {
         let result = registerUser(
             this.otpRepository,
@@ -49,7 +49,7 @@ export class UserUseCase implements IUserUseCase {
             this.jwtToken,
             this.bcrypt,
             email,
-            name,
+            fullname,
             password,
             next
         )
