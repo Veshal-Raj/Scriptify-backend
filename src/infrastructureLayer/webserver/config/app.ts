@@ -5,11 +5,11 @@ import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import errorHandler from '../../../usecasesLayer/handler/errorHandler'
+// import errorHandler from '../../../usecasesLayer/handler/errorHandler'
 require('dotenv').config()
 
 //routes
-import { userRoute } from '../routes/userRoute'
+// import { userRoute } from '../routes/userRoute'
 
 export const app = express()
 
@@ -29,6 +29,6 @@ app.use(helmet())
 app.use(compression())
 app.use(morgan('dev'))
 
-app.use('/api/v1/user/', userRoute(express.Router()))
+// app.use('/api/v1/user/', userRoute(express.Router()))
 
-app.use(errorHandler)
+// app.use(errorHandler)
