@@ -8,7 +8,7 @@ import { IHashpassword } from "../../interface/services/IhashPassword";
 import { IJwt } from "../../interface/services/Ijwt.types";
 import { ISendMail } from "../../interface/services/sendMail";
 import { ErrorHandler } from "../../middlewares/errorHandler";
-import { createOtpUserCollection } from "./otp/createUser";
+
 
 export const registerUser = async (
     otpRepository: IOtpRepository,
