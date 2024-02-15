@@ -70,25 +70,31 @@ export class UserController {
     async createUser(req: Req, res: Res, next: Next) {
         try {
             // input validation
-            const { fullname, email, password } = req.body;
-            const validationErrors: string[] = [];
+            // const { fullname, email, password } = req.body;
+            // const validationErrors: string[] = [];
             
-            if (!validateUsername(fullname)) {
-                validationErrors.push("Invalid username format");
-            }
-            if (!validateEmail(email)) {
-                validationErrors.push("Invalid email format");
-            }
-            if (!validatePassword(password)) {
-                validationErrors.push("Invalid password format");
-            }
+            // if (!validateUsername(fullname)) {
+            //     validationErrors.push("Invalid username format");
+            // }
+            // if (!validateEmail(email)) {
+            //     validationErrors.push("Invalid email format");
+            // }
 
-            if (validationErrors.length > 0) {
-                return next(validationErrors);
-            }
+            // if (!validatePassword(password)) {
+            //     validationErrors.push("Invalid password format");
+            // }
 
+
+            // if (validationErrors.length > 0) {
+            //     console.log('reached inside validate errors length')
+            //     return next(validationErrors);
+            // }
+
+            console.log('dddddddddddddddddddddddddddddddddddddddddd',req.cookies)
+            console.log(req.body)
             
             let token = req.cookies.verficationToken;
+            console.log('token in the userController ----- > ', token)
             if (!token) {
                 return res.status(400).json({
                     success: false,
@@ -96,13 +102,15 @@ export class UserController {
                 });
             }
             const result = await this.userUseCase.createUser(
-                req.body.verficationToken,
+                req.body.otp,
                 token,
                 next
             );
-
+                console.log('result in the userController ------>>>>>>> ', result)
+            if (result === null) res.status(401).json({message: 'otp mismatch'})
             res.clearCookie("verificationToken").send(result)
         } catch (error: unknown | never) {
+            console.log('reached here')
             return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));
         }
     }

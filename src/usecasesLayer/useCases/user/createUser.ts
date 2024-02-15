@@ -15,21 +15,30 @@ export const createUser = async (
 )=>{
     try {
         let decode = (await jwtVerifier.verifyJwt(token)) as IUser;
+        console.log('decode ----->>>> ', decode)
         if (!decode) {
             return next(new ErrorHandler(400, "token has been expired, register again"))
         }
         // check whether use exists
         const email = decode.personal_info.email
+        console.log('email --->>>>> ', email)
         const checkUser = await otpRepository.findUserWithOTP(email, otpFromUser)
+        console.log('checkUser ----->>>>>> ', checkUser)
 
-        if (!checkUser) return next(new ErrorHandler(400, 'OTP mismatch'))
+        if (!checkUser) return null
         let otp = checkUser.otp
         
         if(otpFromUser === otp) {
 
             decode.isVerified = true;
+            const checkUserExistInUserRepo = await userRepository.findUserByEmail(email)
+            console.log('check user exist in user repo ----->>>>> ', checkUserExistInUserRepo)
+            if(checkUserExistInUserRepo)  {
+                next(new ErrorHandler(401,  'User already exists')) 
+                return {message: 'user already exists'};
+        };
             const newUser = await userRepository.createUser(decode);
-            newUser.personal_info.password = ''
+            newUser.personal_info.password = '' // no need of sending password
             return newUser;            
         } 
 

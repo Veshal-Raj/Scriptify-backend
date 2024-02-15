@@ -58,8 +58,9 @@ export class UserUseCase implements IUserUseCase {
         }
     }
 
-    async createUser(otpFromUser: string, token: string, next: NextFunction): Promise<void | IUser | never> {
+    async createUser(otpFromUser: string, token: string, next: NextFunction): Promise<void | IUser | null> {
         try {
+            console.log('otp from user ---->>>> ',otpFromUser,'token ------->>>>> ', token)
             return await createUser(
                 this.userRepository,
                 this.otpRepository,

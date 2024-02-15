@@ -7,7 +7,7 @@ export const findUserByEmail = async(
     userModels: typeof UserModel
 ) => {
    try {
-        const existingUser = await userModels.findOne({email})
+        const existingUser = await userModels.findOne({ 'personal_info.email': email });
         return existingUser
    } catch (error) {
         throw error

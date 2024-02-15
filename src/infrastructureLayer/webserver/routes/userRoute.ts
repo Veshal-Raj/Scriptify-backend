@@ -12,5 +12,12 @@ export function userRoute(router: Route) {
         })
     )
 
+    router.post(
+        '/verify-otp',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            userController.createUser(req, res, next)
+        })
+    )
+
     return router
 }

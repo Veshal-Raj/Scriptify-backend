@@ -19,10 +19,10 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         website: { type: String },
     },
     account_info: {
-        total_posts: { type: Number },
-        total_reads: { type: Number },
+        total_posts: { type: Number, default: 0 },
+        total_reads: { type: Number, default: 0 },
     },
-    blogs: [{ type: Schema.Types.ObjectId, ref: 'Blog' }], // Assuming 'Blog' is the name of your blog model
+    blogs: [{ type: Schema.Types.ObjectId, ref: 'Blog' }], 
     role: { type: String, enum: ['user', 'advertiser', 'admin'], default: 'user' },
     status: { type: String, enum: ['active', 'freeze'] },
     isVerified: {type: Boolean, default: false},
