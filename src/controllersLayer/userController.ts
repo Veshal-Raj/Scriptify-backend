@@ -2,7 +2,7 @@ import { Req, Res, Next } from "../infrastructureLayer/types/serverPackageTypes"
 import { UserUseCase } from "../usecasesLayer/useCases/userUseCase";
 import { validateEmail, validatePassword, validateUsername } from "./middlewares/inputValidation";
 import { ErrorHandler } from "../usecasesLayer/middlewares/errorHandler";
-// import { IToken } from "../usecasesLayer/interface/services/Ijwt.types";
+
 
 
 export class UserController {
@@ -21,7 +21,7 @@ export class UserController {
             const validationErrors: string[] = [];
             
             if (!validateUsername(fullname)) {
-                console.log('reached here ---- ')
+                
                 validationErrors.push("Invalid username format");
             }
             if (!validateEmail(email)) {

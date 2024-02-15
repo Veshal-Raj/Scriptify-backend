@@ -3,7 +3,6 @@ import { IUserUseCase } from "../interface/usecase/userUseCase";
 import { IUserRepository } from "../interface/repository/IuserRepository";
 import { NextFunction } from "express";
 import { ErrorHandler } from "../middlewares/errorHandler";
-import { Req, Res, Next } from "../../infrastructureLayer/types/serverPackageTypes";
 
 import { createUser, registerUser } from "./user/index";
 import { IHashpassword } from "../interface/services/IhashPassword";
@@ -20,7 +19,6 @@ export class UserUseCase implements IUserUseCase {
     private readonly otpRepository: IOtpRepository;
     private readonly jwtToken: IJwt;
 
-    
 
     constructor(
         userRepository: IUserRepository,
@@ -53,9 +51,6 @@ export class UserUseCase implements IUserUseCase {
             password,
             next
         )
-        console.log('<---------------------------- result in register user in userusecase ----------------> ')
-        console.log(result)
-        console.log('<---------------------------- result in register user in userusecase ----------------> ')
         
         return result
        } catch (error: unknown | never) {

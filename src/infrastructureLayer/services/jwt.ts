@@ -8,18 +8,12 @@ export class JWTtoken implements IJwt {
     JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || "";
     JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
     
-    async createVerificationJWT(payload: IUser): Promise<string> {
-
-        console.log('<--------------------------------------------->')
-        console.log('<-------- payload ----------> ', payload)
-        console.log('<----------------------------------->')
-      
+    async createVerificationJWT(payload: IUser): Promise<string> {      
         const verifyToken = jwt.sign(payload, this.JWT_VERIFICATION_KEY, {
             expiresIn: "15m",
         })
        
         return verifyToken
-
     }
 
     async createAccessAndRefreshToken(_id: string): Promise<IToken> {
@@ -41,6 +35,7 @@ export class JWTtoken implements IJwt {
         const token =  jwt.sign({ userId: userId, email: email}, this.JWT_VERIFICATION_KEY, {
             expiresIn: "10m"
         })
+        
         return token
     }
 }

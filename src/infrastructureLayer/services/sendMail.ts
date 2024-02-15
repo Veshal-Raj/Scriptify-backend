@@ -19,7 +19,7 @@ export class SendMail implements ISendMail {
     }
 
     sendEmailVerification(fullname: string, email: string, verificationCode: string): Promise<{ success: boolean }> {
-        // console.log('reached inside the sendemail verification -- ', fullname, email, verificationCode)
+        
         return new Promise((resolve, reject) => {
             const mailOptions: nodemailer.SendMailOptions = {
                 from: process.env.SMTP_MAIL,

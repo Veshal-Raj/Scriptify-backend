@@ -52,4 +52,20 @@ export class OtpRepository implements IOtpRepository {
             }
         }
     }
+
+    async findUserAndDelete(email: string): Promise<IOtp | null | boolean> {
+        try {
+            let result = await OtpModel.findOneAndDelete({email})
+            console.log(result)
+            return result
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                // Handle specific error types
+                throw error;
+            } else {
+                // Handle unknown error types
+                throw new Error('An unknown error occurred');
+            }
+        }
+    }
 }
