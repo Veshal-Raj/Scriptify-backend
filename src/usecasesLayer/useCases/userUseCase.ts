@@ -41,7 +41,7 @@ export class UserUseCase implements IUserUseCase {
    // register user
    async registerUser({ fullname, email, password, }: { fullname: string; email: string; password: string; }, next: NextFunction): Promise<string | void | never> {
        try {
-        let result = registerUser(
+        let result = await registerUser(
             this.otpRepository,
             this.userRepository,
             this.sendMail,
@@ -53,6 +53,10 @@ export class UserUseCase implements IUserUseCase {
             password,
             next
         )
+        console.log('<---------------------------- result in register user in userusecase ----------------> ')
+        console.log(result)
+        console.log('<---------------------------- result in register user in userusecase ----------------> ')
+        
         return result
        } catch (error: unknown | never) {
             return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));

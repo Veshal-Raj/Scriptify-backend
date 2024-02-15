@@ -5,14 +5,27 @@ import { IOtpRepository } from "../../../../usecasesLayer/interface/repository/I
 
 
 export class OtpRepository implements IOtpRepository {
-    findUser(email: string): unknown {
-        throw new Error("Method not implemented.");
+    async findUser(email: string) {
+        try {
+            let isUserExist = await OtpModel.findOne({email})
+
+            if (!isUserExist) return null
+            return isUserExist
+        } catch (error) {
+            console.error(error);
+            
+            throw new Error('Internal error');
+        }
     }
 
     
     async createOtpUserCollection(newUser: IOtp): Promise<IOtp> {
         try {
+            console.log('<----------------------- reached inside the create otp user collection ----------------------------------->')
             const result = await OtpModel.create(newUser);
+            console.log('result --> ', result)
+
+            console.log('<--------------------------------------------------------------------------------------->')
             return result;
         } catch (error: unknown) {
             if (error instanceof Error) {
