@@ -1,37 +1,42 @@
-import { Next, Req, Res } from "../../infrastructureLayer/types/serverPackageTypes";
+import { Next, Req, Res, Ilogger } from "../../infrastructureLayer/types/serverPackageTypes";
+// import { ILogger } from "../interface/services/IerrorLog";
 import { ErrorHandler } from "./errorHandler";
 import winston from 'winston';
 import moment from 'moment';
 import path from 'path'; 
+// import { Logger } from "../../infrastructureLayer/services/errorLogging";
+import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 
-// Define Winston logger configuration
-
-// Define Winston logger configuration
-const logger = winston.createLogger({
-  level: 'error',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
-    winston.format.printf(info => {
-      const formattedTimestamp = moment(info.timestamp).format('YYYY-MM-DD HH:mm:ss');
-      return `Time: ${formattedTimestamp},\ninfo level: ${info.level},\ninfo message: ${info.message},\ninfo stack: ${info.stack || 'undefined'}\n`;
-    })
-  ),
-  transports: [
-    new winston.transports.File({ 
-      filename: path.join(__dirname, './../../log', 'error.log'), 
-      level: 'error'
-    }), 
-    new winston.transports.Console() // Log errors to console 
-  ]
-});
+const logger = new CustomLogger();
+// // Define Winston logger configuration
+// const logger = winston.createLogger({
+//   level: 'error',
+//   format: winston.format.combine(
+//     winston.format.timestamp(),
+//     winston.format.errors({ stack: true }),
+//     winston.format.printf(info => {
+//       const formattedTimestamp = moment(info.timestamp).format('YYYY-MM-DD HH:mm:ss');
+//       return `Time: ${formattedTimestamp},\ninfo level: ${info.level},\ninfo message: ${info.message},\ninfo stack: ${info.stack || 'undefined'}\n`;
+//     })
+//   ),
+//   transports: [
+//     new winston.transports.File({ 
+//       filename: path.join(__dirname, './../../log', 'error.log'), 
+//       level: 'error'
+//     }), 
+//     new winston.transports.Console() // Log errors to console 
+//   ]
+// });
 
 export const errorMiddleWare = (err: any, req: Req, res: Res, next: Next) => {
     err.statusCode = err.statusCode || 500;
     err.message = err.message || "internal server error";
     
     // Log error using Winston
-    logger.error(err.message, { error: err, stack: err.stack }); // Pass the whole stack trace
+    // logger.error(err.message, { error: err, stack: err.stack }); // Pass the whole stack trace
+    logger.logError(err.message, err.stack)
+    logger.logInfo(err.message)
+    logger.logWarning(err.message)
     
     // Log stack trace
     console.error('Stack trace:', err.stack);

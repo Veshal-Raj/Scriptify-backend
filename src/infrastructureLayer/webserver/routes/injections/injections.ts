@@ -6,6 +6,7 @@ import { Encrypt } from "../../../services/hashPassword";
 import { GenerateOtp } from "../../../services/generateOtp";
 import { SendMail } from "../../../services/sendMail";
 import { JWTtoken } from "../../../services/jwt";
+// import { Logger } from "../../../services/errorLogging";
 import { UserController } from "../../../../controllersLayer/userController";
 
 
@@ -15,6 +16,8 @@ const generateOTP = new GenerateOtp()
 const sendMail = new SendMail()
 const otpRepository = new OtpRepository()
 const jwtToken = new JWTtoken()
+// const logger = new Logger()
+
 
 const userUseCase = new UserUseCase(
     userRepository,
@@ -22,7 +25,8 @@ const userUseCase = new UserUseCase(
     generateOTP,
     sendMail,
     otpRepository,
-    jwtToken
+    jwtToken,
+    // logger
 )
 
 const userController = new UserController(userUseCase)

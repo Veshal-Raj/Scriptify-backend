@@ -69,30 +69,7 @@ export class UserController {
 
     async createUser(req: Req, res: Res, next: Next) {
         try {
-            // input validation
-            // const { fullname, email, password } = req.body;
-            // const validationErrors: string[] = [];
-            
-            // if (!validateUsername(fullname)) {
-            //     validationErrors.push("Invalid username format");
-            // }
-            // if (!validateEmail(email)) {
-            //     validationErrors.push("Invalid email format");
-            // }
-
-            // if (!validatePassword(password)) {
-            //     validationErrors.push("Invalid password format");
-            // }
-
-
-            // if (validationErrors.length > 0) {
-            //     console.log('reached inside validate errors length')
-            //     return next(validationErrors);
-            // }
-
-            console.log('dddddddddddddddddddddddddddddddddddddddddd',req.cookies)
-            console.log(req.body)
-            
+                  
             let token = req.cookies.verficationToken;
             console.log('token in the userController ----- > ', token)
             if (!token) {
