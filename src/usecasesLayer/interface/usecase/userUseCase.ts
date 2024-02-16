@@ -17,5 +17,5 @@ export interface IUserUseCase {
     verificationCode: string,
     token: string,
     next: Next
-  ): Promise<IUser | void | null >
+  ): Promise<IUser | void | { message: string; } >
 }

@@ -15,8 +15,6 @@ export const createUser = async (
     logger:Ilogger
 )=>{
     try {
-        console.log('checking what is inside the logger ---->>>>>>>>>>>>>>>> ',logger)
-
         let decode = (await jwtVerifier.verifyJwt(token)) as IUser;
         console.log('decode ----->>>> ', decode)
         if (!decode) {
@@ -29,13 +27,14 @@ export const createUser = async (
         const checkUser = await otpRepository.findUserWithOTP(email, otpFromUser)
         console.log('checkUser ----->>>>>> ', checkUser)
 
-        if (!checkUser) throw new ErrorHandler(401,  'User already exists', logger)
+        if (!checkUser) {
+            throw new ErrorHandler(401,  'OTP mismatch', logger)
+    }
         let otp = checkUser.otp
         
         if(otpFromUser === otp) {
 
             decode.isVerified = true;
-            console.log('checking what is inside the logger ---->>>>>>>>>>>>>>>> ',logger)
             const checkUserExistInUserRepo = await userRepository.findUserByEmail(email)
             console.log('check user exist in user repo ----->>>>> ', checkUserExistInUserRepo)
             if(checkUserExistInUserRepo)  {
@@ -46,7 +45,7 @@ export const createUser = async (
             const newUser = await userRepository.createUser(decode);
             newUser.personal_info.password = '' // no need of sending password
             return newUser;            
-        } 
+        } else throw new ErrorHandler(401, "OTP mismatch", logger)
 
     } catch (error: unknown | never) {
         return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', logger));

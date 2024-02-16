@@ -1,11 +1,10 @@
 import IUser from "../../entitiesLayer/user";
 import { IUserUseCase } from "../interface/usecase/userUseCase";
 import { IUserRepository } from "../interface/repository/IuserRepository";
-import { Next, Ilogger } from "../../infrastructureLayer/types/serverPackageTypes";
+import { Next } from "../../infrastructureLayer/types/serverPackageTypes";
 import { ErrorHandler } from "../middlewares/errorHandler";
 
 import { createUser, registerUser } from "./user/index";
-// import { ILogger } from "../interface/services/IerrorLog";
 import { IHashpassword } from "../interface/services/IhashPassword";
 import { IcreateOTP } from "../interface/services/IcreateOTP";
 import { ISendMail } from "../interface/services/sendMail";
@@ -59,15 +58,12 @@ export class UserUseCase implements IUserUseCase {
         )
         
         return result
-       } catch (error: unknown | never) {
-        // this.logger.error(error instanceof Error ? error.message : 'Unknown error'); // Log error
-        
-
+       } catch (error: unknown | never) { 
             return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', this.logger));
         }
     }
 
-    async createUser(otpFromUser: string, token: string, next: Next): Promise<void | IUser | null> {
+    async createUser(otpFromUser: string, token: string, next: Next): Promise<void | IUser | { message: string; }> {
         try {
             console.log('otp from user ---->>>> ',otpFromUser,'token ------->>>>> ', token)
             return await createUser(
@@ -80,8 +76,6 @@ export class UserUseCase implements IUserUseCase {
                 this.logger
             )
         } catch (error: unknown | never) {
-            // this.logger.error(error instanceof Error ? error.message : 'Unknown error'); // Log error
-
             return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', this.logger));
         }
     }

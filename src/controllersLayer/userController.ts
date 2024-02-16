@@ -85,12 +85,10 @@ export class UserController {
                 next
             );
                 console.log('result in the userController ------>>>>>>> ', result)
-            // if (result === null) res.status(401).json({message: 'otp mismatch'})
-            res.clearCookie("verificationToken").send(result)
-            // res.send("kii")
+            if (result) res.clearCookie("verificationToken").send(result)
+            else res.status(401).json({message: 'otp mismatch'})
         } catch (error: unknown | never) {
-            console.log('reached here')
-            next(error)
+            throw error
             // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', ));
         }
     }
