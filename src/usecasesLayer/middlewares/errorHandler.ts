@@ -1,10 +1,13 @@
 export class ErrorHandler extends Error {
     statusCode: number;
-    constructor(statusCode: number,message: any, ) {
+    logger:any
+    constructor(statusCode: number,message: any, logger: any) {
       super(message);
       this.statusCode = statusCode;
+      this.logger = logger;
       Error.captureStackTrace(this, ErrorHandler);
     }
+    
   
     // static badRequest(msg: string): ErrorHandler {
     //   return new ErrorHandler(400, msg);

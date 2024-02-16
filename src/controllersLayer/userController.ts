@@ -63,7 +63,8 @@ export class UserController {
             })
 
         } catch (error: unknown | never) {
-            return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));
+            throw error
+            // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));
         }
     }
 
@@ -84,11 +85,13 @@ export class UserController {
                 next
             );
                 console.log('result in the userController ------>>>>>>> ', result)
-            if (result === null) res.status(401).json({message: 'otp mismatch'})
+            // if (result === null) res.status(401).json({message: 'otp mismatch'})
             res.clearCookie("verificationToken").send(result)
+            // res.send("kii")
         } catch (error: unknown | never) {
             console.log('reached here')
-            return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));
+            next(error)
+            // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', ));
         }
     }
 }

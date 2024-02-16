@@ -1,5 +1,5 @@
 import { IOtp } from "../../../entitiesLayer/otp";
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IOtpRepository } from "../../interface/repository/IotpRepository";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
 import { IcreateOTP } from "../../interface/services/IcreateOTP";
@@ -18,21 +18,24 @@ export const registerUser = async (
   email: string,
   fullname: string,
   password: string | Promise<string>,
-  next: Next
+  next: Next,
+  logger:Ilogger
 ): Promise<string | void | never> => {
   try {
     // check user exist
     console.log(
       "reached insdie the register user in usercases/user/registeruser"
     );
-
+      
     const isUserExistOnUserRepo = await userRepository.findUserByEmail(email);
 
-    if (isUserExistOnUserRepo)
-      return next(
-        new ErrorHandler(400, "user already exist with the same mail id")
-      );
-
+    if (isUserExistOnUserRepo){
+      console.log('checking what is inside the logger ---->>>>>>>>>>>>>>>> ',logger)
+        logger.logInfo('user already exist with the same mail id')
+          return next(
+            new ErrorHandler(400, "user already exist with the same mail id", logger)
+          );
+      }
     let isUserOnOtpRepo: IOtp | null = (await otpRepository.findUser(
       email
     )) as IOtp | null;
@@ -85,10 +88,12 @@ export const registerUser = async (
       return jwtToken;
     }
   } catch (error: unknown | never) {
+
     return next(
       new ErrorHandler(
         500,
-        error instanceof Error ? error.message : "Unknown error"
+        error instanceof Error ? error.message : "Unknown error",
+        logger
       )
     );
   }

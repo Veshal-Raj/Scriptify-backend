@@ -11,6 +11,7 @@ import { IcreateOTP } from "../interface/services/IcreateOTP";
 import { ISendMail } from "../interface/services/sendMail";
 import { IJwt } from "../interface/services/Ijwt.types";
 import { IOtpRepository } from "../interface/repository/IotpRepository";
+import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 
 
 export class UserUseCase implements IUserUseCase {
@@ -20,7 +21,7 @@ export class UserUseCase implements IUserUseCase {
     private readonly sendMail: ISendMail;
     private readonly otpRepository: IOtpRepository;
     private readonly jwtToken: IJwt;
-    // private readonly logger: Ilogger;
+    private readonly logger: CustomLogger;
 
     constructor(
         userRepository: IUserRepository,
@@ -29,7 +30,7 @@ export class UserUseCase implements IUserUseCase {
         sendMail: ISendMail,
         otpRepository: IOtpRepository,
         jwtToken: IJwt,
-        // logger: Ilogger
+        logger: CustomLogger
         ){
         this.userRepository = userRepository;
         this.bcrypt = bcrypt;
@@ -37,7 +38,7 @@ export class UserUseCase implements IUserUseCase {
         this.sendMail = sendMail;
         this.otpRepository = otpRepository;
         this.jwtToken = jwtToken;
-        // this.logger = logger
+        this.logger = logger
     }
 
    // register user
@@ -53,14 +54,16 @@ export class UserUseCase implements IUserUseCase {
             email,
             fullname,
             password,
-            next
+            next,
+            this.logger
         )
         
         return result
        } catch (error: unknown | never) {
         // this.logger.error(error instanceof Error ? error.message : 'Unknown error'); // Log error
+        
 
-            return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));
+            return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', this.logger));
         }
     }
 
@@ -73,12 +76,13 @@ export class UserUseCase implements IUserUseCase {
                 this.jwtToken,
                 otpFromUser,
                 token,
-                next
+                next,
+                this.logger
             )
         } catch (error: unknown | never) {
             // this.logger.error(error instanceof Error ? error.message : 'Unknown error'); // Log error
 
-            return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error'));
+            return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', this.logger));
         }
     }
 }
