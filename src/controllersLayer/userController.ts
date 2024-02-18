@@ -2,6 +2,7 @@ import { Req, Res, Next } from "../infrastructureLayer/types/serverPackageTypes"
 import { UserUseCase } from "../usecasesLayer/useCases/userUseCase";
 import { validateEmail, validatePassword, validateUsername } from "./middlewares/inputValidation";
 import { ErrorHandler } from "../usecasesLayer/middlewares/errorHandler";
+import { accessTokenOptions, refreshTokenOptions } from "./middlewares/tokenOptions";
 
 
 
@@ -87,6 +88,35 @@ export class UserController {
                 console.log('result in the userController ------>>>>>>> ', result)
             if (result) res.clearCookie("verificationToken").send(result)
             else res.status(401).json({message: 'otp mismatch'})
+        } catch (error: unknown | never) {
+            throw error
+            // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', ));
+        }
+    }
+
+
+    async login(req: Req, res: Res, next: Next) {
+        try {
+            const { email, password } = req.body;
+
+            console.log('body -- > ', req.body)
+
+            const validationErrors: string[] = [];
+
+            if (!validateEmail(email)) {
+                validationErrors.push("Invalid email format");
+            }
+            if (!validatePassword(password)) {
+                validationErrors.push("Invalid password format");
+            }
+
+            const result = await this.userUseCase.login(req.body, next)
+
+            res.cookie('accessToken', result?.tokens.accessToken, accessTokenOptions);
+            res.cookie('refreshToken', result?.tokens.accessToken, refreshTokenOptions)
+
+            res.status(200).json(result?.user)
+
         } catch (error: unknown | never) {
             throw error
             // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', ));

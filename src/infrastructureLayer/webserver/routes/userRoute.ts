@@ -19,5 +19,11 @@ export function userRoute(router: Route) {
         })
     )
 
+    router.post(
+        '/login',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            userController.login(req, res, next)
+        })
+    )
     return router
 }

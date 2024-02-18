@@ -1,5 +1,6 @@
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { IToken } from "../services/Ijwt.types";
 
 export interface IUserUseCase {
   // saving user details temporary
@@ -17,5 +18,10 @@ export interface IUserUseCase {
     verificationCode: string,
     token: string,
     next: Next
-  ): Promise<IUser | void | { message: string; } >
+  ): Promise<IUser | void | { message: string }>;
+
+  login(
+    { email, password }: { email: string; password: string },
+    next: Next
+  ): Promise<{ user: IUser; tokens: IToken } | void>;
 }
