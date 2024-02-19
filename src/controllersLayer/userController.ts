@@ -17,11 +17,11 @@ export class UserController {
         console.log('reached inside the registerUser in userController')
         try {
             // input validation
-            const { fullname, email, password } = req.body;
+            const { username, email, password } = req.body;
             console.log('body -- > ', req.body)
             const validationErrors: string[] = [];
             
-            if (!validateUsername(fullname)) {
+            if (!validateUsername(username)) {
                 
                 validationErrors.push("Invalid username format");
             }

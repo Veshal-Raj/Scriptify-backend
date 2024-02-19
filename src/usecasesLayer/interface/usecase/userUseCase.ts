@@ -6,10 +6,10 @@ export interface IUserUseCase {
   // saving user details temporary
   registerUser(
     {
-      fullname,
+      username,
       email,
       password,
-    }: { fullname: string; email: string; password: string },
+    }: { username: string; email: string; password: string },
     next: Next
   ): Promise<string | void | never>;
 

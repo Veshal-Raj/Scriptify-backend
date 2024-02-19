@@ -25,5 +25,9 @@ export function userRoute(router: Route) {
             userController.login(req, res, next)
         })
     )
+
+    router.get('/resend-otp')
+
+
     return router
 }

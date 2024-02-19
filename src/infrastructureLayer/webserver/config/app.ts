@@ -22,6 +22,6 @@ app.use(helmet())
 app.use(compression())
 app.use(morgan('dev'))
 
-app.use('/api/v1/', userRoute(express.Router()))
+app.use('/api/v1/user', userRoute(express.Router()))
 
 app.use(errorMiddleWare)

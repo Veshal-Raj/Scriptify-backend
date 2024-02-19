@@ -43,10 +43,10 @@ export class UserUseCase implements IUserUseCase {
   // register user
   async registerUser(
     {
-      fullname,
+      username,
       email,
       password,
-    }: { fullname: string; email: string; password: string },
+    }: { username: string; email: string; password: string },
     next: Next
   ): Promise<string | void | never> {
     try {
@@ -58,7 +58,7 @@ export class UserUseCase implements IUserUseCase {
         this.jwtToken,
         this.bcrypt,
         email,
-        fullname,
+        username,
         password,
         next,
         this.logger

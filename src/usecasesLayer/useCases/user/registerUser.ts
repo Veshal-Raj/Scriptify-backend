@@ -16,19 +16,16 @@ export const registerUser = async (
   jwtTokenGenerator: IJwt,
   bcrypt: IHashpassword,
   email: string,
-  fullname: string,
+  username: string,
   password: string | Promise<string>,
   next: Next,
   logger:Ilogger
 ): Promise<string | void | never> => {
   try {
     // check user exist
-    console.log(
-      "reached insdie the register user in usercases/user/registeruser"
-    );
-      
+          console.log('reached inside the register User')
     const isUserExistOnUserRepo = await userRepository.findUserByEmail(email);
-
+    console.log('isUserExistOnUserRepo', isUserExistOnUserRepo)
     if (isUserExistOnUserRepo){
       console.log('checking what is inside the logger ---->>>>>>>>>>>>>>>> ',logger)
         logger.logInfo('user already exist with the same mail id')
@@ -45,14 +42,15 @@ export const registerUser = async (
       const otp = await otpGenerator.generateOTP();
 
       // send mail
-      await sendMail.sendEmailVerification(fullname, email, otp);
+      console.log('username, email, otp --- ', username, email, otp)
+      await sendMail.sendEmailVerification(username, email, otp);
 
       const hashPassword = await bcrypt.createHash(password as string);
       password = hashPassword;
 
       const jwtToken = await jwtTokenGenerator.createVerificationJWT({
         personal_info: {
-          fullname,
+          username,
           email: email,
           password: password as string,
         },
@@ -70,13 +68,13 @@ export const registerUser = async (
         await otpRepository.findUserAndDelete(email)
 
       // send mail
-      await sendMail.sendEmailVerification(fullname, email, otp);
+      await sendMail.sendEmailVerification(username, email, otp);
 
       const hashPassword = await bcrypt.createHash(password as string);
       password = hashPassword;
       const jwtToken = await jwtTokenGenerator.createVerificationJWT({
         personal_info: {
-          fullname,
+          username,
           email: email,
           password: password as string,
         },

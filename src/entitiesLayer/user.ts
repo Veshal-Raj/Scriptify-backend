@@ -1,7 +1,7 @@
 interface IUser {
     _id?: string;
     personal_info: {
-        fullname: string;
+        username: string;
         email: string;
         password: string;
         bio?: string;
