@@ -1,6 +1,7 @@
 import IUser from "../../../entitiesLayer/user";
 import { Next, Ilogger } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
+import { IcloudSession } from "../../interface/services/IcloudSession";
 import { IHashpassword } from "../../interface/services/IhashPassword";
 import { IJwt, IToken } from "../../interface/services/Ijwt.types";
 import { ErrorHandler } from "../../middlewares/errorHandler";
@@ -11,6 +12,7 @@ export const login = async (
     userRepository: IUserRepository,
     bcrypt: IHashpassword,
     token: IJwt,
+    cloudSession:IcloudSession,
     email: string,
     password: string,
     next: Next,
@@ -33,6 +35,9 @@ export const login = async (
         user.personal_info.password = ''
 
         const tokens = await token.createAccessAndRefreshToken(user?._id as string);
+        
+        await cloudSession.createUserSession(user?._id as string, user)
+
         return { user, tokens }
     } catch (error) {
         throw error
