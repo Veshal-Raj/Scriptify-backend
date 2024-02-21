@@ -7,7 +7,7 @@ import { ErrorHandler } from "../middlewares/errorHandler";
 import { createUser, registerUser, login } from "./user/index";
 import { IHashpassword } from "../interface/services/IhashPassword";
 import { IcreateOTP } from "../interface/services/IcreateOTP";
-import { ISendMail } from "../interface/services/sendMail";
+import { ISendMail } from "../interface/services/IsendMail";
 import { IJwt, IToken } from "../interface/services/Ijwt.types";
 import { IOtpRepository } from "../interface/repository/IotpRepository";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 require("dotenv").config()
 
-import { ISendMail } from '../../usecasesLayer/interface/services/sendMail'
+import { ISendMail } from '../../usecasesLayer/interface/services/IsendMail'
 
 export class SendMail implements ISendMail {
     private transporter: nodemailer.Transporter

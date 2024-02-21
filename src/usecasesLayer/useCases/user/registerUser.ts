@@ -5,7 +5,7 @@ import { IUserRepository } from "../../interface/repository/IuserRepository";
 import { IcreateOTP } from "../../interface/services/IcreateOTP";
 import { IHashpassword } from "../../interface/services/IhashPassword";
 import { IJwt } from "../../interface/services/Ijwt.types";
-import { ISendMail } from "../../interface/services/sendMail";
+import { ISendMail } from "../../interface/services/IsendMail";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 export const registerUser = async (
