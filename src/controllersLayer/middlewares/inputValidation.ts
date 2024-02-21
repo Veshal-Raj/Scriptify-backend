@@ -12,6 +12,6 @@ export function validatePassword(password: string): boolean {
 }
 
 export function validateUsername(username: string): boolean {
-    const usernameRegex: RegExp = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+    const usernameRegex: RegExp = /^[A-Za-z][A-Za-z0-9_]{3,29}$/;
     return usernameRegex.test(username);
 }

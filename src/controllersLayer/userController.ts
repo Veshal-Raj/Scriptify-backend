@@ -71,7 +71,7 @@ export class UserController {
 
     async createUser(req: Req, res: Res, next: Next) {
         try {
-                  
+                //   console.log('request incomming --->>> ', req)
             let token = req.cookies.verficationToken;
             console.log('token in the userController ----- > ', token)
             if (!token) {

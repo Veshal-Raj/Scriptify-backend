@@ -1,14 +1,15 @@
 import { Redis } from "ioredis";
-import dotenv from 'dotenv'
+require("dotenv").config()
 
-dotenv.config()
-
-const getRedisUrl = () => {
-    const redis = process.env.REDIS_URL as string
-    if (redis) {
-        return redis
+export function redisDB(){
+    const redisClient = () => {
+        if (process.env.REDIS_URL){
+            console.log('Redis has been connected')
+            return process.env.REDIS_URL
+        }
+        throw new Error ("Redis connection failed")
     }
-    throw new Error("REDIS_URL not defined")
-}
 
-export const redis = new Redis(getRedisUrl())
+    const redis = new Redis(redisClient())
+    return redis
+}
