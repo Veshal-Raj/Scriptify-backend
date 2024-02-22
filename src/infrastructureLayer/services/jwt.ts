@@ -9,14 +9,20 @@ export class JWTtoken implements IJwt {
     JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
     
     async createVerificationJWT(payload: IUser): Promise<string> {      
-        const verifyToken = jwt.sign(payload, this.JWT_VERIFICATION_KEY, {
-            expiresIn: "15m",
-        })
-       
-        return verifyToken
+        try {
+            const verifyToken = jwt.sign(payload, this.JWT_VERIFICATION_KEY, {
+                expiresIn: "15m",
+            })
+           
+            return verifyToken
+        } catch (error) {
+            throw error
+        }
     }
 
     async createAccessAndRefreshToken(_id: string): Promise<IToken> {
+        try {
+            console.log('inside the createAccessAndRefreshToken in jwt.ts ')
         const accessToken = jwt.sign({ id: _id }, this.JWT_ACCESS_KEY, {
             expiresIn: "5h",
         });
@@ -25,17 +31,29 @@ export class JWTtoken implements IJwt {
         })
 
         return {accessToken, refreshToken}
+        } catch (error) {
+            throw error
+        }
     }
 
     async verifyJwt(token: string): Promise<IUser | { userId: string; email: string; iat: number; exp: number; }> {
-        return jwt.verify(token, this.JWT_VERIFICATION_KEY) as IUser
+        try {
+            return jwt.verify(token, this.JWT_VERIFICATION_KEY) as IUser
+
+        } catch (error) {
+            throw error
+        }
     }
 
     async forgotPasswordToken(userId: string, email: string): Promise<string> {
+       try {
         const token =  jwt.sign({ userId: userId, email: email}, this.JWT_VERIFICATION_KEY, {
             expiresIn: "10m"
         })
         
         return token
+       } catch (error) {
+            throw error
+       }
     }
 }

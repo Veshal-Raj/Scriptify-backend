@@ -33,11 +33,14 @@ export const login = async (
         if (!result) next(new ErrorHandler(400, 'invalid password', logger))
 
         user.personal_info.password = ''
-
+        console.log('before createAccessAndRefreshToken')
         const tokens = await token.createAccessAndRefreshToken(user?._id as string);
-        
-        await cloudSession.createUserSession(user?._id as string, user)
-
+        console.log('tokens -->>>> ', tokens)
+        console.log(user?._id,'<------>' ,user)
+       let a =  await cloudSession.createUserSession(user?._id as string, user)
+       console.log(a)
+       console.log('cloudsession.createUserSession is sucessfull')
+       console.log(tokens)
         return { user, tokens }
     } catch (error) {
         throw error

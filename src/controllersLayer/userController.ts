@@ -111,6 +111,7 @@ export class UserController {
             }
 
             const result = await this.userUseCase.login(req.body, next)
+            console.log('result from usecsae login -->> ',result)
 
             res.cookie('accessToken', result?.tokens.accessToken, accessTokenOptions);
             res.cookie('refreshToken', result?.tokens.accessToken, refreshTokenOptions)

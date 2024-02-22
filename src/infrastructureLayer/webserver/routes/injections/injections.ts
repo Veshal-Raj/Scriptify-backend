@@ -8,6 +8,7 @@ import { SendMail } from "../../../services/sendMail";
 import { JWTtoken } from "../../../services/jwt";
 import CustomLogger  from "../../../services/errorLogging";
 import { UserController } from "../../../../controllersLayer/userController";
+import { CloudSession } from "../../../services/cloudSession";
 
 
 const userRepository = new UserRepository(UserModel)
@@ -17,6 +18,7 @@ const sendMail = new SendMail()
 const otpRepository = new OtpRepository()
 const jwtToken = new JWTtoken()
 const logger = new CustomLogger()
+const cloudSession = new CloudSession()
 
 
 const userUseCase = new UserUseCase(
@@ -26,6 +28,7 @@ const userUseCase = new UserUseCase(
     sendMail,
     otpRepository,
     jwtToken,
+    cloudSession,
     logger
 )
 

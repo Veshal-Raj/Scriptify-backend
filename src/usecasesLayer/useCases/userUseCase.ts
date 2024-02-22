@@ -11,7 +11,7 @@ import { ISendMail } from "../interface/services/IsendMail";
 import { IJwt, IToken } from "../interface/services/Ijwt.types";
 import { IOtpRepository } from "../interface/repository/IotpRepository";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
-import { NextFunction } from "express";
+import { IcloudSession } from "../interface/services/IcloudSession";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -20,6 +20,7 @@ export class UserUseCase implements IUserUseCase {
   private readonly sendMail: ISendMail;
   private readonly otpRepository: IOtpRepository;
   private readonly jwtToken: IJwt;
+  private readonly cloudSession: IcloudSession;
   private readonly logger: CustomLogger;
 
   constructor(
@@ -29,6 +30,7 @@ export class UserUseCase implements IUserUseCase {
     sendMail: ISendMail,
     otpRepository: IOtpRepository,
     jwtToken: IJwt,
+    cloudSession: IcloudSession,
     logger: CustomLogger
   ) {
     this.userRepository = userRepository;
@@ -37,6 +39,7 @@ export class UserUseCase implements IUserUseCase {
     this.sendMail = sendMail;
     this.otpRepository = otpRepository;
     this.jwtToken = jwtToken;
+    this.cloudSession = cloudSession;
     this.logger = logger;
   }
 
@@ -110,18 +113,21 @@ export class UserUseCase implements IUserUseCase {
 
   async login(
     { email, password }: { email: string; password: string },
-    next: NextFunction
+    next: Next
   ): Promise<void | { user: IUser; tokens: IToken }> {
+    console.log('reached inside the login ')
     try {
-      return await login(
+       return await login(
         this.userRepository,
         this.bcrypt,
         this.jwtToken,
+        this.cloudSession,
         email,
         password,
         next,
         this.logger
       );
+      
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
