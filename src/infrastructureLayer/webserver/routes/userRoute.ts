@@ -23,6 +23,7 @@ export function userRoute(router: Route) {
 
     router.post(
         '/login',
+        recaptcha,
         catchAsyncErrors((req: Req, res: Res, next: Next) => {
             userController.login(req, res, next)
         })
