@@ -4,6 +4,7 @@ import { IUserRepository } from "../interface/repository/IuserRepository";
 import { IAdminUseCase } from "../interface/usecase/adminUseCase";
 import { ErrorHandler } from "../middlewares/errorHandler";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
+import { getAllUser } from "./admin/getAllUser";
 
 export class AdminUseCase implements IAdminUseCase {
   private readonly userRepository: IUserRepository;
@@ -16,7 +17,7 @@ export class AdminUseCase implements IAdminUseCase {
 
   async getAllUser(next: Next): Promise<void | IUser[]> {
     try {
-      return await getUser(this.userRepository, next);
+      return await getAllUser(this.userRepository, next, this.logger);
     } catch (error) {
       return next(
         new ErrorHandler(

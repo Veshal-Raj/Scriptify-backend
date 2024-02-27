@@ -36,6 +36,12 @@ const userUseCase = new UserUseCase(
     logger
 )
 
-const userController = new UserController(userUseCase)
+const adminUseCase = new AdminUseCase(
+    userRepository,
+    logger
+)
 
-export { userController}
+const userController = new UserController(userUseCase)
+const adminController = new AdminController(adminUseCase)
+
+export { userController, adminController }

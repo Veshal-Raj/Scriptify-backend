@@ -10,6 +10,7 @@ import morgan from 'morgan'
 import {errorMiddleWare} from '../../../usecasesLayer/middlewares/errorMiddleware'
 import { limiter } from '../middlewares/rateLimit'
 import { userRoute } from '../routes/userRoute'
+import { adminRoute } from '../routes/adminRoutes'
 
 export const app = express()
 
@@ -23,5 +24,6 @@ app.use(compression())
 app.use(morgan('dev'))
 
 app.use('/api/v1/user', userRoute(express.Router()))
+app.use('/api/v1/admin', adminRoute(express.Router()))
 
 app.use(errorMiddleWare)

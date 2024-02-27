@@ -26,6 +26,8 @@ export class UserRepository implements IUserRepository {
 
     // get all users
     async getAllUser(role: string): Promise<IUser[]> {
-        return await getAllUser(role)
+        const data = await getAllUser(role)
+        console.log(data)
+        return data
     }
 }

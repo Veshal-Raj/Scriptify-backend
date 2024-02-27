@@ -23,7 +23,7 @@ interface IUser {
     blogs?: string[]; // an array of blog IDs
     role?: "user" | "advertiser" | "admin";
     status?: "active" | "freeze";
-    isVerified?: boolean;
+    // isVerified?: boolean;
     isSubscribed?: false
     joinedAt?: Date;
 }
