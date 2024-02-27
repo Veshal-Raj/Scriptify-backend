@@ -12,5 +12,16 @@ export function adminRoute(router: Route) {
         })
     )
 
+    router.post(
+        '/changeUserStatus/:id',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            // console.log('request ----- ', req)
+            // console.log('request url ----- ', req.url)
+            console.log('request ----- ', req.params.id)
+            // console.log('request ----- ', req)
+            adminController.changeUserStatus(req, res, next)
+        })
+    )
+
     return router;
 }

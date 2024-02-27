@@ -5,6 +5,8 @@ import { IUserRepository } from "../../../../usecasesLayer/interface/repository/
 
 import { createUser, findUserByEmail } from "./userRepository/user";
 import { getAllUser } from "./userRepository/admin";
+import { IUserResponse } from "../../../../usecasesLayer/interface/request_response/user";
+import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
 
 
 
@@ -28,6 +30,13 @@ export class UserRepository implements IUserRepository {
     async getAllUser(role: string): Promise<IUser[]> {
         const data = await getAllUser(role)
         console.log(data)
+        return data
+    }
+
+    // change user status
+    async changeUserStatus(id: string): Promise<IUserResponse | null | IUser> {
+        console.log(id, 'in repository')
+        const data = await changeUserStatus(id)
         return data
     }
 }
