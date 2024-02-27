@@ -4,6 +4,7 @@ import { IUserRepository } from "../../../../usecasesLayer/interface/repository/
 
 
 import { createUser, findUserByEmail } from "./userRepository/user";
+import { getAllUser } from "./userRepository/admin";
 
 
 
@@ -21,5 +22,10 @@ export class UserRepository implements IUserRepository {
     // create user
     async createUser(newUser: IUser): Promise<IUser> {
         return await createUser(newUser, this.userModels)
+    }
+
+    // get all users
+    async getAllUser(role: string): Promise<IUser[]> {
+        return await getAllUser(role)
     }
 }
