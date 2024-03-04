@@ -123,4 +123,15 @@ export class UserController {
             // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', ));
         }
     }
+
+
+    async generateUploadURL(req: Req, res: Res, next: Next) {
+        try {
+            const url = await this.userUseCase.generateUploadURL(next)
+
+            res.status(200).json({ uploadURL: url})
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }

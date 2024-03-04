@@ -24,4 +24,6 @@ export interface IUserUseCase {
     { email, password }: { email: string; password: string },
     next: Next
   ): Promise<{ user: IUser; tokens: IToken } | void>;
+
+  generateUploadURL(next: Next): Promise< any | void>
 }

@@ -10,7 +10,9 @@ export const findUserByEmail = async(
      console.log('email in findUserByEmail in userRepository --->>>> ', email)
         const existingUser = await userModels.findOne({ 'personal_info.email': email });
         console.log(existingUser)
-        return existingUser
+        if (existingUser !== null && existingUser?.isVerified === false) throw new Error('User is blocked!!!') 
+        else return existingUser
+        
    } catch (error) {
         throw error
    }

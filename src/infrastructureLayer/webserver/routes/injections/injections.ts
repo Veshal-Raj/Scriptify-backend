@@ -8,6 +8,7 @@ import { SendMail } from "../../../services/sendMail";
 import { JWTtoken } from "../../../services/jwt";
 import CustomLogger  from "../../../services/errorLogging";
 import { CloudSession } from "../../../services/cloudSession";
+import { CloudStorage } from "../../../services/cloudStorage";
 
 import { UserUseCase } from "../../../../usecasesLayer/useCases/userUseCase";
 import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
@@ -23,6 +24,7 @@ const otpRepository = new OtpRepository()
 const jwtToken = new JWTtoken()
 const logger = new CustomLogger()
 const cloudSession = new CloudSession()
+const cloudStorage = new CloudStorage()
 
 
 const userUseCase = new UserUseCase(
@@ -33,6 +35,7 @@ const userUseCase = new UserUseCase(
     otpRepository,
     jwtToken,
     cloudSession,
+    cloudStorage,
     logger
 )
 

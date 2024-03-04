@@ -12,6 +12,7 @@ import { IJwt, IToken } from "../interface/services/Ijwt.types";
 import { IOtpRepository } from "../interface/repository/IotpRepository";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IcloudSession } from "../interface/services/IcloudSession";
+import { IcloudStorage } from "../interface/services/IcloudStorage";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -21,6 +22,7 @@ export class UserUseCase implements IUserUseCase {
   private readonly otpRepository: IOtpRepository;
   private readonly jwtToken: IJwt;
   private readonly cloudSession: IcloudSession;
+  private readonly cloudStorage: IcloudStorage;
   private readonly logger: CustomLogger;
 
   constructor(
@@ -31,6 +33,7 @@ export class UserUseCase implements IUserUseCase {
     otpRepository: IOtpRepository,
     jwtToken: IJwt,
     cloudSession: IcloudSession,
+    cloudStorage: IcloudStorage,
     logger: CustomLogger
   ) {
     this.userRepository = userRepository;
@@ -40,6 +43,7 @@ export class UserUseCase implements IUserUseCase {
     this.otpRepository = otpRepository;
     this.jwtToken = jwtToken;
     this.cloudSession = cloudSession;
+    this.cloudStorage = cloudStorage;
     this.logger = logger;
   }
 
@@ -139,4 +143,20 @@ export class UserUseCase implements IUserUseCase {
     }
   }
 
+  async generateUploadURL(next: Next): Promise<any | void> {
+    try {
+      console.log('reached inside the usecaselayer')
+      const uploadURL = await this.cloudStorage.generateUploadURL(next);
+        console.log(uploadURL)
+      return uploadURL
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
 }

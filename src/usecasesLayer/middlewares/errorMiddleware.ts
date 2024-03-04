@@ -1,10 +1,6 @@
 import { Next, Req, Res } from "../../infrastructureLayer/types/serverPackageTypes";
 import { ErrorHandler } from "./errorHandler";
 
-// import CustomLogger from "../../infrastructureLayer/services/errorLogging";
-
-// const logger = new CustomLogger();
-
 export const errorMiddleWare = (err: any, req: Req, res: Res, next: Next) => {
   console.log('-----------------------eror middle ware  -----------------------------------------------------------')
     err.statusCode = err.statusCode || 500;
@@ -29,22 +25,22 @@ export const errorMiddleWare = (err: any, req: Req, res: Res, next: Next) => {
     //wrong mongoDb id
     if (err.name === "castError") {
       const message = `Resource not found, invalid:${err.path}`;
-      err = new ErrorHandler(400, message);
+      err = new ErrorHandler(400, message, err.logger);
     }
     //duplicate key error =>for authentication
     if (err.name === 11000) {
       const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
-      err = new ErrorHandler(400, message);
+      err = new ErrorHandler(400, message, err.logger);
     }
     //wrong jwt error
     if (err.name === "jsonWebTokenError") {
       const message = `json web token is invalid,try again`;
-      err = new ErrorHandler(400, message);
+      err = new ErrorHandler(400, message, err.logger);
     }
     //token expired error
     if (err.name === "TokenExpiredError") {
       const message = `json web token has expired`;
-      err = new ErrorHandler(400, message);
+      err = new ErrorHandler(400, message, err.logger);
     }
 
     // Return error response

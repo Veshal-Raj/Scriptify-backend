@@ -31,6 +31,10 @@ export function userRoute(router: Route) {
 
     router.get('/resend-otp')
 
+    router.get('/get-upload-url', catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.generateUploadURL(req, res, next)
+    }))
+
 
     return router
 }
