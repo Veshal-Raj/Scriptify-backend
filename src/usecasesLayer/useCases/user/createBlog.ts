@@ -20,11 +20,11 @@ export const userCreateBlog = async (
        logger: Ilogger
 ): Promise<any>=>{
     try {
-        console.log('reached inside the createBlog in user in usecaselayer', title, des, banner, content, tags, author, blog_id, draft, logger)
+        console.log('reached inside the createBlog in user in usecaselayer', title, des, banner, content, tags, author, blog_id, draft)
     //    const result = await userCreateBlog(title, des, banner, content, tags, author, blog_id, draft, logger )
        
-    //    console.log('result in useCaselayer createBlog --> ', result)
     const result = await userRepository.userCreateBlog(title, des, banner, content, tags, author, blog_id, draft)
+    console.log('result in useCaselayer createBlog --> ', result)
        return result
     } catch (error: unknown | never) {
         throw error

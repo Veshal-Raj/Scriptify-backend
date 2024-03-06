@@ -1,4 +1,5 @@
 import UserModel from "../../../database/mongoDB/models/userModel";
+import BlogModel from "../../../database/mongoDB/models/blogModel";
 import { UserRepository } from "../../../database/mongoDB/repository/userRepository";
 import { OtpRepository } from "../../../database/mongoDB/repository/otpRepository";
 
@@ -16,7 +17,7 @@ import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
 import { UserController } from "../../../../controllersLayer/userController";
 import { AdminController } from "../../../../controllersLayer/adminController";
 
-const userRepository = new UserRepository(UserModel)
+const userRepository = new UserRepository(UserModel, BlogModel)
 const bcryptService = new Encrypt()
 const generateOTP = new GenerateOtp()
 const sendMail = new SendMail()

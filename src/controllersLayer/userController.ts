@@ -161,10 +161,12 @@ export class UserController {
 
             tags = tags.map((tag: string) => tag.toLowerCase())
 
-            let blog_id = title.replace(/[^a-zA-Z0-9]/g, ' ').replace(/\s+/g, '-').trim() + generateRandomNumber() + ''
-            console.log('blog id -->> ', blog_id)
+            let blog_id = title.replace(/[^a-zA-Z0-9]/g, ' ').replace(/\s+/g, '-').trim() + generateRandomNumber() 
+            console.log('blog id -->> ',typeof blog_id)
             const response = await this.userUseCase.createBlog(title, des, banner, content, tags, author, blog_id, Boolean(draft), next)
-            return response
+            console.log('response -->> ', response)
+            res.status(200).json(response)
+            // return response
         } catch (error: unknown | never) {
             throw error
         }

@@ -163,7 +163,9 @@ export class UserUseCase implements IUserUseCase {
   async createBlog(title: string, des: string, banner: string, content: any, tags: string[], author: string, blog_id: string, draft: boolean, next: Next): Promise<any> {
     try {
       console.log('reached inside the usecaseLayer')
-      return await userCreateBlog( this.userRepository, title, des, banner, content, tags, author, blog_id, draft, this.logger )
+      const result =  await userCreateBlog( this.userRepository, title, des, banner, content, tags, author, blog_id, draft, this.logger )
+      console.log('result in userusecase -->> ', result)
+      return result
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
