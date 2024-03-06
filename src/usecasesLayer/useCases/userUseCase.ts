@@ -4,7 +4,7 @@ import { IUserRepository } from "../interface/repository/IuserRepository";
 import { Next } from "../../infrastructureLayer/types/serverPackageTypes";
 import { ErrorHandler } from "../middlewares/errorHandler";
 
-import { createUser, registerUser, login } from "./user/index";
+import { createUser, registerUser, login, userCreateBlog } from "./user/index";
 import { IHashpassword } from "../interface/services/IhashPassword";
 import { IcreateOTP } from "../interface/services/IcreateOTP";
 import { ISendMail } from "../interface/services/IsendMail";
@@ -149,6 +149,21 @@ export class UserUseCase implements IUserUseCase {
       const uploadURL = await this.cloudStorage.generateUploadURL(next);
         console.log(uploadURL)
       return uploadURL
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async createBlog(title: string, des: string, banner: string, content: any, tags: string[], author: string, blog_id: string, draft: boolean, next: Next): Promise<any> {
+    try {
+      console.log('reached inside the usecaseLayer')
+      return await userCreateBlog( this.userRepository, title, des, banner, content, tags, author, blog_id, draft, this.logger )
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(

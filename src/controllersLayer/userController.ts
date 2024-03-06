@@ -134,4 +134,39 @@ export class UserController {
             throw error
         }
     }
+
+    async createBlog(req: Req, res: Res, next: Next) {
+        try {
+            let {title, des, banner, tags, author, content, draft } = req.body;
+            function generateRandomNumber() {
+                const min = 100000000; // Minimum 9-digit number
+                const max = 999999999; // Maximum 9-digit number
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            if(!title.length) {
+                return res.status(403).json({ error: 'You must provide a title to publish the blog' })
+            }
+            if (!des.length || des.length > 200) {
+                return res.status(403).json({ error: 'You must provide blog description under 200 characters' })
+            }
+            if (!banner.length) {
+                return res.status(403).json({ error: 'You must provide banner for this blog' })
+            }
+            if (!content.blocks.length) {
+                return res.status(403).json({ error: 'You must provide a blog content before publish it' })
+            }
+            if (!tags.length || tags.length > 10) {
+                return res.status(403).json({ error: 'You must provide tags in order to publish the blog, Maximum 10' })
+            }
+
+            tags = tags.map((tag: string) => tag.toLowerCase())
+
+            let blog_id = title.replace(/[^a-zA-Z0-9]/g, ' ').replace(/\s+/g, '-').trim() + generateRandomNumber() + ''
+            console.log('blog id -->> ', blog_id)
+            const response = await this.userUseCase.createBlog(title, des, banner, content, tags, author, blog_id, Boolean(draft), next)
+            return response
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }

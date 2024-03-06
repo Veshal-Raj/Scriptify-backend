@@ -1,9 +1,10 @@
 import UserModel from "../models/userModel";
 import IUser from "../../../../entitiesLayer/user";
 import { IUserRepository } from "../../../../usecasesLayer/interface/repository/IuserRepository";
+import BlogModel from "../models/blogModel";
 
 
-import { createUser, findUserByEmail } from "./userRepository/user";
+import { userCreateBlog, createUser, findUserByEmail } from "./userRepository/user";
 import { getAllUser } from "./userRepository/admin";
 import { IUserResponse } from "../../../../usecasesLayer/interface/request_response/user";
 import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
@@ -11,7 +12,7 @@ import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
 
 
 export class UserRepository implements IUserRepository {
-    constructor(private userModels: typeof UserModel) {}
+    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel) {}
 
     // find user by email
     async findUserByEmail(email: string): Promise<IUser | null> {
@@ -38,5 +39,10 @@ export class UserRepository implements IUserRepository {
         console.log(id, 'in repository')
         const data = await changeUserStatus(id)
         return data
+    }
+
+    // create blog
+    async userCreateBlog(title: string, des: string, banner: string, content: any, tags: string[], authorId: string, blog_id: string, draft: boolean): Promise<any> {
+        const result = await userCreateBlog(title, des, banner, content, tags, authorId, blog_id, draft, this.userModels, this.blogModels)
     }
 }

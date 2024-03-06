@@ -26,4 +26,16 @@ export interface IUserUseCase {
   ): Promise<{ user: IUser; tokens: IToken } | void>;
 
   generateUploadURL(next: Next): Promise< any | void>
+
+  createBlog(
+    title: string,
+    des: string,
+    banner: string,
+    content: any, 
+    tags: string[],
+    author: string,
+    blog_id: string,
+    draft: boolean,
+    next: Next
+  ): Promise<any>;
 }
