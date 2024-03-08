@@ -13,6 +13,8 @@ import { IOtpRepository } from "../interface/repository/IotpRepository";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IcloudSession } from "../interface/services/IcloudSession";
 import { IcloudStorage } from "../interface/services/IcloudStorage";
+import { NextFunction } from "express";
+import { latestBlogs } from "./user/latestBlogs";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -166,6 +168,23 @@ export class UserUseCase implements IUserUseCase {
       const result =  await userCreateBlog( this.userRepository, title, des, banner, content, tags, author, blog_id, draft, this.logger )
       console.log('result in userusecase -->> ', result)
       return result
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async latestBlog(next: NextFunction): Promise<any> {
+    try {
+        console.log('reached inside the usecaselayer')
+        const response = await latestBlogs(this.userRepository, next, this.logger)
+        console.log(response) 
+        return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
