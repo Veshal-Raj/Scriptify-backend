@@ -38,4 +38,6 @@ export interface IUserUseCase {
     draft: boolean,
     next: Next
   ): Promise<any>;
+
+  latestBlog(next: Next): Promise< any | void>
 }

@@ -1,4 +1,5 @@
 import IUser from "../../../entitiesLayer/user";
+import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserResponse } from "../request_response/user";
 
 
@@ -18,4 +19,5 @@ export interface IUserRepository {
         blog_id: string,
         draft: boolean
     ): Promise<any>;
+    latestBlog(next: Next ): Promise<any>
 }
