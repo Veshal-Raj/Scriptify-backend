@@ -8,6 +8,8 @@ import { CreateBlog, createUser, findUserByEmail } from "./userRepository/user";
 import { getAllUser } from "./userRepository/admin";
 import { IUserResponse } from "../../../../usecasesLayer/interface/request_response/user";
 import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
+import { NextFunction } from "express";
+import { latestBlogs } from "./userRepository/user/latestBlogs";
 
 
 
@@ -44,9 +46,17 @@ export class UserRepository implements IUserRepository {
     // create blog
     async userCreateBlog(title: string, des: string, banner: string, content: any, tags: string[], authorId: string, blog_id: string, draft: boolean): Promise<any> {
         console.log('reached inside userRepository')
-        // const result = await userCreateBlog(title, des, banner, content, tags, authorId, blog_id, draft, this.userModels, this.blogModels)
         const result = await CreateBlog(title, des, banner, content, tags, authorId, blog_id, draft, this.userModels, BlogModel)
         console.log('result from userRepository -->> ', result)
         return result
     }
+
+    // get blogs
+    async latestBlog(next: NextFunction): Promise<any> {
+        console.log('reached inside userRepository')
+        const result = await latestBlogs(this.blogModels, this.userModels)
+        console.log('got the result in userrepository-->> ')
+        return result
+    }
+    
 }
