@@ -171,4 +171,13 @@ export class UserController {
             throw error
         }
     }
+
+    async latestBlog(req: Req, res: Res, next: Next) {
+        try {
+            const response = await this.userUseCase.latestBlog(next)
+            return res.status(200).json({ response})
+        } catch (error: unkown | never) {
+            throw error
+        }
+    }
 }
