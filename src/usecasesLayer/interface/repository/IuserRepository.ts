@@ -21,4 +21,5 @@ export interface IUserRepository {
     ): Promise<any>;
     latestBlog(next: Next ): Promise<any>
     trendingBlogs(next: Next): Promise<any>
+    fetchTags(next: Next): Promise<any>
 }

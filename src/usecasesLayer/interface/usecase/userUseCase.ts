@@ -42,4 +42,6 @@ export interface IUserUseCase {
   latestBlog(next: Next): Promise< any | void>
 
   trendingBlog(next: Next): Promise<any | void>
+
+  exploreTags(next: Next): Promise<any | void>
 }
