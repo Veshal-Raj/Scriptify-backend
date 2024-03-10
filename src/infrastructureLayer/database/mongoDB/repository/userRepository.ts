@@ -10,6 +10,7 @@ import { IUserResponse } from "../../../../usecasesLayer/interface/request_respo
 import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
 import { NextFunction } from "express";
 import { latestBlogs } from "./userRepository/user/latestBlogs";
+import { trendingBlog } from "./userRepository/user/trendingBlog";
 
 
 
@@ -51,11 +52,18 @@ export class UserRepository implements IUserRepository {
         return result
     }
 
-    // get blogs
+    // get latest blogs
     async latestBlog(next: NextFunction): Promise<any> {
         console.log('reached inside userRepository')
         const result = await latestBlogs(this.blogModels, this.userModels)
         console.log('got the result in userrepository-->> ')
+        return result
+    }
+
+    // get trending blogs
+    async trendingBlogs(next: NextFunction): Promise<any> {
+        console.log('reached indie the userRepository')
+        const result = await trendingBlog(this.blogModels, this.userModels)   
         return result
     }
     
