@@ -11,6 +11,7 @@ import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
 import { NextFunction } from "express";
 import { latestBlogs } from "./userRepository/user/latestBlogs";
 import { trendingBlog } from "./userRepository/user/trendingBlog";
+import { fetchAllTags } from "./userRepository/user/fetchAllTags";
 
 
 
@@ -62,8 +63,14 @@ export class UserRepository implements IUserRepository {
 
     // get trending blogs
     async trendingBlogs(next: NextFunction): Promise<any> {
-        console.log('reached indie the userRepository')
+        console.log('reached inside the userRepository')
         const result = await trendingBlog(this.blogModels, this.userModels)   
+        return result
+    }
+
+    async fetchTags(next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await fetchAllTags(this.blogModels)
         return result
     }
     
