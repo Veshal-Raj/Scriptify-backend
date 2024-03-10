@@ -40,4 +40,6 @@ export interface IUserUseCase {
   ): Promise<any>;
 
   latestBlog(next: Next): Promise< any | void>
+
+  trendingBlog(next: Next): Promise<any | void>
 }

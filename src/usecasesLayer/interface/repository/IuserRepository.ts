@@ -20,4 +20,5 @@ export interface IUserRepository {
         draft: boolean
     ): Promise<any>;
     latestBlog(next: Next ): Promise<any>
+    trendingBlogs(next: Next): Promise<any>
 }
