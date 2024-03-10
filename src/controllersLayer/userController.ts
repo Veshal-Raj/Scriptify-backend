@@ -189,4 +189,13 @@ export class UserController {
             throw error
         }
     }
+
+    async exploreTags (req: Req, res: Res, next: Next) {
+        try {
+            const response = await this.userUseCase.exploreTags(next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
