@@ -16,6 +16,7 @@ import { IcloudStorage } from "../interface/services/IcloudStorage";
 import { NextFunction } from "express";
 import { latestBlogs } from "./user/latestBlogs";
 import { trendingBlogs } from "./user/trendingBlogs";
+import { Tags } from "./user/tags";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -202,6 +203,22 @@ export class UserUseCase implements IUserUseCase {
       console.log('reached inside the usecaselayer')
       const response = await trendingBlogs(this.userRepository, next, this.logger)
       return response 
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async exploreTags(next: NextFunction): Promise<any> {
+    try {
+        console.log('reached inside the usecaselayer')
+        const response = await Tags(this.userRepository, next, this.logger)
+        return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
