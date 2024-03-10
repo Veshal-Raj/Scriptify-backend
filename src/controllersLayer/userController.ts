@@ -180,4 +180,13 @@ export class UserController {
             throw error
         }
     }
+
+    async trendingBlog(req: Req, res: Res, next: Next) {
+        try {
+            const response = await this.userUseCase.trendingBlog(next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
