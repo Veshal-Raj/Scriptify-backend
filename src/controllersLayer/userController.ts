@@ -202,11 +202,19 @@ export class UserController {
     async filterByTags (req: Req, res: Res, next: Next) {
         try {
             let tag  = req.body.tag
-            // console.log('req.body --> ',req.body.tag)
-            // console.log(tag)
-            // return
             const response = await this.userUseCase.filterByTags(tag, next)
             return res.status(200).json({ response})
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async search (req: Req, res: Res, next: Next) {
+        try {
+            const query: string = req.query.query as string;
+        console.log('query -->> ',query )
+        const response = await this.userUseCase.searchByQuery(query, next)
+        return res.status(200).json({ response })
         } catch (error: unknown | never) {
             throw error
         }
