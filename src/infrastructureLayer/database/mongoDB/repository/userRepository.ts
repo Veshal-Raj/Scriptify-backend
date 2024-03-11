@@ -13,6 +13,7 @@ import { latestBlogs } from "./userRepository/user/latestBlogs";
 import { trendingBlog } from "./userRepository/user/trendingBlog";
 import { fetchAllTags } from "./userRepository/user/fetchAllTags";
 import { filteredByTag } from "./userRepository/user/filteredByTag";
+import { searchByQuery } from "./userRepository/user/searchByQuery";
 
 
 
@@ -79,6 +80,12 @@ export class UserRepository implements IUserRepository {
         console.log('reached inside the userRepository')
         const result = await filteredByTag(tag, this.blogModels, this.userModels)
         return result
+    }
+
+    async searchByQueries(query: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await searchByQuery(query, this.blogModels) 
+        return result  
     }
     
 }
