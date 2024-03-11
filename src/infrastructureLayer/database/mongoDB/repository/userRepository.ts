@@ -12,6 +12,7 @@ import { NextFunction } from "express";
 import { latestBlogs } from "./userRepository/user/latestBlogs";
 import { trendingBlog } from "./userRepository/user/trendingBlog";
 import { fetchAllTags } from "./userRepository/user/fetchAllTags";
+import { filteredByTag } from "./userRepository/user/filteredByTag";
 
 
 
@@ -71,6 +72,12 @@ export class UserRepository implements IUserRepository {
     async fetchTags(next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
         const result = await fetchAllTags(this.blogModels)
+        return result
+    }
+
+    async filterByTag(tag: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await filteredByTag(tag, this.blogModels, this.userModels)
         return result
     }
     
