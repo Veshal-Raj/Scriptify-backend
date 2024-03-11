@@ -176,7 +176,7 @@ export class UserController {
         try {
             const response = await this.userUseCase.latestBlog(next)
             return res.status(200).json({ response})
-        } catch (error: unkown | never) {
+        } catch (error: unknown | never) {
             throw error
         }
     }
@@ -194,6 +194,19 @@ export class UserController {
         try {
             const response = await this.userUseCase.exploreTags(next)
             return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async filterByTags (req: Req, res: Res, next: Next) {
+        try {
+            let tag  = req.body.tag
+            // console.log('req.body --> ',req.body.tag)
+            // console.log(tag)
+            // return
+            const response = await this.userUseCase.filterByTags(tag, next)
+            return res.status(200).json({ response})
         } catch (error: unknown | never) {
             throw error
         }
