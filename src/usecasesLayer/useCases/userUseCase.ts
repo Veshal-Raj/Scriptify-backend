@@ -17,6 +17,7 @@ import { NextFunction } from "express";
 import { latestBlogs } from "./user/latestBlogs";
 import { trendingBlogs } from "./user/trendingBlogs";
 import { Tags } from "./user/tags";
+import { filteredByTag } from "./user/filteredByTag";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -219,6 +220,23 @@ export class UserUseCase implements IUserUseCase {
         console.log('reached inside the usecaselayer')
         const response = await Tags(this.userRepository, next, this.logger)
         return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async filterByTags(tag:string, next: NextFunction): Promise<any> {
+    try {
+      console.log('reached inside the usecaselayer')
+      const response = await filteredByTag(tag, this.userRepository, next, this.logger)
+      // console.log(response) 
+      return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
