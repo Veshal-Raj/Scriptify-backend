@@ -46,4 +46,6 @@ export interface IUserUseCase {
   exploreTags(next: Next): Promise<any | void>
 
   filterByTags(tag: string, next: Next): Promise<any | void>
+
+  searchByQuery(query: string, next: Next): Promise<any | void>
 }
