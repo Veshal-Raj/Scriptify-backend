@@ -44,4 +44,6 @@ export interface IUserUseCase {
   trendingBlog(next: Next): Promise<any | void>
 
   exploreTags(next: Next): Promise<any | void>
+
+  filterByTags(tag: string, next: Next): Promise<any | void>
 }

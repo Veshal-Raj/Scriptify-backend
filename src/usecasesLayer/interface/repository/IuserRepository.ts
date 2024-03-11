@@ -22,4 +22,5 @@ export interface IUserRepository {
     latestBlog(next: Next ): Promise<any>
     trendingBlogs(next: Next): Promise<any>
     fetchTags(next: Next): Promise<any>
+    filterByTag(tag: string, next:Next): Promise<any>
 }
