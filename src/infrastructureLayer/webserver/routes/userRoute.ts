@@ -70,7 +70,13 @@ export function userRoute(router: Route) {
             userController.filterByTags(req, res, next)
         })
     )
-        
+
+    router.get(
+      "/search",
+      catchAsyncErrors((req: Req, res:Res, next: Next) => {
+        userController.search(req, res, next)
+      })
+    )
     
   return router;
 }
