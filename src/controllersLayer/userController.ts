@@ -172,9 +172,10 @@ export class UserController {
         }
     }
 
-    async latestBlog(req: Req, res: Res, next: Next) {
+    async latestBlog(page: number, req: Req, res: Res, next: Next) {
         try {
-            const response = await this.userUseCase.latestBlog(next)
+            const page = req.query.page || 1;
+            const response = await this.userUseCase.latestBlog(page, next)
             return res.status(200).json({ response})
         } catch (error: unknown | never) {
             throw error
