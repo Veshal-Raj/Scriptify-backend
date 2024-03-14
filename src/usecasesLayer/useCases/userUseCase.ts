@@ -13,7 +13,6 @@ import { IOtpRepository } from "../interface/repository/IotpRepository";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IcloudSession } from "../interface/services/IcloudSession";
 import { IcloudStorage } from "../interface/services/IcloudStorage";
-import { NextFunction } from "express";
 import { latestBlogs } from "./user/latestBlogs";
 import { trendingBlogs } from "./user/trendingBlogs";
 import { Tags } from "./user/tags";
@@ -183,10 +182,10 @@ export class UserUseCase implements IUserUseCase {
     }
   }
 
-  async latestBlog(next: NextFunction): Promise<any> {
+  async latestBlog(page: number,next: Next): Promise<any> {
     try {
         console.log('reached inside the usecaselayer')
-        const response = await latestBlogs(this.userRepository, next, this.logger)
+        const response = await latestBlogs(page,this.userRepository, next, this.logger)
         // console.log(response) 
         return response
     } catch (error: unknown | never) {
@@ -200,7 +199,7 @@ export class UserUseCase implements IUserUseCase {
     }
   }
 
-  async trendingBlog(next: NextFunction): Promise<any> {
+  async trendingBlog(next: Next): Promise<any> {
     try {
       console.log('reached inside the usecaselayer')
       const response = await trendingBlogs(this.userRepository, next, this.logger)
@@ -216,7 +215,7 @@ export class UserUseCase implements IUserUseCase {
     }
   }
 
-  async exploreTags(next: NextFunction): Promise<any> {
+  async exploreTags(next: Next): Promise<any> {
     try {
         console.log('reached inside the usecaselayer')
         const response = await Tags(this.userRepository, next, this.logger)
@@ -232,7 +231,7 @@ export class UserUseCase implements IUserUseCase {
     }
   }
 
-  async filterByTags(tag:string, next: NextFunction): Promise<any> {
+  async filterByTags(tag:string, next: Next): Promise<any> {
     try {
       console.log('reached inside the usecaselayer')
       const response = await filteredByTag(tag, this.userRepository, next, this.logger)
@@ -249,7 +248,7 @@ export class UserUseCase implements IUserUseCase {
     }
   }
 
-  async searchByQuery(query: string, next: NextFunction): Promise<any> {
+  async searchByQuery(query: string, next: Next): Promise<any> {
     try {
       console.log('reached inside the usecaselayer')
       const response = await searchByQueries(query, this.userRepository, next, this.logger)

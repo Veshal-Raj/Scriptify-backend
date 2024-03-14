@@ -5,6 +5,7 @@ import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
 export const latestBlogs = async (
+    page: number,
     // blogRepository:
     userRepository: IUserRepository,
     next: Next,
@@ -12,7 +13,7 @@ export const latestBlogs = async (
 ) => {
     try {
        console.log('reached inside the latestBlog usecase engine ')
-       const response = await userRepository.latestBlog(next)
+       const response = await userRepository.latestBlog(page, next)
        return response
     } catch (error: unknown | never) {
         return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', logger));
