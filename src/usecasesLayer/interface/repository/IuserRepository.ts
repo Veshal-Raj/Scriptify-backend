@@ -19,7 +19,7 @@ export interface IUserRepository {
         blog_id: string,
         draft: boolean
     ): Promise<any>;
-    latestBlog(next: Next ): Promise<any>
+    latestBlog(page: number,next: Next ): Promise<any>
     trendingBlogs(next: Next): Promise<any>
     fetchTags(next: Next): Promise<any>
     filterByTag(tag: string, next:Next): Promise<any>
