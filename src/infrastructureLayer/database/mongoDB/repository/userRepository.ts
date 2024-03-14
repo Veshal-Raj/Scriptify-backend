@@ -56,9 +56,10 @@ export class UserRepository implements IUserRepository {
     }
 
     // get latest blogs
-    async latestBlog(next: NextFunction): Promise<any> {
+    async latestBlog(page: number,next: NextFunction): Promise<any> {
         console.log('reached inside userRepository')
-        const result = await latestBlogs(this.blogModels, this.userModels)
+        
+        const result = await latestBlogs(page,this.blogModels, this.userModels)
         console.log('got the result in userrepository-->> ')
         return result
     }
