@@ -46,7 +46,9 @@ export function userRoute(router: Route) {
   router.get(
     "/latest-blog",
     catchAsyncErrors((req: Req, res: Res, next: Next) => {
-      userController.latestBlog(req, res, next);
+      const page = req.query.page ? parseInt(req.query.page.toString(), 10) : 1;
+
+      userController.latestBlog(page, req, res, next);
     })
   );
 
