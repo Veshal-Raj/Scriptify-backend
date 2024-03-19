@@ -176,6 +176,8 @@ export class UserController {
         try {
             const page = req.query.page || 1;
             const response = await this.userUseCase.latestBlog(page, next)
+            console.log('response in controller -->>> ',response)
+            if (response.length === 0) return res.status(400).json( { response: null})
             return res.status(200).json({ response})
         } catch (error: unknown | never) {
             throw error
