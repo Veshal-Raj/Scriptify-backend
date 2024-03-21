@@ -79,6 +79,28 @@ export function userRoute(router: Route) {
         userController.search(req, res, next)
       })
     )
+
+    router.post(
+      "/get-profile", 
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.getProfile(req, res, next)
+      })
+    )
+
+    /**
+     *  router.post('/get-profile', (req, res) => {
+     *  const { userId } = req.body
+     * 
+     *  User.findOne({ "personal_info._id": userId})
+     *  .select("-personal_info.password -google_auth -updatedAt -blogs")
+     *  .then(user => {
+     *    return res.status(200).json(user)
+     *  })
+     *  .catch(err => {
+     *    return res.status(500).json({error: err.message})
+     *  }) 
+     * })
+     */
     
   return router;
 }
