@@ -222,4 +222,14 @@ export class UserController {
             throw error
         }
     }
+
+    async getProfile(req: Req, res: Res, next: Next) {
+        try {
+            const { userId } = req.body;
+            console.log(userId)
+            const response = await this.userUseCase.getProfile(userId, next)
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
