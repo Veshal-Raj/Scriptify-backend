@@ -24,4 +24,5 @@ export interface IUserRepository {
     fetchTags(next: Next): Promise<any>
     filterByTag(tag: string, next:Next): Promise<any>
     searchByQueries(query: string, next: Next): Promise<any>
+    getProfile(userId: string, next: Next): Promise<any>
 }

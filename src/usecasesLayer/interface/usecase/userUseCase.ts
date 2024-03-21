@@ -48,4 +48,6 @@ export interface IUserUseCase {
   filterByTags(tag: string, next: Next): Promise<any | void>
 
   searchByQuery(query: string, next: Next): Promise<any | void>
+
+  getProfile(userId: string, next: Next): Promise<any | void>
 }
