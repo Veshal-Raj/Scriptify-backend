@@ -6,8 +6,8 @@ import { ErrorHandler } from "../../middlewares/errorHandler";
 
 export const getUserProfile = async (
     userId: string,
-    next: Next,
     userRepository: IUserRepository,
+    next: Next,
     logger: ILogger
 ) => {
     try {
