@@ -1,22 +1,29 @@
 import mongoose, {Model, Schema} from "mongoose";
 import IUser from '../../../../entitiesLayer/user'
 
+const profile_imgs_name_list = ["Garfield", "Tinkerbell", "Annie", "Loki", "Cleo", "Angel", "Bob", "Mia", "Coco", "Gracie", "Bear", "Bella", "Abby", "Harley", "Cali", "Leo", "Luna", "Jack", "Felix", "Kiki"];
+const profile_imgs_collections_list = ["notionists-neutral", "adventurer-neutral", "fun-emoji"];
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
     personal_info: {
         username: {type: String, required: true},
         email: {type: String, required: true},
         password: {type: String, required: true},
-        bio: {type: String},
-        profile_img: {type: String},
+        bio: {type: String, default: ''},
+        profile_img: {
+            type: String,
+            default: () => {
+                return `https://api.dicebear.com/6.x/${profile_imgs_collections_list[Math.floor(Math.random() * profile_imgs_collections_list.length)]}/svg?seed=${profile_imgs_name_list[Math.floor(Math.random() * profile_imgs_name_list.length)]}`
+            } 
+        },
     },
     social_links: {
-        youtube: { type: String },
-        instagram: { type: String },
-        facebook: { type: String },
-        twitter: { type: String },
-        github: { type: String },
-        website: { type: String },
+        youtube: { type: String, default: '' },
+        instagram: { type: String, default: '' },
+        facebook: { type: String, default: '' },
+        twitter: { type: String, default: '' },
+        github: { type: String, default: '' },
+        website: { type: String, default: '' },
     },
     account_info: {
         total_posts: { type: Number, default: 0 },
