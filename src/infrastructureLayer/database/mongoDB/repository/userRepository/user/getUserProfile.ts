@@ -7,10 +7,11 @@ export const getUserProfile = async (
     next: Next
 ): Promise<any | void> => {
     try {
-        const result = await userModels.findOne({ "personal_info._id": userId})
-         .select("-personal_info.password -google_auth -updatedAt -blogs")
+        console.log(userId)
+        const result = await userModels.findById( userId)
+         .select("-personal_info.password -google_auth -updatedAt -blogs ")
 
-         console.log(result)
+         console.log('result -->> ',result)
         return result;
     } catch (error) {
         throw error
