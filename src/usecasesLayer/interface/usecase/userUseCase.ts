@@ -50,4 +50,6 @@ export interface IUserUseCase {
   searchByQuery(query: string, next: Next): Promise<any | void>
 
   getProfile(userId: string, next: Next): Promise<any | void>
+
+  fetchUserBlogs(userId: string, next: Next): Promise<any | void>
 }
