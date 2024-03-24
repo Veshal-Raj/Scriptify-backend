@@ -15,6 +15,7 @@ import { fetchAllTags } from "./userRepository/user/fetchAllTags";
 import { filteredByTag } from "./userRepository/user/filteredByTag";
 import { searchByQuery } from "./userRepository/user/searchByQuery";
 import { getUserProfile } from "./userRepository/user/getUserProfile";
+import { fetchUserBlog } from "./userRepository/user/fetchUserBlog";
 
 
 
@@ -93,6 +94,12 @@ export class UserRepository implements IUserRepository {
     async getProfile(userId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
         const result = await getUserProfile(userId,this.userModels, next)
+        return result
+    }
+
+    async fetchUserBlogs(userId: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await fetchUserBlog(userId, this.userModels)
         return result
     }
     
