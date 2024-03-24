@@ -20,6 +20,7 @@ import { filteredByTag } from "./user/filteredByTag";
 import { searchByQueries } from "./user/searchByQueries";
 import { NextFunction } from "express";
 import { getUserProfile } from "./user/getUserProfile";
+import { fetchUserblog } from "./user/fetchUserblog";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -270,6 +271,22 @@ export class UserUseCase implements IUserUseCase {
     try {
       console.log('reached inside the usecaselayer')
       const response = await getUserProfile(userId, this.userRepository, next, this.logger)
+      return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+  
+  async fetchUserBlogs(userId: string, next: Next): Promise<any> {
+    try {
+      console.log('reached inside the usecaselayer')
+      const response = await fetchUserblog(userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
       return next(
