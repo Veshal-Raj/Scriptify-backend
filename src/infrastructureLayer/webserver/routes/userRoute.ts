@@ -87,20 +87,11 @@ export function userRoute(router: Route) {
       })
     )
 
-    /**
-     *  router.post('/get-profile', (req, res) => {
-     *  const { userId } = req.body
-     * 
-     *  User.findOne({ "personal_info._id": userId})
-     *  .select("-personal_info.password -google_auth -updatedAt -blogs")
-     *  .then(user => {
-     *    return res.status(200).json(user)
-     *  })
-     *  .catch(err => {
-     *    return res.status(500).json({error: err.message})
-     *  }) 
-     * })
-     */
-    
+    router.get(
+      "/fetchUserBlog",
+      catchAsyncErrors((req: Res, res: Res, next: Next) => {
+        userController.fetchUserBlogs(req, res, next)
+      })
+    )
   return router;
 }
