@@ -215,19 +215,31 @@ export class UserController {
     async search (req: Req, res: Res, next: Next) {
         try {
             const query: string = req.query.query as string;
-        console.log('query -->> ',query )
-        const response = await this.userUseCase.searchByQuery(query, next)
-        return res.status(200).json({ response })
+            console.log('query -->> ',query )
+            const response = await this.userUseCase.searchByQuery(query, next)
+            return res.status(200).json({ response })
         } catch (error: unknown | never) {
             throw error
         }
     }
 
     async getProfile(req: Req, res: Res, next: Next) {
-        try {
-            const { userId } = req.body;
+        try {            
+            const userId = Object.keys(req.body)[0]
             console.log(userId)
             const response = await this.userUseCase.getProfile(userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async fetchUserBlogs(req: Req, res: Res, next: Next){
+        try {
+            const userId: string = req.query.query as string;
+            console.log(userId)
+            const response = await this.userUseCase.fetchUserBlogs(userId, next)
+            return res.status(200).json({ response })
         } catch (error: unknown | never) {
             throw error
         }
