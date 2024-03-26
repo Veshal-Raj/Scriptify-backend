@@ -89,9 +89,17 @@ export function userRoute(router: Route) {
 
     router.get(
       "/fetchUserBlog",
-      catchAsyncErrors((req: Res, res: Res, next: Next) => {
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
         userController.fetchUserBlogs(req, res, next)
       })
     )
+
+    router.get(
+      "/fetchSingleBlog",
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.fetchSingleBlog(req, res, next)
+      })
+    )
+
   return router;
 }
