@@ -101,5 +101,12 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.post(
+      "/fetchSimilarBlogs",
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.fetchSimilarBlogs(req, res, next)
+      })
+    )
+
   return router;
 }

@@ -27,4 +27,5 @@ export interface IUserRepository {
     getProfile(userId: string, next: Next): Promise<any>
     fetchUserBlogs(userId: string, next: Next): Promise<any>
     fetchSingleBlog(blog_id: string, next: Next): Promise<any>
+    fetchSimilarBlogs(tags: string[], next: Next): Promise<any>
 }

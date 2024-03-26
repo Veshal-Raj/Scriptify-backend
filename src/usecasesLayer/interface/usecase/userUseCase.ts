@@ -54,4 +54,6 @@ export interface IUserUseCase {
   fetchUserBlogs(userId: string, next: Next): Promise<any | void>
 
   fetchSingleBlog(blog_id: string, next: Next): Promise<any | void>
+
+  fetchSimilarBlogs(tags: string[], next: Next): Promise<any | void>
 }

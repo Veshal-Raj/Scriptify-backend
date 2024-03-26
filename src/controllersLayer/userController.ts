@@ -255,4 +255,15 @@ export class UserController {
             throw error
         }
     }
+
+    async fetchSimilarBlogs (req: Req, res: Res, next: Next) {
+        try {
+            const tags = req.body
+            console.log('tags', tags)
+            const response = await this.userUseCase.fetchSimilarBlogs(tags, next)
+            return res.status(200).json({ response})
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
