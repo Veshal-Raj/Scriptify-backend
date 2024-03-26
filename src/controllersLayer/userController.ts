@@ -244,4 +244,15 @@ export class UserController {
             throw error
         }
     }
+
+    async fetchSingleBlog (req: Req, res: Res, next: Next) {
+        try {
+            const blog_id : string = req.query.query as string;
+            console.log('blog_id ',blog_id)
+            const response = await this.userUseCase.fetchSingleBlog(blog_id, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
