@@ -52,4 +52,6 @@ export interface IUserUseCase {
   getProfile(userId: string, next: Next): Promise<any | void>
 
   fetchUserBlogs(userId: string, next: Next): Promise<any | void>
+
+  fetchSingleBlog(blog_id: string, next: Next): Promise<any | void>
 }
