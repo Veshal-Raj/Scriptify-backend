@@ -26,4 +26,5 @@ export interface IUserRepository {
     searchByQueries(query: string, next: Next): Promise<any>
     getProfile(userId: string, next: Next): Promise<any>
     fetchUserBlogs(userId: string, next: Next): Promise<any>
+    fetchSingleBlog(blog_id: string, next: Next): Promise<any>
 }
