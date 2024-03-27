@@ -35,6 +35,8 @@ interface IUser {
         userReportBlogs: IUserInteraction[];
         userCommentBlogs: IUserInteraction[];
     };
+    followers: string[]; 
+    following: string[];
     role?: "user" | "advertiser" | "admin";
     status?: "active" | "freeze";
     isVerified?: boolean;
