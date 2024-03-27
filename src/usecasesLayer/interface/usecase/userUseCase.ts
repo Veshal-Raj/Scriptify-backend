@@ -60,4 +60,6 @@ export interface IUserUseCase {
   increaseReadCount(userId: string, blogId: string, next: Next): Promise<any | void>
 
   followUser(authorId: string, userId: string, next: Next): Promise<any | void>
+
+  unfollowUser(authorId: string, userId: string, next: Next): Promise<any | void>
 }
