@@ -298,4 +298,14 @@ export class UserController {
             throw error
         }
     }
+
+    async likeBlog(req: Req, res: Res, next: Next) {
+        try {
+            const { blogId, userId } = req.body
+            const response = await this.userUseCase.likeBlog(blogId, userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
