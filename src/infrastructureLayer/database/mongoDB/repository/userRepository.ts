@@ -20,6 +20,7 @@ import { fetchBlog } from "./userRepository/user/fetchBlog";
 import { fetchSimilarBlog } from "./userRepository/user/fetchSimilarBlog";
 import { increaseBlogReadCount } from "./userRepository/user/increaseBlogReadCount";
 import { FollowUser } from "./userRepository/user/FollowUser";
+import { UnFollowUser } from "./userRepository/user/UnFollowUser";
 
 
 
@@ -128,6 +129,12 @@ export class UserRepository implements IUserRepository {
     async followUser(authorId: string, userId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
         const result = await FollowUser(authorId, userId,  this.userModels)
+        return result
+    }
+
+    async unfollowUser(authorId: string, userId: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await UnFollowUser(authorId, userId,  this.userModels)
         return result
     }
 }
