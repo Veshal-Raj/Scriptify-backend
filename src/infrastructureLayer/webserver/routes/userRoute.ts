@@ -115,6 +115,14 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.post(
+      '/followUser',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.followUser(req, res, next)
+      })
+    )
+
+   
 
   return router;
 }
