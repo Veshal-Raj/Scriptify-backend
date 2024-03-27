@@ -108,5 +108,13 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.post(
+      '/increaseReadCount',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.increaseReadCount(req, res, next)
+      })
+    )
+
+
   return router;
 }
