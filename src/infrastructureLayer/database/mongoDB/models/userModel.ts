@@ -4,6 +4,8 @@ import IUser from '../../../../entitiesLayer/user'
 const profile_imgs_name_list = ["Garfield", "Tinkerbell", "Annie", "Loki", "Cleo", "Angel", "Bob", "Mia", "Coco", "Gracie", "Bear", "Bella", "Abby", "Harley", "Cali", "Leo", "Luna", "Jack", "Felix", "Kiki"];
 const profile_imgs_collections_list = ["notionists-neutral", "adventurer-neutral", "fun-emoji"];
 
+
+
 const userSchema: Schema<IUser> = new Schema<IUser>({
     personal_info: {
         username: {type: String, required: true},
@@ -30,6 +32,13 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         total_reads: { type: Number, default: 0 },
     },
     blogs: [{ type: Schema.Types.ObjectId, ref: 'Blog' }], 
+    userInteractions: {
+        userReadBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
+        userLikedBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
+        userSavedBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
+        userReportBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
+        userCommentBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
+    },
     role: { type: String, enum: ['user', 'advertiser', 'admin'], default: 'user' },
     status: { type: String, enum: ['active', 'freeze'] },
     isVerified: {type: Boolean, default: false},
