@@ -266,4 +266,15 @@ export class UserController {
             throw error
         }
     }
+
+    async increaseReadCount (req: Req, res: Res, next: Next) {
+        try {
+            const {userId, blogId} = req.body
+            console.log(userId, ';;;;', blogId)
+            const response = await this.userUseCase.increaseReadCount(userId, blogId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
