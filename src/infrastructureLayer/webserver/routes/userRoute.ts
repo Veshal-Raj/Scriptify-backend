@@ -129,5 +129,12 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.post(
+      '/likeBlog',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.likeBlog(req, res, next)
+      })
+    )
+
   return router;
 }
