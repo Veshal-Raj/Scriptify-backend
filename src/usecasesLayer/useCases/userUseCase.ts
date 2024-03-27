@@ -18,12 +18,13 @@ import { trendingBlogs } from "./user/trendingBlogs";
 import { Tags } from "./user/tags";
 import { filteredByTag } from "./user/filteredByTag";
 import { searchByQueries } from "./user/searchByQueries";
-import { NextFunction } from "express";
 import { getUserProfile } from "./user/getUserProfile";
 import { fetchUserblog } from "./user/fetchUserblog";
 import { fetchBlog } from "./user/fetchBlog";
 import { fetchSimilarBlog } from "./user/fetchSimilarBlog";
 import { increaseBlogReadCount } from "./user/increaseBlogReadCount";
+import { NextFunction } from "express";
+import { FollowUser } from "./user/FollowUser";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -341,6 +342,22 @@ export class UserUseCase implements IUserUseCase {
       const response = await increaseBlogReadCount(userId, blogId, this.userRepository, next, this.logger)
       return response
 
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async followUser(authorId: string, userId: string, next: Next): Promise<any> {
+    try {
+      console.log(' reached inside the usecaseLayer')
+      const response = await FollowUser(authorId, userId, this.userRepository, next, this.logger)
+      return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
