@@ -19,6 +19,7 @@ import { fetchUserBlog } from "./userRepository/user/fetchUserBlog";
 import { fetchBlog } from "./userRepository/user/fetchBlog";
 import { fetchSimilarBlog } from "./userRepository/user/fetchSimilarBlog";
 import { increaseBlogReadCount } from "./userRepository/user/increaseBlogReadCount";
+import { FollowUser } from "./userRepository/user/FollowUser";
 
 
 
@@ -121,6 +122,12 @@ export class UserRepository implements IUserRepository {
     async increaseReadCount(userId: string, blogId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
         const result = await increaseBlogReadCount(userId, blogId, this.blogModels, this.userModels)
+        return result
+    }
+
+    async followUser(authorId: string, userId: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await FollowUser(authorId, userId,  this.userModels)
         return result
     }
 }
