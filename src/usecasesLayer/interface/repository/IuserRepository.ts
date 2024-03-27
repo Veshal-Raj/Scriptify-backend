@@ -30,4 +30,5 @@ export interface IUserRepository {
     fetchSimilarBlogs(tags: string[], next: Next): Promise<any>
     increaseReadCount(userId: string, blogId: string, next: Next): Promise<any>
     followUser(authorId: string, userId: string, next: Next): Promise<any>
+    unfollowUser(authorId: string, userId: string, next: Next): Promise<any>
 }
