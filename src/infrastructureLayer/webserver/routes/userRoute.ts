@@ -136,5 +136,12 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.post(
+      '/unlikeBlog',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.unLikeBlog(req, res, next)
+      })
+    )
+
   return router;
 }
