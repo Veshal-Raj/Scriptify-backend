@@ -288,4 +288,14 @@ export class UserController {
             throw error
         }
     }
+
+    async unfollowUser(req: Req, res: Res, next: Next) {
+        try {
+            const { authorId, userId } = req.body
+            const response = await this.userUseCase.unfollowUser(authorId, userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
