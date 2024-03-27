@@ -32,4 +32,5 @@ export interface IUserRepository {
     followUser(authorId: string, userId: string, next: Next): Promise<any>
     unfollowUser(authorId: string, userId: string, next: Next): Promise<any>
     likeBlog(blogId: string, userId: string, next: Next): Promise<any>
+    unLikeBlog(blogId: string, userId: string, next: Next): Promise<any>
 }
