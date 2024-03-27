@@ -15,6 +15,7 @@ export const fetchBlog = async(
        const blog = await blogModels.findOne({ blog_id: blog_id }).populate({
         path: 'author',
         select: {
+            '_id': 1,
             'personal_info.username': 1,
             'personal_info.bio': 1,
             'personal_info.profile_img': 1,
