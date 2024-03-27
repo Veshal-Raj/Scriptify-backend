@@ -28,15 +28,12 @@ export const increaseBlogReadCount = async(
 
             blog.activity.total_reads += 1;
     
-            
             await blog.save();
     
-            
             const blog_id = blog._id
 
             user.userInteractions.userReadBlogs.push({ blogId: blog_id, interactionAt: new Date() });
 
-            console.log(user.userInteractions.userReadBlogs)
             await user.save();
 
             return "Blog read count increased successfully."
