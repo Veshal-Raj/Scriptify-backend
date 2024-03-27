@@ -122,7 +122,12 @@ export function userRoute(router: Route) {
       })
     )
 
-   
+    router.post(
+      '/unfollowUser',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.unfollowUser(req, res, next)
+      })
+    )
 
   return router;
 }
