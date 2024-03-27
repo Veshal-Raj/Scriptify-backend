@@ -277,4 +277,15 @@ export class UserController {
             throw error
         }
     }
+
+    async followUser (req: Req, res: Res, next: Next) {
+        try {
+            const { authorId, userId } = req.body
+            console.log(authorId,'<......>', userId)
+            const response = await this.userUseCase.followUser(authorId, userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
