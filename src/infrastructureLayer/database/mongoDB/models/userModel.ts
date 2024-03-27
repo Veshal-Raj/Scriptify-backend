@@ -39,6 +39,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         userReportBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
         userCommentBlogs: [{ blogId: { type: Schema.Types.ObjectId, ref: 'Blog' }, interactionAt: Date }],
     },
+    followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     role: { type: String, enum: ['user', 'advertiser', 'admin'], default: 'user' },
     status: { type: String, enum: ['active', 'freeze'] },
     isVerified: {type: Boolean, default: false},
