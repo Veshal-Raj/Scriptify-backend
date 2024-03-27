@@ -58,4 +58,6 @@ export interface IUserUseCase {
   fetchSimilarBlogs(tags: string[], next: Next): Promise<any | void>
 
   increaseReadCount(userId: string, blogId: string, next: Next): Promise<any | void>
+
+  followUser(authorId: string, userId: string, next: Next): Promise<any | void>
 }
