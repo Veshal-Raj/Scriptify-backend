@@ -308,4 +308,14 @@ export class UserController {
             throw error
         }
     }
+
+    async unLikeBlog(req: Req, res: Res, next: Next) {
+        try {
+            const { blogId , userId } = req.body
+            const response = await this.userUseCase.unLikeBlog(blogId, userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
