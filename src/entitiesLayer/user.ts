@@ -1,3 +1,10 @@
+
+interface IUserInteraction {
+    blogId: string;
+    interactionAt: Date;
+}
+
+
 interface IUser {
     _id?: string;
     personal_info: {
@@ -21,6 +28,13 @@ interface IUser {
     };
     // google_auth: boolean;
     blogs?: string[]; // an array of blog IDs
+    userInteractions: {
+        userReadBlogs: IUserInteraction[];
+        userLikedBlogs: IUserInteraction[];
+        userSavedBlogs: IUserInteraction[];
+        userReportBlogs: IUserInteraction[];
+        userCommentBlogs: IUserInteraction[];
+    };
     role?: "user" | "advertiser" | "admin";
     status?: "active" | "freeze";
     isVerified?: boolean;
