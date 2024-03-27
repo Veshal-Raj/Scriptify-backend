@@ -25,6 +25,7 @@ import { fetchSimilarBlog } from "./user/fetchSimilarBlog";
 import { increaseBlogReadCount } from "./user/increaseBlogReadCount";
 import { NextFunction } from "express";
 import { FollowUser } from "./user/FollowUser";
+import { unFollowUser } from "./user/unFollowUser";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -357,6 +358,22 @@ export class UserUseCase implements IUserUseCase {
     try {
       console.log(' reached inside the usecaseLayer')
       const response = await FollowUser(authorId, userId, this.userRepository, next, this.logger)
+      return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async unfollowUser(authorId: string, userId: string, next: Next): Promise<any> {
+    try {
+      console.log(' reached inside the usecaseLayer')
+      const response = await unFollowUser(authorId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
       return next(
