@@ -62,4 +62,6 @@ export interface IUserUseCase {
   followUser(authorId: string, userId: string, next: Next): Promise<any | void>
 
   unfollowUser(authorId: string, userId: string, next: Next): Promise<any | void>
+
+  likeBlog(blogId: string, userId: string, next: Next): Promise<any | void>
 }
