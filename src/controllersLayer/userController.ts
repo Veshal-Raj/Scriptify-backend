@@ -322,9 +322,20 @@ export class UserController {
     async initialLike (req: Req, res: Res, next: Next) {
         try {
             console.log('req.query >>>>>>>>>>>>>>>> ',req.query.userId, req.query.blogId)
-            const userId = req.query.userId;
-            const blogId = req.query.blogId
+            const userId = req.query.userId as string;
+            const blogId = req.query.blogId as string;
             const response = await this.userUseCase.initialLike(userId, blogId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async saveBlog(req: Req, res: Res, next: Next) {
+        try{
+            const { blogId, userId } = req.body;
+            const response = await this.userUseCase.saveBlog(blogId, userId, next)
+            console.log('final response -->> ',response)
             return res.status(200).json({ response })
         } catch (error: unknown | never) {
             throw error
