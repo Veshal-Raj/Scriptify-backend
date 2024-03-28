@@ -68,4 +68,6 @@ export interface IUserUseCase {
   unLikeBlog(blogId: string, userId: string, next: Next): Promise<any | void>
 
   initialLike(userId: string, blogId: string, next: Next): Promise<any | void>
+
+  saveBlog(blogId: string, userId: string, next: Next): Promise<any | void>
 }
