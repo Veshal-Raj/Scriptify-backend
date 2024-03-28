@@ -171,5 +171,12 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.get(
+      '/listFollowers',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.listFollowers(req, res, next)
+      })
+    )
+
   return router;
 }
