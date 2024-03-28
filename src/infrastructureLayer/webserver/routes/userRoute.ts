@@ -164,5 +164,12 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.get(
+      '/savedBlogs',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.savedBlogs(req, res, next)
+      })
+    )
+
   return router;
 }
