@@ -352,10 +352,20 @@ export class UserController {
         }
     }
 
-    async savedBlogs (req: Req, res: Res, next: Next) {
+    async savedBlogs(req: Req, res: Res, next: Next) {
         try {
             const userId = req.query.userId as string;
             const response = await this.userUseCase.savedBlogs(userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async listFollowers(req: Req, res: Res, next: Next) {
+        try {
+            const userId = req.query.userId as string;
+            const response = await this.userUseCase.listFollowers(userId, next)
             return res.status(200).json({ response })
         } catch (error: unknown | never) {
             throw error
