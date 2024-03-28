@@ -152,8 +152,15 @@ export function userRoute(router: Route) {
 
     router.post(
       '/saveBlog',
-      catchAsyncErrors((req: Res, res: Res, next: Next) => {
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
         userController.saveBlog(req, res, next)
+      })
+    )
+
+    router.post(
+      '/unSaveBlog',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.unSaveBlog(req, res, next)
       })
     )
 
