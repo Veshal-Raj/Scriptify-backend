@@ -318,4 +318,16 @@ export class UserController {
             throw error
         }
     }
+
+    async initialLike (req: Req, res: Res, next: Next) {
+        try {
+            console.log('req.query >>>>>>>>>>>>>>>> ',req.query.userId, req.query.blogId)
+            const userId = req.query.userId;
+            const blogId = req.query.blogId
+            const response = await this.userUseCase.initialLike(userId, blogId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
