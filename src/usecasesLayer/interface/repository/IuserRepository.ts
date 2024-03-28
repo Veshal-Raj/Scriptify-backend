@@ -37,4 +37,5 @@ export interface IUserRepository {
     saveBlog(blogId: string, userId: string, next: Next): Promise<any>
     unSaveBlog(blogId: string, userId: string, next: Next): Promise<any>
     savedBlogs(userId: string, next: Next): Promise<any>
+    listFollowers(userId: string, next: Next): Promise<any>
 }
