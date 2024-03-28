@@ -341,4 +341,14 @@ export class UserController {
             throw error
         }
     }
+
+    async unSaveBlog(req: Req, res: Res, next: Next) {
+        try {
+            const { blogId, userId } = req.body;
+            const response = await this.userUseCase.unSaveBlog(blogId, userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
