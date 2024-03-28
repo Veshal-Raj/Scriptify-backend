@@ -34,4 +34,5 @@ export interface IUserRepository {
     likeBlog(blogId: string, userId: string, next: Next): Promise<any>
     unLikeBlog(blogId: string, userId: string, next: Next): Promise<any>
     intialLike(userId: string, blogId: string, next: Next): Promise<any>
+    saveBlog(blogId: string, userId: string, next: Next): Promise<any>
 }
