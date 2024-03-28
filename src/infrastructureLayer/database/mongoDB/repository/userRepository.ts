@@ -24,6 +24,7 @@ import { UnFollowUser } from "./userRepository/user/UnFollowUser";
 import { likeBlogByUser } from "./userRepository/user/likeBlogByUser";
 import { unLikeBlogByUser } from "./userRepository/user/unLikeBlogByUser";
 import { initialLikebyUser } from "./userRepository/user/initialLikebyUser";
+import { saveBlogByUser } from "./userRepository/user/saveBlogByUser";
 
 
 
@@ -157,5 +158,11 @@ export class UserRepository implements IUserRepository {
         console.log('reached inside the userRepository')
         const result = await initialLikebyUser(userId, blogId, this.userModels)
         return result   
+    }
+
+    async saveBlog(blogId: string, userId: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await saveBlogByUser(blogId, userId, this.userModels, this.blogModels)
+        return result
     }
 }
