@@ -72,4 +72,6 @@ export interface IUserUseCase {
   saveBlog(blogId: string, userId: string, next: Next): Promise<any | void>
 
   unSaveBlog(blogId: string, userId: string, next: Next): Promise<any | void>
+
+  savedBlogs(userId: string, next: Next): Promise<any | void>
 }
