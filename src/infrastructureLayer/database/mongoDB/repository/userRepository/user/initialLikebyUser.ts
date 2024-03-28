@@ -8,14 +8,15 @@ export const initialLikebyUser = async (
    
 ): Promise<any | void> => {
     try {
-        const user = await userModel.findById(userId);
+        const user = await userModel.findById(userId);       
         
-        if (user && user.userInteractions.userLikedBlogs.some(likedBlog => likedBlog.blogId.toString() === blog_id)) {
-            return true; // Blog is liked by the user
-        } else {
-            return false; // Blog is not liked by the user
-        }
        
+        const isLiked = user?.userInteractions.userLikedBlogs.some(likedBlog => likedBlog.blogId.toString() === blog_id);
+
+        // Check if the blog is saved by the user
+        const isSaved = user?.userInteractions.userSavedBlogs.some(savedBlog => savedBlog.blogId.toString() === blog_id);
+
+        return { isLiked: isLiked, isSaved: isSaved };
 
     } catch (error) {
         throw error
