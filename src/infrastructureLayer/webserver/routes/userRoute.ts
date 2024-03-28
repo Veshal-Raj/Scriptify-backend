@@ -143,5 +143,12 @@ export function userRoute(router: Route) {
       })
     )
 
+    router.get(
+      '/initialLike',
+      catchAsyncErrors((req: Req, res: Res, next: Next) => {
+        userController.initialLike(req, res, next)
+      })
+    )
+
   return router;
 }
