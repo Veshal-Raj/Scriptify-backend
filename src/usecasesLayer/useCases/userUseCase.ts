@@ -29,6 +29,7 @@ import { unFollowUser } from "./user/unFollowUser";
 import { likeBlogByUser } from "./user/likeBlogByUser";
 import { unLikeBlogByUser } from "./user/unLikeBlogByUser";
 import { initialLikebyUser } from "./user/initialLikebyUser";
+import { saveBlogByUser } from "./user/saveBlogByUser";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -426,6 +427,22 @@ export class UserUseCase implements IUserUseCase {
       console.log('reached inside the usecaselayer')
       const response = await initialLikebyUser(userId, blogId, this.userRepository, next, this.logger)
       return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async saveBlog(blogId: string, userId: string, next: Next): Promise<any> {
+    try{
+        console.log('reached inside the usecaselayer')
+        const response = await saveBlogByUser(blogId, userId, this.userRepository, next, this.logger)
+        return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
