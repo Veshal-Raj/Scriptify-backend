@@ -27,6 +27,7 @@ const commentSchema: Schema<IComment> = new Schema<IComment>({
     },
     isReply: {
         type: Boolean,
+        default: false
     },
     parent: {
         type: Schema.Types.ObjectId,
