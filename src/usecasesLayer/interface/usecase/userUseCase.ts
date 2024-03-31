@@ -83,4 +83,6 @@ export interface IUserUseCase {
   listFollowings(userId: string, next: Next): Promise<any | void>
 
   addComment( commentData: CommentData, comment:Comment, next: Next ): Promise<any | void>
+
+  initialComments(blogId: string, next: Next): Promise<any | void>
 }
