@@ -1,3 +1,4 @@
+import { Comment, CommentData } from "../../../@types/general/Comments";
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserResponse } from "../request_response/user";
@@ -39,4 +40,5 @@ export interface IUserRepository {
     savedBlogs(userId: string, next: Next): Promise<any>
     listFollowers(userId: string, next: Next): Promise<any>
     listFollowings(userId: string, next: Next): Promise<any>
+    addComment(commentData: CommentData, comment: Comment, next: Next): Promise<any>
 }
