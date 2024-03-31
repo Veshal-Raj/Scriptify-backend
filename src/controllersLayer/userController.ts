@@ -381,4 +381,34 @@ export class UserController {
             throw error
         }
     }
+
+    async addComment(req: Req, res: Res, next: Next) {
+        try {
+            // comment, who commented, blog_id, blog_author
+            // find the blog using blog id
+            // find the author id using blog_author
+
+            
+        console.log(req.body)
+        // {
+        //     commentData: {
+        //       userId: '65d60263d4f5b68b43323a2a',
+        //       authorId: '65d9d237832199d6150edcc6',
+        //       blogId: 'How-to-Build-a-Blog-with-the-Ghost-API-and-Next-js-606023831',
+        //       _id: '65eb0c674d5d7d1f77ce4a1e'
+        //     },
+        //     comment: [ 'hello🤩🤩' ]
+        //   }
+        const { commentData, comment } = req.body
+        console.log( commentData, comment )
+
+        if (!comment.length) {
+            return res.status(403).json({ error: 'Write something to leave a comment!'})
+          }
+          const response = await this.userUseCase.addComment( commentData, comment , next)
+          return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
