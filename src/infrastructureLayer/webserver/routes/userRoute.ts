@@ -66,117 +66,125 @@ export function userRoute(router: Route) {
     })
   );
 
-    router.post(
-        "/filterbyTags",
-        catchAsyncErrors((req: Req, res: Res, next: Next) => {
-            userController.filterByTags(req, res, next)
-        })
-    )
+  router.post(
+    "/filterbyTags",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.filterByTags(req, res, next);
+    })
+  );
 
-    router.get(
-      "/search",
-      catchAsyncErrors((req: Req, res:Res, next: Next) => {
-        userController.search(req, res, next)
-      })
-    )
+  router.get(
+    "/search",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.search(req, res, next);
+    })
+  );
 
-    router.post(
-      "/get-profile", 
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.getProfile(req, res, next)
-      })
-    )
+  router.post(
+    "/get-profile",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.getProfile(req, res, next);
+    })
+  );
 
-    router.get(
-      "/fetchUserBlog",
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.fetchUserBlogs(req, res, next)
-      })
-    )
+  router.get(
+    "/fetchUserBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.fetchUserBlogs(req, res, next);
+    })
+  );
 
-    router.get(
-      "/fetchSingleBlog",
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.fetchSingleBlog(req, res, next)
-      })
-    )
+  router.get(
+    "/fetchSingleBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.fetchSingleBlog(req, res, next);
+    })
+  );
 
-    router.post(
-      "/fetchSimilarBlogs",
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.fetchSimilarBlogs(req, res, next)
-      })
-    )
+  router.post(
+    "/fetchSimilarBlogs",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.fetchSimilarBlogs(req, res, next);
+    })
+  );
 
-    router.post(
-      '/increaseReadCount',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.increaseReadCount(req, res, next)
-      })
-    )
+  router.post(
+    "/increaseReadCount",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.increaseReadCount(req, res, next);
+    })
+  );
 
-    router.post(
-      '/followUser',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.followUser(req, res, next)
-      })
-    )
+  router.post(
+    "/followUser",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.followUser(req, res, next);
+    })
+  );
 
-    router.post(
-      '/unfollowUser',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.unfollowUser(req, res, next)
-      })
-    )
+  router.post(
+    "/unfollowUser",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.unfollowUser(req, res, next);
+    })
+  );
 
-    router.post(
-      '/likeBlog',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.likeBlog(req, res, next)
-      })
-    )
+  router.post(
+    "/likeBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.likeBlog(req, res, next);
+    })
+  );
 
-    router.post(
-      '/unlikeBlog',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.unLikeBlog(req, res, next)
-      })
-    )
+  router.post(
+    "/unlikeBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.unLikeBlog(req, res, next);
+    })
+  );
 
-    router.get(
-      '/initialLike',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.initialLike(req, res, next)
-      })
-    )
+  router.get(
+    "/initialLike",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.initialLike(req, res, next);
+    })
+  );
 
-    router.post(
-      '/saveBlog',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.saveBlog(req, res, next)
-      })
-    )
+  router.post(
+    "/saveBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.saveBlog(req, res, next);
+    })
+  );
 
-    router.post(
-      '/unSaveBlog',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.unSaveBlog(req, res, next)
-      })
-    )
+  router.post(
+    "/unSaveBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.unSaveBlog(req, res, next);
+    })
+  );
 
-    router.get(
-      '/savedBlogs',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.savedBlogs(req, res, next)
-      })
-    )
+  router.get(
+    "/savedBlogs",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.savedBlogs(req, res, next);
+    })
+  );
 
-    router.get(
-      '/listFollowers',
-      catchAsyncErrors((req: Req, res: Res, next: Next) => {
-        userController.listFollowers(req, res, next)
-      })
-    )
+  router.get(
+    "/listFollowers",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.listFollowers(req, res, next);
+    })
+  );
 
+  router.get(
+    "/listFollowings",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.listFollowings(req, res, next);
+    })
+  );
+
+  
   return router;
 }
