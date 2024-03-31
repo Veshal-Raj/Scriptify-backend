@@ -1,6 +1,9 @@
+import { Comment, CommentData } from "../../../@types/general/Comments";
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IToken } from "../services/Ijwt.types";
+
+
 
 export interface IUserUseCase {
   // saving user details temporary
@@ -78,4 +81,6 @@ export interface IUserUseCase {
   listFollowers(userId: string, next: Next): Promise<any | void>
 
   listFollowings(userId: string, next: Next): Promise<any | void>
+
+  addComment( commentData: CommentData, comment:Comment, next: Next ): Promise<any | void>
 }
