@@ -232,6 +232,13 @@ export function userRoute(router: Route) {
  * 
  */
 
-  
+  router.get(
+    '/initialComments',
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.initialComments(req, res, next)
+    }) 
+  )
+
+
   return router;
 }
