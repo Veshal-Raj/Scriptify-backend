@@ -185,6 +185,53 @@ export function userRoute(router: Route) {
     })
   );
 
+  router.post(
+    "/addComment",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.addComment(req, res, next)
+    })
+  )
+
+  /**
+ *  router.post(
+      '/addComment', (req, res) => {
+        let userId = req.user
+        let { _id, comment, blog_author } = req.body
+
+        if (!comment.length) {
+          return res.status(403).json({ error: 'Write something to leave a comment!'})
+        }
+
+        let commentObj = new Comment({
+          blog_id: _id, blog_author, comment, commented_by: user_id
+        })
+
+        commentObj.save().then(commentFile => {
+          let { comment, commentAt, children } = commentFile
+          Blog.findOneAndUpdate({_id}, { $push: {"comments", commentFile._id }, $inc : {"activity.total_comments": 1},
+           "acitivity.total_parents_comments": 1})
+           .then(blog => { console.log('New comment created')})
+
+           let notificationObj = {
+              type: "comment",
+              blog: _id,
+              notification_for: blog_author,
+              user: user_id,
+              comment:commentFile._id
+           }
+
+           new Notification(notificaitonObj).save().then(notification => console.log('new notification created'))
+
+           return res.status(200).json({ 
+            comment, commentedAt, _id: commentFile._id, user_id, children
+           })
+        })
+      }
+    ) 
+ * 
+ * 
+ */
+
   
   return router;
 }
