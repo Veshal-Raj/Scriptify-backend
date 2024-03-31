@@ -1,20 +1,19 @@
-import { Document,  Types } from "mongoose";
 
-interface IBlog extends Document {
+interface IBlog  {
     blog_id: string;
     title: string;
     banner?: string;
     des?: string;
     content?: any[]; // You might want to replace any[] with a more specific type
     tags?: string[];
-    author: Types.ObjectId;
+    author: any;
     activity: {
         total_likes: number;
         total_comments: number;
         total_reads: number;
         total_parent_comments: number;
     };
-    comments?: Types.ObjectId[];
+    comments?: any[];
     draft: boolean;
     publishedAt: Date;
 }

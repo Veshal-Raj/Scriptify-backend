@@ -371,4 +371,14 @@ export class UserController {
             throw error
         }
     }
+
+    async listFollowings(req: Req, res: Res, next: Next) {
+        try {
+            const userId = req.query.userId as string;
+            const response = await this.userUseCase.listFollowings(userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }

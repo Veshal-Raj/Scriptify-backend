@@ -28,6 +28,7 @@ import { saveBlogByUser } from "./userRepository/user/saveBlogByUser";
 import { unSavedBlogByUser } from "./userRepository/user/unSavedBlogByUser";
 import { savedBlogsByUser } from "./userRepository/user/savedBlogsByUser";
 import { listUserFollowers } from "./userRepository/user/listUserFollowers";
+import { listUserFollowings } from "./userRepository/user/listUserFollowings";
 
 
 
@@ -184,6 +185,12 @@ export class UserRepository implements IUserRepository {
     async listFollowers(userId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepostory')
         const result = await listUserFollowers(userId, this.userModels)
+        return result
+    }
+
+    async listFollowings(userId: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await listUserFollowings(userId, this.userModels)
         return result
     }
 }
