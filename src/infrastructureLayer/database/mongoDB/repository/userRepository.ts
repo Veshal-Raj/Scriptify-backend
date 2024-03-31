@@ -1,8 +1,8 @@
-import UserModel from "../models/userModel";
 import IUser from "../../../../entitiesLayer/user";
 import { IUserRepository } from "../../../../usecasesLayer/interface/repository/IuserRepository";
+import UserModel from "../models/userModel";
 import BlogModel from "../models/blogModel";
-
+import CommentModel from "../models/commentModel";
 
 import { CreateBlog, createUser, findUserByEmail } from "./userRepository/user";
 import { getAllUser } from "./userRepository/admin";
@@ -29,11 +29,13 @@ import { unSavedBlogByUser } from "./userRepository/user/unSavedBlogByUser";
 import { savedBlogsByUser } from "./userRepository/user/savedBlogsByUser";
 import { listUserFollowers } from "./userRepository/user/listUserFollowers";
 import { listUserFollowings } from "./userRepository/user/listUserFollowings";
+import { CommentData, Comment } from "../../../../@types/general/Comments";
+import { addBlogComment } from "./userRepository/user/addBlogComment";
 
 
 
 export class UserRepository implements IUserRepository {
-    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel) {}
+    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel, private commentModel: typeof CommentModel) {}
 
     // find user by email
     async findUserByEmail(email: string): Promise<IUser | null> {
@@ -191,6 +193,12 @@ export class UserRepository implements IUserRepository {
     async listFollowings(userId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
         const result = await listUserFollowings(userId, this.userModels)
+        return result
+    }
+
+    async addComment(commentData: CommentData, comment: Comment, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await addBlogComment(commentData, comment, this.userModels, this.blogModels, this.commentModel)
         return result
     }
 }
