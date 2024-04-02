@@ -87,4 +87,6 @@ export interface IUserUseCase {
   initialComments(blogId: string, next: Next): Promise<any | void>
 
   addReplyComment(comment: string, parentCommentId: string, commentData: CommentData, next: Next): Promise<any | void>
+
+  reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any | void>
 }
