@@ -38,6 +38,7 @@ import { Comment, CommentData } from "../../@types/general/Comments";
 import { addBlogComment } from "./user/addBlogComment";
 import { initialBlogComment } from "./user/initialBlogComment";
 import { replyComment } from "./user/replyComment";
+import { reportBlogbyUser } from "./user/reportBlogbyUser";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -563,6 +564,22 @@ export class UserUseCase implements IUserUseCase {
         console.log('reached inside the userUsecaselayer')
         const response = await replyComment(comment, parentCommentId, commentData, next, this.userRepository, this.logger)
         return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any | void> {
+    try {
+      console.log('reached inside the userUsecaslayer')
+      const response = await reportBlogbyUser(blog_id, reason, reportedBy, next, this.userRepository, this.logger)
+      return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
