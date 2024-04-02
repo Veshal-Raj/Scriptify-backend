@@ -411,4 +411,17 @@ export class UserController {
         }
     }
 
+    async addReplyComment(req: Req, res: Res, next: Next) {
+        try {
+             const { comment, parentCommentId, commentData  } = req.body
+             console.log(' body ..... ', req.body)
+             console.log('comment ', comment, ' parentCommentId ', parentCommentId)
+             console.log('commentData ', commentData)
+             const response = await this.userUseCase.addReplyComment(comment, parentCommentId, commentData, next)
+             return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
 }
