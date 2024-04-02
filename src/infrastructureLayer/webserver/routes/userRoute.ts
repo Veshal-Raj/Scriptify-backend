@@ -246,5 +246,12 @@ export function userRoute(router: Route) {
     })
   )
 
+  router.post(
+    "/reportBlog",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.reportBlog(req, res, next)
+    })
+  )
+
   return router;
 }
