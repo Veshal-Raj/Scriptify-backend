@@ -32,6 +32,7 @@ import { listUserFollowings } from "./userRepository/user/listUserFollowings";
 import { CommentData, Comment } from "../../../../@types/general/Comments";
 import { addBlogComment } from "./userRepository/user/addBlogComment";
 import { initialBlogComments } from "./userRepository/user/initialBlogComments";
+import { replyComment } from "./userRepository/user/replyComment";
 
 
 
@@ -206,6 +207,12 @@ export class UserRepository implements IUserRepository {
     async initialComments(blogId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
         const result = await initialBlogComments(blogId, this.blogModels)
+        return result
+    }
+
+    async addReplyComments(comment: string, parentCommentId: string, commentData: CommentData, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await replyComment(comment, parentCommentId, commentData, this.userModels, this.blogModels)
         return result
     }
 }
