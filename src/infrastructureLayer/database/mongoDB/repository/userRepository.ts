@@ -33,6 +33,7 @@ import { CommentData, Comment } from "../../../../@types/general/Comments";
 import { addBlogComment } from "./userRepository/user/addBlogComment";
 import { initialBlogComments } from "./userRepository/user/initialBlogComments";
 import { replyComment } from "./userRepository/user/replyComment";
+import { reportBlogbyUser } from "./userRepository/user/reportBlogbyUser";
 
 
 
@@ -214,5 +215,11 @@ export class UserRepository implements IUserRepository {
         console.log('reached inside the userRepository')
         const result = await replyComment(comment, parentCommentId, commentData, this.userModels, this.blogModels)
         return result
+    }
+
+    async reportBlog(blog_id: string, reason: string, reportedBy: string, next: NextFunction): Promise<any> {
+        console.log('reached inside the userRepository')
+        const result = await reportBlogbyUser(blog_id, reason, reportedBy)
+        return result 
     }
 }
