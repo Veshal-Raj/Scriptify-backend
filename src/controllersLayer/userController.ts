@@ -424,4 +424,15 @@ export class UserController {
         }
     }
 
+    async reportBlog(req: Req, res: Res, next: Next) {
+        try {
+            const { blog_id, reason, reportedBy} = req.body
+            console.log('report body data >>> ', blog_id, reason, reportedBy)
+            const response = await this.userUseCase.reportBlog(blog_id, reason, reportedBy, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
 }
