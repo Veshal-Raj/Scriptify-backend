@@ -42,4 +42,5 @@ export interface IUserRepository {
     listFollowings(userId: string, next: Next): Promise<any>
     addComment(commentData: CommentData, comment: Comment, next: Next): Promise<any>
     initialComments(blogId: string, next: Next): Promise<any>
+    addReplyComments(comment: string, parentCommentId: string, commentData: CommentData, next: Next): Promise<any>
 }
