@@ -239,6 +239,12 @@ export function userRoute(router: Route) {
     }) 
   )
 
+  router.post(
+    "/replyComment",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.addReplyComment(req, res, next)
+    })
+  )
 
   return router;
 }
