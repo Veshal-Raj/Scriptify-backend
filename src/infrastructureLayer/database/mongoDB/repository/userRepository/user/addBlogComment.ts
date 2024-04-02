@@ -68,6 +68,7 @@ export const addBlogComment = async (
         console.log('updatedUser -->> ', updatedUser)
 
         return {
+            commentID: commentId,
             commentedUser: {
                 id: updatedUser?._id,
                 username: updatedUser?.personal_info.username
