@@ -222,4 +222,10 @@ export class UserRepository implements IUserRepository {
         const result = await reportBlogbyUser(blog_id, reason, reportedBy)
         return result 
     }
+
+    async checkIsSubscribed(userId: string, next: NextFunction): Promise<any> {
+        console.log('reached insidet he userRepository')
+        const result = await checkUserSubscribed(userId)
+        return result
+    }
 }
