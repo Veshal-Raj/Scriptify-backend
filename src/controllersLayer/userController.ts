@@ -403,7 +403,7 @@ export class UserController {
 
     async initialComments(req: Req, res: Res, next: Next) {
         try {
-            const blogId = req.query.blogId
+            const blogId = req.query.blogId as string
             const response = await this.userUseCase.initialComments(blogId, next)
             return res.status(200).json({ response })
         } catch (error: unknown | never) {
@@ -429,6 +429,16 @@ export class UserController {
             const { blog_id, reason, reportedBy} = req.body
             console.log('report body data >>> ', blog_id, reason, reportedBy)
             const response = await this.userUseCase.reportBlog(blog_id, reason, reportedBy, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async checkIsSubscribed(req: Req, res: Res, next: Next) {
+        try {
+            const userId = req.query.userId as string
+            const response = await this.userUseCase.checkIsSubscribed(userId, next)
             return res.status(200).json({ response })
         } catch (error: unknown | never) {
             throw error
