@@ -44,4 +44,5 @@ export interface IUserRepository {
     initialComments(blogId: string, next: Next): Promise<any>
     addReplyComments(comment: string, parentCommentId: string, commentData: CommentData, next: Next): Promise<any>
     reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any>
+    checkIsSubscribed(userId: string, next: Next): Promise<any>
 }
