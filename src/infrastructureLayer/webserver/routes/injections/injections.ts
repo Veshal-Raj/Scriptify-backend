@@ -1,5 +1,6 @@
 import UserModel from "../../../database/mongoDB/models/userModel";
 import BlogModel from "../../../database/mongoDB/models/blogModel";
+import CommentModel from "../../../database/mongoDB/models/commentModel";
 import { UserRepository } from "../../../database/mongoDB/repository/userRepository";
 import { OtpRepository } from "../../../database/mongoDB/repository/otpRepository";
 
@@ -14,10 +15,10 @@ import { CloudStorage } from "../../../services/cloudStorage";
 import { UserUseCase } from "../../../../usecasesLayer/useCases/userUseCase";
 import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
 
-import { UserController } from "../../../../controllersLayer/userController";
-import { AdminController } from "../../../../controllersLayer/adminController";
+import { UserController } from "../../../../AdaptersLayer/userController";
+import { AdminController } from "../../../../AdaptersLayer/adminController";
 
-const userRepository = new UserRepository(UserModel, BlogModel)
+const userRepository = new UserRepository(UserModel, BlogModel, CommentModel)
 const bcryptService = new Encrypt()
 const generateOTP = new GenerateOtp()
 const sendMail = new SendMail()
