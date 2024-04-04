@@ -40,7 +40,8 @@ interface IUser {
     role?: "user" | "advertiser" | "admin";
     status?: "active" | "freeze";
     isVerified?: boolean;
-    isSubscribed?: false
+    isSubscribed?: false;
+    subscriptionId?: String;
     joinedAt?: Date;
 }
 
