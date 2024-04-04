@@ -45,6 +45,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     status: { type: String, enum: ['active', 'freeze'] },
     isVerified: {type: Boolean, default: false},
     isSubscribed: { type: Boolean, default: false },
+    subscriptionId: { type: String, default: '' },
     joinedAt: { type: Date, default: Date.now },
 })
 
