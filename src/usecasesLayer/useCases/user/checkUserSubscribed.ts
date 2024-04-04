@@ -12,7 +12,9 @@ export const checkUserSubscribed = async (
 ) => {
     try {
         console.log('reached inside the usecase engine')
+        console.log(userId)
         const response = await userRepository.checkIsSubscribed(userId, next)
+        console.log(response)
         return response
     } catch (error: unknown | never) {
         return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', logger));
