@@ -253,12 +253,14 @@ export function userRoute(router: Route) {
     })
   )
 
-  router.get(
-    "/checkIsSubscribed",
+  router.post(
+    "/checkUserSubscribed",
     catchAsyncErrors((req: Req, res: Res, next: Next) => {
       userController.checkIsSubscribed(req,res,next)
     })
   )
+
+  
 
   return router;
 }
