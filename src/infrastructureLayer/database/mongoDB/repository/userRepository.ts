@@ -34,6 +34,7 @@ import { addBlogComment } from "./userRepository/user/addBlogComment";
 import { initialBlogComments } from "./userRepository/user/initialBlogComments";
 import { replyComment } from "./userRepository/user/replyComment";
 import { reportBlogbyUser } from "./userRepository/user/reportBlogbyUser";
+import { checkUserSubscribed } from "./userRepository/user/checkUserSubscribed";
 
 
 
