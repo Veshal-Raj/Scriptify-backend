@@ -596,6 +596,7 @@ export class UserUseCase implements IUserUseCase {
     try { 
         console.log('reached inside the userUsecaselayer')
         const response = await checkUserSubscribed(userId, next, this.userRepository, this.logger)
+        console.log('response ', response)
         return response
     } catch (error: unknown | never) {
       return next(
