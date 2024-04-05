@@ -91,4 +91,12 @@ export interface IUserUseCase {
   reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any | void>
 
   checkIsSubscribed(userId: string, next: Next): Promise<any | void>
+
+  monthlySubscription(userId: string, subscriptionType: string, next:Next): Promise<any | void>
+
+  annuallySubscription(userId: string, subscriptionType: string, next: Next): Promise<any | void>
+
+  webhook(data: any, body: any,sig: any, next: Next): Promise<any | void>
+
+  savingPaymentData(paymentMethod: string, userId: string, receipt_url: string, subscriptionType: string, next: Next): Promise<any | void>
 }
