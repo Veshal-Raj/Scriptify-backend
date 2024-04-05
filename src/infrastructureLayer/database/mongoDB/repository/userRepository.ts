@@ -35,11 +35,17 @@ import { initialBlogComments } from "./userRepository/user/initialBlogComments";
 import { replyComment } from "./userRepository/user/replyComment";
 import { reportBlogbyUser } from "./userRepository/user/reportBlogbyUser";
 import { checkUserSubscribed } from "./userRepository/user/checkUserSubscribed";
+import PaymentModel from "../models/paymentMode";
+import { monthlyUserSubscription } from "./userRepository/user/monthlyUserSubscription";
+import { IPaymentService } from "../../../../usecasesLayer/interface/services/IpaymentService";
+import { annualSubscription } from "./userRepository/user/annualSubscription";
+import { webHook } from "./userRepository/user/webHook";
+import { savePaymentData } from "./userRepository/user/savePaymentData";
 
 
 
 export class UserRepository implements IUserRepository {
-    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel, private commentModel: typeof CommentModel) {}
+    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel, private commentModel: typeof CommentModel, private paymentModel: typeof PaymentModel) {}
 
     // find user by email
     async findUserByEmail(email: string): Promise<IUser | null> {
@@ -227,6 +233,21 @@ export class UserRepository implements IUserRepository {
     async checkIsSubscribed(userId: string, next: NextFunction): Promise<any> {
         console.log('reached insidet he userRepository')
         const result = await checkUserSubscribed(userId)
+        return result
+    }
+
+    async monthlySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any> {
+        const result = await monthlyUserSubscription(userId, subscriptionType, paymentService)
+        return result
+    }
+
+    async annuallySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any> {
+        const result = await annualSubscription(userId, subscriptionType, paymentService)
+        return result
+    }
+
+    async savingPaymentData(paymentMethod: any, userId: any, receipt_url: any, subscriptionType: string): Promise<any> {
+        const result = await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType)
         return result
     }
 }
