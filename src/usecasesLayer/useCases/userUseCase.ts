@@ -23,7 +23,6 @@ import { fetchUserblog } from "./user/fetchUserblog";
 import { fetchBlog } from "./user/fetchBlog";
 import { fetchSimilarBlog } from "./user/fetchSimilarBlog";
 import { increaseBlogReadCount } from "./user/increaseBlogReadCount";
-import { NextFunction } from "express";
 import { FollowUser } from "./user/FollowUser";
 import { unFollowUser } from "./user/unFollowUser";
 import { likeBlogByUser } from "./user/likeBlogByUser";
@@ -40,6 +39,11 @@ import { initialBlogComment } from "./user/initialBlogComment";
 import { replyComment } from "./user/replyComment";
 import { reportBlogbyUser } from "./user/reportBlogbyUser";
 import { checkUserSubscribed } from "./user/checkUserSubscribed";
+import { monthlyUserSubscription } from "./user/monthlyUserSubscription";
+import { IPaymentService } from "../interface/services/IpaymentService";
+import { annualSubscription } from "./user/annualSubscription";
+import { webhookUseCaseEngine } from "./user/webhookUseCaseEngine";
+import { savePaymentData } from "./user/savePaymentData";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -51,6 +55,7 @@ export class UserUseCase implements IUserUseCase {
   private readonly cloudSession: IcloudSession;
   private readonly cloudStorage: IcloudStorage;
   private readonly logger: CustomLogger;
+  private readonly paymentService: IPaymentService
 
   constructor(
     userRepository: IUserRepository,
@@ -61,7 +66,8 @@ export class UserUseCase implements IUserUseCase {
     jwtToken: IJwt,
     cloudSession: IcloudSession,
     cloudStorage: IcloudStorage,
-    logger: CustomLogger
+    logger: CustomLogger,
+    paymentService: IPaymentService
   ) {
     this.userRepository = userRepository;
     this.bcrypt = bcrypt;
@@ -72,6 +78,7 @@ export class UserUseCase implements IUserUseCase {
     this.cloudSession = cloudSession;
     this.cloudStorage = cloudStorage;
     this.logger = logger;
+    this.paymentService = paymentService
   }
 
   // register user
@@ -597,6 +604,71 @@ export class UserUseCase implements IUserUseCase {
         console.log('reached inside the userUsecaselayer')
         const response = await checkUserSubscribed(userId, next, this.userRepository, this.logger)
         console.log('response ', response)
+        return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async monthlySubscription(userId: string, subscriptionType: string, next:Next): Promise<any | void> {
+    try {
+      console.log('reached inside the userUsecaselayer')
+      const response = await monthlyUserSubscription(userId, subscriptionType,next,this.userRepository,this.paymentService, this.logger)
+      return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async annuallySubscription(userId: string, subscriptionType: string, next: Next): Promise<any | void> {
+    try {
+      const response = await annualSubscription(userId, subscriptionType, next, this.userRepository, this.paymentService, this.logger)
+      return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async webhook(data: any, body: any, sig: any, next: Next): Promise<any | void> {
+    try {
+        const response = await this.paymentService.webHook(body, sig)
+        console.log('response in usecase --->>>> ', response)
+        return response
+        // const response = await webhookUseCaseEngine( body, sig, next, this.userRepository, this.paymentService, this.logger)
+        // if (!response) return null
+        // return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async savingPaymentData(paymentMethod: string, userId: string, receipt_url: string, subscriptionType: string, next: Next): Promise<any | void> {
+    try {
+        const response = await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType, next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
       return next(
