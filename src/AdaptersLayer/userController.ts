@@ -3,6 +3,7 @@ import { UserUseCase } from "../usecasesLayer/useCases/userUseCase";
 import { validateEmail, validatePassword, validateUsername } from "./middlewares/inputValidation";
 import { ErrorHandler } from "../usecasesLayer/middlewares/errorHandler";
 import { accessTokenOptions, refreshTokenOptions } from "./middlewares/tokenOptions";
+import { app } from "../infrastructureLayer/webserver/config/app";
 
 
 
@@ -447,4 +448,60 @@ export class UserController {
         }
     }
 
+    async monthlySubscription(req: Req, res: Res, next: Next) {
+        try {
+            const { userId, subscriptionType } = req.body
+            console.log('userid ', userId, 'subscirption ', subscriptionType)
+            const response = await this.userUseCase.monthlySubscription(userId, subscriptionType, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async annualSubscription(req: Req, res:Res, next: Next) {
+        try {
+            const { userId, subscriptionType } = req.body
+            // req.app.locals.userId = userId
+            // console.log('check locals ',req.app.locals)
+
+            // console.log('locals ',req.app.locals.userId)
+            // app.locals = {}
+            // delete app.locals.myData;
+            // console.log(req.app.locals)
+            const response = await this.userUseCase.annuallySubscription(userId, subscriptionType,next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async webhook(req: Req, res: Res, next: Next) {
+        try {
+            
+            const data = { userId: "UserId", subscriptionType: "monthly"}
+            const body = req.body
+            const sig = req.headers["stripe-signature"];
+            const response = await this.userUseCase.webhook(data, body, sig, next)
+            console.log('response in controller --- ', response)
+            const status = response.status
+            // console.log(response.paymentMethod)
+            // console.log(response.paymentMethod)
+            // console.log(response.paymentMethod)
+            if (response.wbhook.paymentMethod && response.wbhook.userId && response.wbhook.receipt_url && response.wbhook.subscriptionType ){ 
+                console.log("calling new function.....")
+                const paymentMethod = response.wbhook.paymentMethod
+                const userId = response.wbhook.userId 
+                const receipt_url = response.wbhook.receipt_url
+                const subscriptionType = response.wbhook.subscriptionType
+                const savedData = await this.userUseCase.savingPaymentData(paymentMethod, userId, receipt_url, subscriptionType, next)
+                console.log('saved Data ', savedData)
+                return 
+                // console.log(response)
+            }
+            return res.status(200).json({ status })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
