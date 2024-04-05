@@ -260,7 +260,26 @@ export function userRoute(router: Route) {
     })
   )
 
-  
+  router.post(
+    "/monthlySubscription",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.monthlySubscription(req,res, next)
+    })
+  )
+
+  router.post(
+    "/annualSubscription",
+    catchAsyncErrors((req:Req, res: Res, next: Next) => {
+      userController.annualSubscription(req,res, next)
+    })
+  )
+
+  router.post(
+    "/webhook",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.webhook(req, res, next)
+    })
+  )
 
   return router;
 }
