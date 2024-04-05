@@ -2,6 +2,7 @@ import { Comment, CommentData } from "../../../@types/general/Comments";
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserResponse } from "../request_response/user";
+import { IPaymentService } from "../services/IpaymentService";
 
 
 
@@ -45,4 +46,8 @@ export interface IUserRepository {
     addReplyComments(comment: string, parentCommentId: string, commentData: CommentData, next: Next): Promise<any>
     reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any>
     checkIsSubscribed(userId: string, next: Next): Promise<any>
+    monthlySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any>
+    annuallySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any>
+    webhook(body: any, sig: any ): Promise<any>
+    savingPaymentData(paymentMethod: any, userId: any, receipt_url: any, subscriptionType: string): Promise<any>
 }
