@@ -54,6 +54,15 @@ export const registerUser = async (
           email: email,
           password: password as string,
         },
+        userInteractions: {
+          userReadBlogs: [],
+          userLikedBlogs: [],
+          userSavedBlogs: [],
+          userReportBlogs: [],
+          userCommentBlogs: []
+        },
+        followers: [],
+        following: []
       });
 
       // store data in otp repo
@@ -78,6 +87,15 @@ export const registerUser = async (
           email: email,
           password: password as string,
         },
+        userInteractions: {
+          userReadBlogs: [],
+          userLikedBlogs: [],
+          userSavedBlogs: [],
+          userReportBlogs: [],
+          userCommentBlogs: []
+        },
+        followers: [],
+        following: []
       });
       
       // store data in otp repo
