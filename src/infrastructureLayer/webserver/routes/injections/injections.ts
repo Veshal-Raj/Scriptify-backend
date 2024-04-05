@@ -1,6 +1,8 @@
 import UserModel from "../../../database/mongoDB/models/userModel";
 import BlogModel from "../../../database/mongoDB/models/blogModel";
 import CommentModel from "../../../database/mongoDB/models/commentModel";
+import PaymentModel from "../../../database/mongoDB/models/paymentMode";
+
 import { UserRepository } from "../../../database/mongoDB/repository/userRepository";
 import { OtpRepository } from "../../../database/mongoDB/repository/otpRepository";
 
@@ -11,6 +13,7 @@ import { JWTtoken } from "../../../services/jwt";
 import CustomLogger  from "../../../services/errorLogging";
 import { CloudSession } from "../../../services/cloudSession";
 import { CloudStorage } from "../../../services/cloudStorage";
+import { PaymentService } from "../../../services/payment";
 
 import { UserUseCase } from "../../../../usecasesLayer/useCases/userUseCase";
 import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
@@ -18,7 +21,7 @@ import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
 import { UserController } from "../../../../AdaptersLayer/userController";
 import { AdminController } from "../../../../AdaptersLayer/adminController";
 
-const userRepository = new UserRepository(UserModel, BlogModel, CommentModel)
+const userRepository = new UserRepository(UserModel, BlogModel, CommentModel, PaymentModel)
 const bcryptService = new Encrypt()
 const generateOTP = new GenerateOtp()
 const sendMail = new SendMail()
@@ -27,6 +30,7 @@ const jwtToken = new JWTtoken()
 const logger = new CustomLogger()
 const cloudSession = new CloudSession()
 const cloudStorage = new CloudStorage()
+const paymentService = new PaymentService()
 
 
 const userUseCase = new UserUseCase(
@@ -38,7 +42,8 @@ const userUseCase = new UserUseCase(
     jwtToken,
     cloudSession,
     cloudStorage,
-    logger
+    logger,
+    paymentService
 )
 
 const adminUseCase = new AdminUseCase(
