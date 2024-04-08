@@ -504,4 +504,14 @@ export class UserController {
             throw error
         }
     }
+
+    async reciptUrl(req: Req, res: Res, next: Next) {
+        try {
+            const userId = req.query.userId as string
+            const response = await this.userUseCase.reciptUrl(userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
