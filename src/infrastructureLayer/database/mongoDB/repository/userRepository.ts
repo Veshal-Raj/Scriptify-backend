@@ -41,6 +41,7 @@ import { IPaymentService } from "../../../../usecasesLayer/interface/services/Ip
 import { annualSubscription } from "./userRepository/user/annualSubscription";
 import { webHook } from "./userRepository/user/webHook";
 import { savePaymentData } from "./userRepository/user/savePaymentData";
+import { reciptUrlForUser } from "./userRepository/user/reciptUrlForUser";
 
 
 
@@ -248,6 +249,11 @@ export class UserRepository implements IUserRepository {
 
     async savingPaymentData(paymentMethod: any, userId: any, receipt_url: any, subscriptionType: string): Promise<any> {
         const result = await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType)
+        return result
+    }
+
+    async reciptUrl(userId: string): Promise<any> {
+        const result = await reciptUrlForUser(userId)
         return result
     }
 }
