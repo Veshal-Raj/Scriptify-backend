@@ -44,6 +44,7 @@ import { IPaymentService } from "../interface/services/IpaymentService";
 import { annualSubscription } from "./user/annualSubscription";
 import { webhookUseCaseEngine } from "./user/webhookUseCaseEngine";
 import { savePaymentData } from "./user/savePaymentData";
+import { reciptUrlForUser } from "./user/reciptUrlForUser";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -669,6 +670,21 @@ export class UserUseCase implements IUserUseCase {
   async savingPaymentData(paymentMethod: string, userId: string, receipt_url: string, subscriptionType: string, next: Next): Promise<any | void> {
     try {
         const response = await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType, next, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async reciptUrl(userId: string, next: Next): Promise<any | void> {
+    try {
+        const response = await reciptUrlForUser(userId, next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
       return next(
