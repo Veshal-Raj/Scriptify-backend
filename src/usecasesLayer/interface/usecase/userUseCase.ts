@@ -99,4 +99,6 @@ export interface IUserUseCase {
   webhook(data: any, body: any,sig: any, next: Next): Promise<any | void>
 
   savingPaymentData(paymentMethod: string, userId: string, receipt_url: string, subscriptionType: string, next: Next): Promise<any | void>
+
+  reciptUrl(userId: string, next: Next): Promise<any | void>
 }
