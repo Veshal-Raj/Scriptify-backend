@@ -50,4 +50,5 @@ export interface IUserRepository {
     annuallySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any>
     webhook(body: any, sig: any ): Promise<any>
     savingPaymentData(paymentMethod: any, userId: any, receipt_url: any, subscriptionType: string): Promise<any>
+    reciptUrl(userId: string): Promise<any>
 }
