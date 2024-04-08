@@ -281,5 +281,12 @@ export function userRoute(router: Route) {
     })
   )
 
+  router.get(
+    "/reciptUrl",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.reciptUrl(req, res, next)
+    })
+  )
+
   return router;
 }
