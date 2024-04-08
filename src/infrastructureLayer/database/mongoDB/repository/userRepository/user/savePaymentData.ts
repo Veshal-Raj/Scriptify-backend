@@ -40,7 +40,10 @@ export const savePaymentData = async (
       if (user) {
         await UserModel.updateOne(
           { _id: userId },
-          { $set: { subscriptionId: paymentRecordId } }
+          { $set: { 
+            subscriptionId: paymentRecordId,
+            isSubscribed: true 
+          } }
         );
       }
     } else if (subscriptionType == "annually") {
@@ -70,9 +73,13 @@ export const savePaymentData = async (
         if (user) {
           await UserModel.updateOne(
             { _id: userId },
-            { $set: { subscriptionId: paymentRecordId } }
+            { $set: { 
+              subscriptionId: paymentRecordId,
+              isSubscribed: true 
+            } }
           );
         }
+        console.log('user after isSubscribed --- ', user)
     } else return 
   } catch (error) {
     throw error;
