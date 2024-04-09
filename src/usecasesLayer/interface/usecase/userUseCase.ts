@@ -1,4 +1,5 @@
 import { Comment, CommentData } from "../../../@types/general/Comments";
+import { IConversation } from "../../../@types/general/chatData";
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IToken } from "../services/Ijwt.types";
@@ -101,4 +102,10 @@ export interface IUserUseCase {
   savingPaymentData(paymentMethod: string, userId: string, receipt_url: string, subscriptionType: string, next: Next): Promise<any | void>
 
   reciptUrl(userId: string, next: Next): Promise<any | void>
+
+  fetchAllUsers(next: Next): Promise<any | void>
+
+  sendChat(data: IConversation, next: Next): Promise<any | void>
+
+  getChat(senderId: string, receiverId: string, next: Next): Promise<any | void>
 }
