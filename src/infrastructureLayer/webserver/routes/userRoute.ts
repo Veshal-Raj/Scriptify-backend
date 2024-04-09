@@ -288,5 +288,26 @@ export function userRoute(router: Route) {
     })
   )
 
+  router.get(
+    "/fetchAllUsers",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.fetchAllUsers(req, res, next)
+    })
+  )
+
+  router.post(
+    "/sendChat",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.sendChat(req, res, next)
+    })
+  )
+
+  router.get(
+    "/getChat",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.getChat(req, res, next)
+    })
+  )
+
   return router;
 }
