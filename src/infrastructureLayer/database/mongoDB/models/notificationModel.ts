@@ -5,7 +5,7 @@ import INotification from "../../../../entitiesLayer/notification";
 const notificationSchema: Schema<INotification> = new Schema<INotification>({
     type: {
         type: String,
-        enum: ["like", "comment", "reply"],
+        enum: ["like", "comment", "reply", "message"],
         required: true
     },
     blog: {
@@ -34,6 +34,10 @@ const notificationSchema: Schema<INotification> = new Schema<INotification>({
     replied_on_comment: {
         type: Schema.Types.ObjectId,
         ref: 'Comment'
+    },
+    message: {
+        type: Schema.Types.ObjectId,
+        ref: "Message"
     },
     seen: {
         type: Boolean,
