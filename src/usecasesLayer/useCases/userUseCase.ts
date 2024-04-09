@@ -45,6 +45,10 @@ import { annualSubscription } from "./user/annualSubscription";
 import { webhookUseCaseEngine } from "./user/webhookUseCaseEngine";
 import { savePaymentData } from "./user/savePaymentData";
 import { reciptUrlForUser } from "./user/reciptUrlForUser";
+import { fetchAllUserList } from "./user/fetchAllUserList";
+import { IConversation } from "../../@types/general/chatData";
+import { sendChatFromSender } from "./user/sendChatFromSender";
+import { getChatOfUser } from "./user/getChatOfUser";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -686,6 +690,51 @@ export class UserUseCase implements IUserUseCase {
     try {
         const response = await reciptUrlForUser(userId, next, this.userRepository, this.logger)
         return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async  fetchAllUsers(next: Next): Promise<any | void>  {
+    try {
+        const response = await fetchAllUserList(next, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async sendChat(data: IConversation, next: Next): Promise<any | void> {
+    try {
+        const response = await sendChatFromSender(data, this.userRepository, next, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async getChat(senderId: string, receiverId: string, next: Next): Promise<any | void> {
+    try {
+        const response = await getChatOfUser(senderId, receiverId, this.userRepository, next, this.logger)
+        return response 
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
