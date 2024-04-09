@@ -6,6 +6,7 @@ interface INotification  {
     comment?: any;
     reply?: any;
     replied_on_comment?: any;
+    message: any;
     seen: boolean;
     createdAt: Date;
     updatedAt: Date;
