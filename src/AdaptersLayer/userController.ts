@@ -514,4 +514,35 @@ export class UserController {
             throw error
         }
     }
+
+    async fetchAllUsers (req: Req, res: Res, next: Next) {
+        try {
+            const response = await this.userUseCase.fetchAllUsers(next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async sendChat (req: Req, res: Res, next: Next) {
+        try {
+            const data = req.body
+            const response = await this.userUseCase.sendChat(data, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async getChat (req: Req, res: Res, next: Next) {
+        try {
+            if (req.query.receiverId == null) return    
+            const senderId = req.query.senderId as string;
+            const receiverId = req.query.receiverId as string;
+            const response = await this.userUseCase.getChat(senderId, receiverId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
