@@ -1,4 +1,5 @@
 import { Comment, CommentData } from "../../../@types/general/Comments";
+import { IConversation } from "../../../@types/general/chatData";
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserResponse } from "../request_response/user";
@@ -51,4 +52,7 @@ export interface IUserRepository {
     webhook(body: any, sig: any ): Promise<any>
     savingPaymentData(paymentMethod: any, userId: any, receipt_url: any, subscriptionType: string): Promise<any>
     reciptUrl(userId: string): Promise<any>
+    fetchAllUsers(): Promise<any>
+    sendChat(data: IConversation): Promise<any>
+    getChat(senderId: string, receiverId: string): Promise<any>
 }
