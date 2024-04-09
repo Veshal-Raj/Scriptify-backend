@@ -42,6 +42,10 @@ import { annualSubscription } from "./userRepository/user/annualSubscription";
 import { webHook } from "./userRepository/user/webHook";
 import { savePaymentData } from "./userRepository/user/savePaymentData";
 import { reciptUrlForUser } from "./userRepository/user/reciptUrlForUser";
+import { fetchAllUsersList } from "./userRepository/user/fetchAllUsersList";
+import { IConversation } from "../../../../@types/general/chatData";
+import { sendChatByUser } from "./userRepository/user/sendChatByUser";
+import { getChatOfUser } from "./userRepository/user/getChatOfUser";
 
 
 
@@ -254,6 +258,21 @@ export class UserRepository implements IUserRepository {
 
     async reciptUrl(userId: string): Promise<any> {
         const result = await reciptUrlForUser(userId)
+        return result
+    }
+
+    async fetchAllUsers(): Promise<any> {
+        const result = await fetchAllUsersList()
+        return result
+    }
+
+    async sendChat(data: IConversation): Promise<any> {
+        const result = await sendChatByUser(data)
+        return result
+    }
+
+    async getChat(senderId: string, receiverId: string): Promise<any> {
+        const result = await getChatOfUser(senderId, receiverId)
         return result
     }
 }
