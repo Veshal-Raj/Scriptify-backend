@@ -6,6 +6,8 @@ import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
 
+
+
 //routes
 import {errorMiddleWare} from '../../../usecasesLayer/middlewares/errorMiddleware'
 import { limiter } from '../middlewares/rateLimit'
@@ -13,6 +15,8 @@ import { userRoute } from '../routes/userRoute'
 import { adminRoute } from '../routes/adminRoutes'
 
 export const app = express()
+
+
 
 app.use(cors({ origin: process.env.CLIENT_SERVER, credentials: true }));
 app.use(limiter)
@@ -27,3 +31,4 @@ app.use('/api/v1/user', userRoute(express.Router()))
 app.use('/api/v1/admin', adminRoute(express.Router()))
 
 app.use(errorMiddleWare)
+
