@@ -1,5 +1,5 @@
 interface INotification  {
-    type: 'like' | 'comment' | 'reply';
+    type: 'like' | 'comment' | 'reply' | 'message' | 'follow';
     blog: any;
     notification_for: any;
     user: any;
