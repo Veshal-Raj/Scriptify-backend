@@ -31,7 +31,7 @@ export const getChatOfUser = async (
             time: message.createdAt
         }));
 
-        console.log('formattedMessages --- ', formattedMessages);
+        // console.log('formattedMessages --- ', formattedMessages);
         return formattedMessages;
     } catch (error) {
         throw error
