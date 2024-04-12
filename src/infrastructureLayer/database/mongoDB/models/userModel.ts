@@ -46,6 +46,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     isVerified: {type: Boolean, default: false},
     isSubscribed: { type: Boolean, default: false },
     subscriptionId: { type: String, default: '' },
+    NotificationToken: { type: String, default: ''},
     joinedAt: { type: Date, default: Date.now },
 })
 
