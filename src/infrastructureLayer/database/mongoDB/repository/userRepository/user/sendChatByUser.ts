@@ -7,7 +7,7 @@ export const sendChatByUser = async (
     data: IConversation
 ) => {
     try {
-        console.log('data ------------- ', data)
+        // console.log('data ------------- ', data)
         let chat = await ChatModel.findOne({
             users: { $all: [data.sender.id, data.receiver.id]}
         })
