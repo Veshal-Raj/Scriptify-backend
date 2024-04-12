@@ -42,6 +42,7 @@ interface IUser {
     isVerified?: boolean;
     isSubscribed?: false;
     subscriptionId?: String;
+    NotificationToken?: String;
     joinedAt?: Date;
 }
 
