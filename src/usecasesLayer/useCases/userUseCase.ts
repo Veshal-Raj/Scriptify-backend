@@ -49,6 +49,7 @@ import { fetchAllUserList } from "./user/fetchAllUserList";
 import { IConversation } from "../../@types/general/chatData";
 import { sendChatFromSender } from "./user/sendChatFromSender";
 import { getChatOfUser } from "./user/getChatOfUser";
+import { registerToken } from "./user/registerToken";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -383,7 +384,7 @@ export class UserUseCase implements IUserUseCase {
   async followUser(authorId: string, userId: string, next: Next): Promise<any> {
     try {
       console.log(' reached inside the usecaseLayer')
-      const response = await FollowUser(authorId, userId, this.userRepository, next, this.logger)
+    const response = await FollowUser(authorId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
       return next(
@@ -735,6 +736,21 @@ export class UserUseCase implements IUserUseCase {
     try {
         const response = await getChatOfUser(senderId, receiverId, this.userRepository, next, this.logger)
         return response 
+    } catch (error: unknown | never) {
+      return next(
+        new ErrorHandler(
+          500,
+          error instanceof Error ? error.message : "Unknown error",
+          this.logger
+        )
+      );
+    }
+  }
+
+  async registerNotificationToken(token: string, userId: string, next: Next): Promise<any | void> {
+    try {
+        const response = await registerToken(token, userId, this.userRepository, next, this.logger)
+        return response
     } catch (error: unknown | never) {
       return next(
         new ErrorHandler(
