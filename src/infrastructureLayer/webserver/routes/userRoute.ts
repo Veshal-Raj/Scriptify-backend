@@ -309,5 +309,12 @@ export function userRoute(router: Route) {
     })
   )
 
+  router.post(
+    "/registerNotificationToken",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.registerNotificationToken(req, res, next)
+    })
+  )
+
   return router;
 }
