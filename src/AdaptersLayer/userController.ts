@@ -558,5 +558,13 @@ export class UserController {
         }
     }
 
-    
+    async fetchAllUserNotification(req: Req, res: Res, next: Next) {
+        try {
+            const userId = req.query.userId as string;
+            const response = await this.userUseCase.fetchAllUserNotification(userId, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
