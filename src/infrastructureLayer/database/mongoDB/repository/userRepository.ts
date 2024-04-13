@@ -47,6 +47,7 @@ import { IConversation } from "../../../../@types/general/chatData";
 import { sendChatByUser } from "./userRepository/user/sendChatByUser";
 import { getChatOfUser } from "./userRepository/user/getChatOfUser";
 import { registerToken } from "./userRepository/user/registerToken";
+import { fetchUserNotification } from "./userRepository/user/fetchUserNotification";
 
 
 
@@ -279,6 +280,11 @@ export class UserRepository implements IUserRepository {
 
     async registerUserToken(token: string, userId: string): Promise<any> {
         const result = await registerToken(token, userId)
+        return result
+    }
+
+    async fetchUserNotification(userId: string): Promise<any> {
+        const result = await fetchUserNotification(userId)
         return result
     }
 }
