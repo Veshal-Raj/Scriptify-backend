@@ -50,6 +50,7 @@ import { IConversation } from "../../@types/general/chatData";
 import { sendChatFromSender } from "./user/sendChatFromSender";
 import { getChatOfUser } from "./user/getChatOfUser";
 import { registerToken } from "./user/registerToken";
+import { fetchUserNotification } from "./user/fetchUserNotification";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -145,13 +146,7 @@ export class UserUseCase implements IUserUseCase {
         this.logger
       );
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -173,13 +168,7 @@ export class UserUseCase implements IUserUseCase {
       );
       
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -190,13 +179,7 @@ export class UserUseCase implements IUserUseCase {
         console.log(uploadURL)
       return uploadURL
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -207,13 +190,7 @@ export class UserUseCase implements IUserUseCase {
       console.log('result in userusecase -->> ', result)
       return result
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -224,13 +201,7 @@ export class UserUseCase implements IUserUseCase {
         // console.log(response) 
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -240,13 +211,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await trendingBlogs(this.userRepository, next, this.logger)
       return response 
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -256,13 +221,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await Tags(this.userRepository, next, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -273,13 +232,7 @@ export class UserUseCase implements IUserUseCase {
       // console.log(response) 
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -289,13 +242,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await searchByQueries(query, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
   
@@ -305,13 +252,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await getUserProfile(userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
   
@@ -321,13 +262,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await fetchUserblog(userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -337,13 +272,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await fetchBlog(blog_id, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -354,13 +283,7 @@ export class UserUseCase implements IUserUseCase {
       return response
 
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -371,13 +294,7 @@ export class UserUseCase implements IUserUseCase {
       return response
 
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -387,13 +304,7 @@ export class UserUseCase implements IUserUseCase {
     const response = await FollowUser(authorId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -403,13 +314,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await unFollowUser(authorId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -419,13 +324,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await likeBlogByUser(blogId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -435,13 +334,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await unLikeBlogByUser(blogId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -451,13 +344,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await initialLikebyUser(userId, blogId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -467,13 +354,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await saveBlogByUser(blogId, userId, this.userRepository, next, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -483,13 +364,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await unSavedBlogByUser(blogId, userId, this.userRepository, next, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -499,13 +374,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await savedBlogsByUser(userId, next, this.userRepository, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -515,13 +384,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await listUserFollowers(userId, next, this.userRepository, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -531,13 +394,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await listUserFollowings(userId, next, this.userRepository, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -547,13 +404,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await addBlogComment( commentData, comment, next, this.userRepository, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -563,13 +414,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await initialBlogComment(blogId, next, this.userRepository, this.logger)
       return response 
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -579,13 +424,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await replyComment(comment, parentCommentId, commentData, next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -595,13 +434,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await reportBlogbyUser(blog_id, reason, reportedBy, next, this.userRepository, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -612,13 +445,7 @@ export class UserUseCase implements IUserUseCase {
         console.log('response ', response)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -628,13 +455,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await monthlyUserSubscription(userId, subscriptionType,next,this.userRepository,this.paymentService, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -643,13 +464,7 @@ export class UserUseCase implements IUserUseCase {
       const response = await annualSubscription(userId, subscriptionType, next, this.userRepository, this.paymentService, this.logger)
       return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -662,13 +477,7 @@ export class UserUseCase implements IUserUseCase {
         // if (!response) return null
         // return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -677,13 +486,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType, next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -692,13 +495,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await reciptUrlForUser(userId, next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -707,13 +504,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await fetchAllUserList(next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -722,13 +513,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await sendChatFromSender(data, this.userRepository, next, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -737,13 +522,7 @@ export class UserUseCase implements IUserUseCase {
         const response = await getChatOfUser(senderId, receiverId, this.userRepository, next, this.logger)
         return response 
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
@@ -752,13 +531,16 @@ export class UserUseCase implements IUserUseCase {
         const response = await registerToken(token, userId, this.userRepository, next, this.logger)
         return response
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
-      );
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
+    }
+  }
+
+  async fetchAllUserNotification(userId: string, next: Next): Promise<any | void> {
+    try {
+        const response = await fetchUserNotification(userId, this.userRepository, next, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 }
