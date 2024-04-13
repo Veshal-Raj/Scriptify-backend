@@ -46,6 +46,7 @@ import { fetchAllUsersList } from "./userRepository/user/fetchAllUsersList";
 import { IConversation } from "../../../../@types/general/chatData";
 import { sendChatByUser } from "./userRepository/user/sendChatByUser";
 import { getChatOfUser } from "./userRepository/user/getChatOfUser";
+import { registerToken } from "./userRepository/user/registerToken";
 
 
 
@@ -183,7 +184,7 @@ export class UserRepository implements IUserRepository {
 
     async saveBlog(blogId: string, userId: string, next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
-        const result = await saveBlogByUser(blogId, userId, this.userModels, this.blogModels)
+    const result = await saveBlogByUser(blogId, userId, this.userModels, this.blogModels)
         return result
     }
 
@@ -273,6 +274,11 @@ export class UserRepository implements IUserRepository {
 
     async getChat(senderId: string, receiverId: string): Promise<any> {
         const result = await getChatOfUser(senderId, receiverId)
+        return result
+    }
+
+    async registerUserToken(token: string, userId: string): Promise<any> {
+        const result = await registerToken(token, userId)
         return result
     }
 }
