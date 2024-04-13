@@ -55,4 +55,5 @@ export interface IUserRepository {
     fetchAllUsers(): Promise<any>
     sendChat(data: IConversation): Promise<any>
     getChat(senderId: string, receiverId: string): Promise<any>
+    registerUserToken(token: string, userId: string): Promise<any>
 }
