@@ -316,5 +316,12 @@ export function userRoute(router: Route) {
     })
   )
 
+  router.get(
+    "/fetchAllUserNotification",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.fetchAllUserNotification(req, res, next)
+    })
+  )
+
   return router;
 }
