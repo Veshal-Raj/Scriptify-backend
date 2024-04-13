@@ -110,4 +110,6 @@ export interface IUserUseCase {
   getChat(senderId: string, receiverId: string, next: Next): Promise<any | void>
 
   registerNotificationToken(token: string, userId: string, next: Next): Promise<any | void>
+
+  fetchAllUserNotification(userId: string, next: Next): Promise<any | void>
 }
