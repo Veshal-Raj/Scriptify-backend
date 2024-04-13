@@ -2,6 +2,7 @@
 import { Comment, CommentData } from "../../../../../../@types/general/Comments";
 import BlogModel from "../../../models/blogModel";
 import CommentModel from "../../../models/commentModel";
+import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
 
 export const addBlogComment = async (
@@ -66,6 +67,15 @@ export const addBlogComment = async (
         )
 
         console.log('updatedUser -->> ', updatedUser)
+
+        await NotificationModel.create({
+            type: "comment",
+            blog: _id,
+            notification_for: authorId,
+            user: userId,
+            comment: commentId,
+            seen: false
+        })
 
         return {
             commentID: commentId,

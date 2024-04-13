@@ -1,5 +1,6 @@
 
 import BlogModel from "../../../models/blogModel";
+import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
 
 export const saveBlogByUser = async (
@@ -25,6 +26,16 @@ export const saveBlogByUser = async (
         await userModel.findByIdAndUpdate(userId, {
             $push: { 'userInteractions.userSavedBlogs': { blogId: blog_id.toString(), interactionAt: new Date() } }
         });
+
+        const savedBlog = await blogModel.findById(blog_id);
+
+        await NotificationModel.create({
+            type: "save",
+            blog: blog_id,
+            notification_for: savedBlog?.author,
+            user: userId,
+            seen: false
+        })
 
         return { success: true, message: 'Blog saved successfully.' };
     } catch (error) {

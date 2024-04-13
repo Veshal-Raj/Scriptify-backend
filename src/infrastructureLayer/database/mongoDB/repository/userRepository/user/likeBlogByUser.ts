@@ -1,5 +1,6 @@
 
 import BlogModel from "../../../models/blogModel";
+import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
 
 export const likeBlogByUser = async (
@@ -21,7 +22,15 @@ export const likeBlogByUser = async (
         const id = updatedBlog?._id
         const updatedUser = await userModel.findByIdAndUpdate(userId, { $push: { 'userInteractions.userLikedBlogs': { blogId: blog_id.toString(), interactionAt: new Date() } } });
 
-        // console.log(updatedBlog, updatedUser.userInteractions.userLikedBlogs);
+        console.log('updatedBlog .. ', updatedBlog);
+
+        await NotificationModel.create({
+            type: 'like',
+            blog: updatedBlog?._id,
+            notification_for: updatedBlog?.author,
+            user: userId,
+            seen: false
+        })
         
         return { success: true, message: 'Like added'}
 

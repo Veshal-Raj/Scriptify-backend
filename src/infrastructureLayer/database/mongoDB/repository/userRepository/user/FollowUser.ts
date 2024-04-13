@@ -1,4 +1,5 @@
 
+import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
 
 export const FollowUser = async (
@@ -25,6 +26,13 @@ export const FollowUser = async (
             user.following.push(authorId);
             // Save the updated user document
             await user.save();
+
+            await NotificationModel.create({
+                type: 'follow',
+                notification_for: authorId,
+                user: userId,
+                seen: false
+            })
         } else {
             console.log("User is already following the author.");
             return  { success: false, message: 'Already following'}
