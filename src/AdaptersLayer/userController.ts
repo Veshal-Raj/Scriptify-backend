@@ -545,4 +545,18 @@ export class UserController {
             throw error
         }
     }
+
+    async registerNotificationToken(req: Req, res: Res, next: Next) {
+        try {
+            const token = req.body.token
+            const userId = req.body.userId
+            console.log('token --- ', token)
+            const response = await this.userUseCase.registerNotificationToken(token, userId , next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    
 }
