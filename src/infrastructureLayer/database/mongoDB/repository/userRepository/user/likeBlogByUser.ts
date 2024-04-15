@@ -1,4 +1,5 @@
 
+import { sendNotification } from "../../../../../services/notification";
 import BlogModel from "../../../models/blogModel";
 import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
@@ -32,6 +33,17 @@ export const likeBlogByUser = async (
             seen: false
         })
         
+        const authorId = updatedBlog?.author
+        const authorData = await UserModel.findById(authorId)
+
+        const title = " ❤️ Your blog has been liked. ❤️"
+        
+        const body = ` ${user?.personal_info.username} liked your blog`
+
+        if (authorData?.NotificationToken) {
+            await sendNotification(authorData.NotificationToken, body, title)
+        } 
+
         return { success: true, message: 'Like added'}
 
     } catch (error) {
