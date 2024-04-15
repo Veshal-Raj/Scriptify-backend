@@ -567,4 +567,11 @@ export class UserController {
             throw error
         }
     }
+
+    async notificationSeen (req: Req, res: Res, next: Next) {
+        console.log(req.body)
+        const notificationId = req.body.notificationId
+        const response = await this.userUseCase.notificationSeen(notificationId, next)
+        return res.status(200).json({ response })
+    }
 }
