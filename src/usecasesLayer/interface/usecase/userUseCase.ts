@@ -112,4 +112,6 @@ export interface IUserUseCase {
   registerNotificationToken(token: string, userId: string, next: Next): Promise<any | void>
 
   fetchAllUserNotification(userId: string, next: Next): Promise<any | void>
+
+  notificationSeen(notificationId: string, next: Next): Promise<any | void>
 }

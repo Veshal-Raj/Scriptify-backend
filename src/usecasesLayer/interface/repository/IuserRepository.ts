@@ -57,4 +57,5 @@ export interface IUserRepository {
     getChat(senderId: string, receiverId: string): Promise<any>
     registerUserToken(token: string, userId: string): Promise<any>
     fetchUserNotification(userId: string): Promise<any>
+    notificationSeen(notificationId: string): Promise<any>
 }
