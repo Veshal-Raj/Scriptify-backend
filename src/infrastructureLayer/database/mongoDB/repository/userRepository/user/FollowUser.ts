@@ -1,6 +1,7 @@
 
 import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
+import { sendNotification } from "../../../../../services/notification";
 
 export const FollowUser = async (
     authorId: string,
@@ -33,6 +34,17 @@ export const FollowUser = async (
                 user: userId,
                 seen: false
             })
+
+            const authorData = await UserModel.findById(authorId);
+            if (!authorData) {
+                throw new Error("Author data not found")
+            }
+            const title = "You have a new follower 👱🏻‍♂️"
+            const body = `New follower: ${user.personal_info.username}`
+            if (authorData.NotificationToken) {
+
+                await sendNotification(authorData.NotificationToken,body , title)
+            }
         } else {
             console.log("User is already following the author.");
             return  { success: false, message: 'Already following'}
