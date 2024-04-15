@@ -1,4 +1,5 @@
 
+import { sendNotification } from "../../../../../services/notification";
 import BlogModel from "../../../models/blogModel";
 import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
@@ -36,6 +37,17 @@ export const saveBlogByUser = async (
             user: userId,
             seen: false
         })
+
+        const authorId = savedBlog?.author
+        const authorData = await UserModel.findById(authorId)
+
+        const title = " ❤️ Your blog has been Saved. ❤️"
+        
+        const body = ` ${user?.personal_info.username} saved your blog`
+
+        if (authorData?.NotificationToken) {
+            await sendNotification(authorData.NotificationToken, body, title)
+        }
 
         return { success: true, message: 'Blog saved successfully.' };
     } catch (error) {
