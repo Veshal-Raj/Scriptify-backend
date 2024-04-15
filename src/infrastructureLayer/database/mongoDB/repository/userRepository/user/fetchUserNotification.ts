@@ -19,13 +19,17 @@ export const fetchUserNotification = async( userId: string ) => {
         
         const formattedNotifications = await Promise.all(userNotifications.map(async (notification) => {
         const followedUser = await UserModel.findById(notification.user);
+        console.log('---- notification ---- ', notification)
         switch (notification.type as "comment" | "reply" | "message" | "like" | "follow" | "save") {
             case 'follow':
                 return {
                     type: notification.type,
                     username: followedUser?.personal_info.username || 'Unknown',
                     userImage: followedUser?.personal_info.profile_img || 'Default User Image',
-                    time: notification.createdAt
+                    time: notification.createdAt,
+                    userId: notification.user,
+                    notificationId: notification._id,
+                    seen: notification.seen
                 };
             case 'like':
             case 'save':
@@ -36,7 +40,11 @@ export const fetchUserNotification = async( userId: string ) => {
                     type: notification.type,
                     username: followedUser?.personal_info.username || 'Unknown',
                     blogBannerImage: blog?.banner || 'Default Blog Banner Image',
-                    time: notification.createdAt
+                    time: notification.createdAt,
+                    blogId: blog?.blog_id,
+                    notificationId: notification._id,
+                    seen: notification.seen
+
                 };
             default:
                 return null;
