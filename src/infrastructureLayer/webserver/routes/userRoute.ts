@@ -323,5 +323,14 @@ export function userRoute(router: Route) {
     })
   )
 
+  router.post(
+    "/notificationSeen",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.notificationSeen(req, res, next)
+    })
+  )
+
+  // notificationCount
+
   return router;
 }
