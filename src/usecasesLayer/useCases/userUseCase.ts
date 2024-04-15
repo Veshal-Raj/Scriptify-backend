@@ -52,6 +52,7 @@ import { getChatOfUser } from "./user/getChatOfUser";
 import { registerToken } from "./user/registerToken";
 import { fetchUserNotification } from "./user/fetchUserNotification";
 import { notificationSeenByUser } from "./user/notificationSeenByUser";
+import { notificationCount } from "./user/notificationCount";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -548,6 +549,15 @@ export class UserUseCase implements IUserUseCase {
   async notificationSeen(notificationId: string, next: Next): Promise<any | void> {
     try {
         const response = await notificationSeenByUser(notificationId, next, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
+    }
+  }
+
+  async notificationCount(userId: string, next: Next): Promise<any | void> {
+    try {
+        const response = await notificationCount(userId, next, this.userRepository, this.logger)
         return response
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
