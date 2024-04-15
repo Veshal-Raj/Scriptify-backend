@@ -48,6 +48,7 @@ import { sendChatByUser } from "./userRepository/user/sendChatByUser";
 import { getChatOfUser } from "./userRepository/user/getChatOfUser";
 import { registerToken } from "./userRepository/user/registerToken";
 import { fetchUserNotification } from "./userRepository/user/fetchUserNotification";
+import { notificationSeen } from "./userRepository/user/notificationSeen";
 
 
 
@@ -285,6 +286,11 @@ export class UserRepository implements IUserRepository {
 
     async fetchUserNotification(userId: string): Promise<any> {
         const result = await fetchUserNotification(userId)
+        return result
+    }
+
+    async notificationSeen(notificationId: string): Promise<any> {
+        const result = await notificationSeen(notificationId)
         return result
     }
 }
