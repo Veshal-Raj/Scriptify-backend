@@ -331,6 +331,12 @@ export function userRoute(router: Route) {
   )
 
   // notificationCount
+  router.get(
+    "/notificationCount", 
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.notificationCount(req, res, next)
+    })
+  )
 
   return router;
 }
