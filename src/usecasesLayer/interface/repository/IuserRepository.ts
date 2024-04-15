@@ -58,4 +58,5 @@ export interface IUserRepository {
     registerUserToken(token: string, userId: string): Promise<any>
     fetchUserNotification(userId: string): Promise<any>
     notificationSeen(notificationId: string): Promise<any>
+    notificationCount(userId: string): Promise<any>
 }

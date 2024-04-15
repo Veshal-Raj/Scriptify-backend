@@ -114,4 +114,6 @@ export interface IUserUseCase {
   fetchAllUserNotification(userId: string, next: Next): Promise<any | void>
 
   notificationSeen(notificationId: string, next: Next): Promise<any | void>
+
+  notificationCount(userId: string, next: Next): Promise<any | void>
 }
