@@ -49,6 +49,7 @@ import { getChatOfUser } from "./userRepository/user/getChatOfUser";
 import { registerToken } from "./userRepository/user/registerToken";
 import { fetchUserNotification } from "./userRepository/user/fetchUserNotification";
 import { notificationSeen } from "./userRepository/user/notificationSeen";
+import { notificationCount } from "./userRepository/user/notificationCount";
 
 
 
@@ -291,6 +292,11 @@ export class UserRepository implements IUserRepository {
 
     async notificationSeen(notificationId: string): Promise<any> {
         const result = await notificationSeen(notificationId)
+        return result
+    }
+
+    async notificationCount(userId: string): Promise<any> {
+        const result = await notificationCount(userId)
         return result
     }
 }
