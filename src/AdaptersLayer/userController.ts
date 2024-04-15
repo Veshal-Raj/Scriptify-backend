@@ -574,4 +574,11 @@ export class UserController {
         const response = await this.userUseCase.notificationSeen(notificationId, next)
         return res.status(200).json({ response })
     }
+
+    async notificationCount(req: Req, res: Res, next: Next) {
+        const userId = req.query.userId as string
+        // console.log(',,,,,,,,,,,,,,,,,',userId)
+        const response = await this.userUseCase.notificationCount(userId, next)
+        return res.status(200).json({ response })
+    }
 }
