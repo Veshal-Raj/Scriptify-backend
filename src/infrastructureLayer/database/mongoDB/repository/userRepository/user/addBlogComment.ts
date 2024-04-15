@@ -1,5 +1,6 @@
 
 import { Comment, CommentData } from "../../../../../../@types/general/Comments";
+import { sendNotification } from "../../../../../services/notification";
 import BlogModel from "../../../models/blogModel";
 import CommentModel from "../../../models/commentModel";
 import NotificationModel from "../../../models/notificationModel";
@@ -76,6 +77,17 @@ export const addBlogComment = async (
             comment: commentId,
             seen: false
         })
+
+        const user = await userModel.findById(userId);
+        const authorData = await UserModel.findById(authorId)
+
+        const title = " ❤️ Your blog has been Commented. ❤️"
+        
+        const body = ` ${user?.personal_info.username} commented on your blog`
+
+        if (authorData?.NotificationToken) {
+            await sendNotification(authorData.NotificationToken, body, title)
+        }
 
         return {
             commentID: commentId,
