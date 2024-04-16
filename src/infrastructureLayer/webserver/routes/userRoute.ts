@@ -337,6 +337,12 @@ export function userRoute(router: Route) {
       userController.notificationCount(req, res, next)
     })
   )
-
+  
+  router.get(
+    "/chatUserSearch",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.chatUserSearch(req, res, next)
+    })
+  )
   return router;
 }
