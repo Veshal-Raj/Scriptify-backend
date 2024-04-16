@@ -51,6 +51,7 @@ import { fetchUserNotification } from "./userRepository/user/fetchUserNotificati
 import { notificationSeen } from "./userRepository/user/notificationSeen";
 import { notificationCount } from "./userRepository/user/notificationCount";
 import { chatUserSearch } from "./userRepository/user/chatUserSearch";
+import { editUserProfile } from "./userRepository/user/editUserProfile";
 
 
 
@@ -303,6 +304,12 @@ export class UserRepository implements IUserRepository {
 
     async chatUserSearch(query: string): Promise<any> {
         const result = await chatUserSearch(query)
+        return result
+    }
+
+    async editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string): Promise<any> {
+        const result = await editUserProfile(personal_info, social_links, uploaded_image, userId)
+        console.log(result)
         return result
     }
 }
