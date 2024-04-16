@@ -54,6 +54,7 @@ import { fetchUserNotification } from "./user/fetchUserNotification";
 import { notificationSeenByUser } from "./user/notificationSeenByUser";
 import { notificationCount } from "./user/notificationCount";
 import { chatUserSearchText } from "./user/chatUserSearchText";
+import { editUserProfileData } from "./user/editUserProfileData";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -571,6 +572,15 @@ export class UserUseCase implements IUserUseCase {
       return response
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
+    }
+  }
+
+  async editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string, next: Next): Promise<any | void> {
+    try {
+        const response = await editUserProfileData(personal_info, social_links, uploaded_image, userId, next, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
   }
 }
