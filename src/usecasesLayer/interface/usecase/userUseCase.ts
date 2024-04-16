@@ -118,4 +118,6 @@ export interface IUserUseCase {
   notificationCount(userId: string, next: Next): Promise<any | void>
 
   chatUserSearch(query: string, next: Next): Promise<any | void>
+
+  editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string, next: Next): Promise<any | void>
 }

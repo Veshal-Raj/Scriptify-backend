@@ -60,4 +60,5 @@ export interface IUserRepository {
     notificationSeen(notificationId: string): Promise<any>
     notificationCount(userId: string): Promise<any>
     chatUserSearch(query: string): Promise<any>
+    editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string): Promise<any>
 }
