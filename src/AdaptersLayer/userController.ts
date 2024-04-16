@@ -569,25 +569,62 @@ export class UserController {
     }
 
     async notificationSeen (req: Req, res: Res, next: Next) {
-        console.log(req.body)
-        const notificationId = req.body.notificationId
-        const response = await this.userUseCase.notificationSeen(notificationId, next)
-        return res.status(200).json({ response })
+        try {
+            console.log(req.body)
+            const notificationId = req.body.notificationId
+            const response = await this.userUseCase.notificationSeen(notificationId, next)
+            return res.status(200).json({ response })
+            
+        } catch (error: unknown | never) {
+            throw error
+        }
     }
 
     async notificationCount(req: Req, res: Res, next: Next) {
-        const userId = req.query.userId as string
-        // console.log(',,,,,,,,,,,,,,,,,',userId)
-        const response = await this.userUseCase.notificationCount(userId, next)
-        return res.status(200).json({ response })
+        try {
+            const userId = req.query.userId as string
+            // console.log(',,,,,,,,,,,,,,,,,',userId)
+            const response = await this.userUseCase.notificationCount(userId, next)
+            return res.status(200).json({ response })
+            
+        } catch (error: unknown | never) {
+            throw error
+        }
     }
 
     async chatUserSearch(req: Req, res: Res, next: Next ) {
+        try {
+            
+            const query = req.query.searchText as string
+    
+            const response = await this.userUseCase.chatUserSearch(query, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
         
-        const query = req.query.searchText as string
 
-        const response = await this.userUseCase.chatUserSearch(query, next)
-        return res.status(200).json({ response })
+    }
+
+    async editUserProfile(req: Req, res: Res, next: Next) {
+        const {personal_info, social_links, uploaded_image, userId} = req.body
+        const { username, email, bio } = personal_info;
+
+        // Validate username and email
+    if (!validateUsername(username)) {
+        return res.status(400).json({ error: "Invalid username format" });
+    }
+
+    if (!validateEmail(email)) {
+        return res.status(400).json({ error: "Invalid email format" });
+    }
+        try {
+            const response = await this.userUseCase.editUserProfile(personal_info, social_links, uploaded_image,userId,  next)
+            return res.status(200).json({ response })
+            
+        } catch (error: unknown | never) {
+            throw error
+        }
 
     }
 }
