@@ -581,4 +581,13 @@ export class UserController {
         const response = await this.userUseCase.notificationCount(userId, next)
         return res.status(200).json({ response })
     }
+
+    async chatUserSearch(req: Req, res: Res, next: Next ) {
+        
+        const query = req.query.searchText as string
+
+        const response = await this.userUseCase.chatUserSearch(query, next)
+        return res.status(200).json({ response })
+
+    }
 }
