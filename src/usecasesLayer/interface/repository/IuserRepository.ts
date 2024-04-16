@@ -59,4 +59,5 @@ export interface IUserRepository {
     fetchUserNotification(userId: string): Promise<any>
     notificationSeen(notificationId: string): Promise<any>
     notificationCount(userId: string): Promise<any>
+    chatUserSearch(query: string): Promise<any>
 }

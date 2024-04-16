@@ -116,4 +116,6 @@ export interface IUserUseCase {
   notificationSeen(notificationId: string, next: Next): Promise<any | void>
 
   notificationCount(userId: string, next: Next): Promise<any | void>
+
+  chatUserSearch(query: string, next: Next): Promise<any | void>
 }
