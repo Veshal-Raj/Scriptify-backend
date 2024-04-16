@@ -53,6 +53,7 @@ import { registerToken } from "./user/registerToken";
 import { fetchUserNotification } from "./user/fetchUserNotification";
 import { notificationSeenByUser } from "./user/notificationSeenByUser";
 import { notificationCount } from "./user/notificationCount";
+import { chatUserSearchText } from "./user/chatUserSearchText";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -559,6 +560,15 @@ export class UserUseCase implements IUserUseCase {
     try {
         const response = await notificationCount(userId, next, this.userRepository, this.logger)
         return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
+    }
+  }
+
+  async chatUserSearch(query: string, next: Next): Promise<any | void> {
+    try {
+      const response = await chatUserSearchText(query, next, this.userRepository, this.logger)
+      return response
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
