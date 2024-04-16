@@ -8,7 +8,7 @@ import { CreateBlog, createUser, findUserByEmail } from "./userRepository/user";
 import { getAllUser } from "./userRepository/admin";
 import { IUserResponse } from "../../../../usecasesLayer/interface/request_response/user";
 import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
-import { NextFunction } from "express";
+import { NextFunction, response } from "express";
 import { latestBlogs } from "./userRepository/user/latestBlogs";
 import { trendingBlog } from "./userRepository/user/trendingBlog";
 import { fetchAllTags } from "./userRepository/user/fetchAllTags";
@@ -50,6 +50,7 @@ import { registerToken } from "./userRepository/user/registerToken";
 import { fetchUserNotification } from "./userRepository/user/fetchUserNotification";
 import { notificationSeen } from "./userRepository/user/notificationSeen";
 import { notificationCount } from "./userRepository/user/notificationCount";
+import { chatUserSearch } from "./userRepository/user/chatUserSearch";
 
 
 
@@ -297,6 +298,11 @@ export class UserRepository implements IUserRepository {
 
     async notificationCount(userId: string): Promise<any> {
         const result = await notificationCount(userId)
+        return result
+    }
+
+    async chatUserSearch(query: string): Promise<any> {
+        const result = await chatUserSearch(query)
         return result
     }
 }
