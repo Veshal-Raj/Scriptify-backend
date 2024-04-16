@@ -344,5 +344,13 @@ export function userRoute(router: Route) {
       userController.chatUserSearch(req, res, next)
     })
   )
+
+  router.post(
+    "/editUserProfile",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.editUserProfile(req, res, next)
+    })
+  )
+
   return router;
 }
