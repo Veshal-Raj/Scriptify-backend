@@ -3,7 +3,9 @@ import { IConversation } from "../../../@types/general/chatData";
 import IUser from "../../../entitiesLayer/user";
 import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserResponse } from "../request_response/user";
+import { IcreateOTP } from "../services/IcreateOTP";
 import { IPaymentService } from "../services/IpaymentService";
+import { ISendMail } from "../services/IsendMail";
 
 
 
@@ -61,4 +63,9 @@ export interface IUserRepository {
     notificationCount(userId: string): Promise<any>
     chatUserSearch(query: string): Promise<any>
     editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string): Promise<any>
+    changePassword(userId: string,newPassword: string): Promise<any>
+    forgotPasswordEmail(email: string, otpGenerator: IcreateOTP, sendMail: ISendMail): Promise<any>
+    forgotPasswordUserOtp(otp: string, email: string): Promise<any>
+    changePasswordNotLoggedIn(email: string, newPassword: string): Promise<any>
+    resendOtp(email: string, sendMail: ISendMail, otpGenerator: IcreateOTP): Promise<any>
 }
