@@ -120,4 +120,14 @@ export interface IUserUseCase {
   chatUserSearch(query: string, next: Next): Promise<any | void>
 
   editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string, next: Next): Promise<any | void>
+
+  changePassword(userId: string, newPassword: string, next: Next): Promise<any | void>
+
+  forgotPasswordEmail(email: string, next: Next): Promise<any | void>
+
+  forgotPasswordOtp(otp: string, email: string, next: Next): Promise<any | void>
+
+  changePasswordNotLoggedIn(email: string, newPassword: string, next: Next): Promise<any | void>
+
+  resendOtp(token: string, next: Next): Promise<any | void>
 }
