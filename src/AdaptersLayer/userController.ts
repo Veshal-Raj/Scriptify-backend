@@ -627,4 +627,93 @@ export class UserController {
         }
 
     }
+
+    async changePassword(req: Req, res: Res, next: Next) {
+        const {newPassword, confirmPassword, userId } = req.body
+
+        if (newPassword !== confirmPassword) return res.status(400).json({ error: "New Password and Confirm password is not match"})
+
+        if (!validatePassword(newPassword)) {
+            return res.status(400).json({ error: "Invalid password format"})
+        }
+
+        try {
+            const response = await this.userUseCase.changePassword(userId,newPassword, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async forgotPasswordEmail(req: Req, res: Res,next: Next) {
+        try {
+            const email = req.body.email
+            const response = await this.userUseCase.forgotPasswordEmail(email, next)
+
+            res.cookie("email", email, {
+                httpOnly: true,
+                sameSite: "strict",
+                expires: new Date(Date.now() + 30*60*1000)
+            })
+
+            return res.status(200).json(response)
+            
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async forgotPasswordOtp(req: Req, res: Res, next: Next) {
+        try {
+            const otp = req.body.otp
+            const email = req.cookies.email
+            console.log('cookies in forgotpassword otp --- ',req.cookies)
+            console.log(otp, email)
+            if (!email) {
+                return res.status(400).clearCookie("email").json({success: false, message: "No verification token found"});
+            }
+            const response = await this.userUseCase.forgotPasswordOtp(otp, email, next)
+            console.log('response -- ', response)
+            console.log('response -- ', response.status)
+            console.log('response -- ', response.message)
+            if (response.status === true) return res.status(200).json({ message: response.message })
+            if (response.status === false) {res.status(401).clearCookie("email").json({message: response.message})}
+
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async changePasswordNotLoggedIn (req: Req, res: Res, next: Next) {
+        console.log('cookies in changePasswordNotLoggedIn --- ',req.cookies)
+        const email = req.cookies.email
+    const {newPassword, confirmPassword } = req.body
+    if (newPassword !== confirmPassword) return res.status(400).json({ error: "New Password and Confirm password is not match"})
+        if (!validatePassword(newPassword)) {
+            return res.status(400).json({ error: "Invalid password format"})
+        }
+        try {
+            const response = await this.userUseCase.changePasswordNotLoggedIn(email, newPassword, next)
+            return res.status(200).clearCookie("email").json({ response })
+            // res.clearCookie("verificationToken").send(result)
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
+
+    async resendOtp(req: Req, res: Res, next: Next) {
+        try {
+            let token = req.cookies.verficationToken;
+                console.log('token in the userController ----- > ', token)
+                if (!token) {
+                    return res.status(400).json({ success: false, message: "No verification token found" });
+                }
+
+                const response = await this.userUseCase.resendOtp(token, next)
+                return res.status(200).json({ response })
+            
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
