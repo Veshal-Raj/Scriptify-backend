@@ -55,6 +55,11 @@ import { notificationSeenByUser } from "./user/notificationSeenByUser";
 import { notificationCount } from "./user/notificationCount";
 import { chatUserSearchText } from "./user/chatUserSearchText";
 import { editUserProfileData } from "./user/editUserProfileData";
+import { changePassword } from "./user/changePassword";
+import { forgotPasswordEmail } from "./user/forgotPasswordEmail";
+import { forgotPasswordUserOtp } from "./user/forgotPasswordUserOtp";
+import { changePasswordNotLoggedIn } from "./user/changePasswordNotLoggedIn";
+import { resendOtp } from "./user/resendOtp";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -578,6 +583,52 @@ export class UserUseCase implements IUserUseCase {
   async editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string, next: Next): Promise<any | void> {
     try {
         const response = await editUserProfileData(personal_info, social_links, uploaded_image, userId, next, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
+    }
+  }
+
+  async changePassword(userId: string, newPassword: string, next: Next): Promise<any | void> {
+    try {
+        const response = await changePassword(userId, newPassword, next, this.bcrypt, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
+    }
+  }
+
+  async forgotPasswordEmail(email: string, next: Next): Promise<any | void> {
+    try {
+        
+        const response = await forgotPasswordEmail(email, next, this.userRepository,this.otpGenerator, this.sendMail,  this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
+    }
+  }
+  
+  async forgotPasswordOtp(otp: string, email: string, next: Next): Promise<any | void> {
+    try {
+        const response = await forgotPasswordUserOtp(otp, email, next, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
+    }
+  }
+
+  async changePasswordNotLoggedIn(email: string, newPassword: string, next: Next): Promise<any | void>{
+    try {
+        const response = await changePasswordNotLoggedIn(email, newPassword, next, this.bcrypt, this.userRepository, this.logger)
+        return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
+    }
+  }
+
+  async resendOtp(token: string, next: Next): Promise<any | void> {
+    try {
+        const response = await resendOtp  (token, next,this.otpRepository, this.userRepository,this.jwtToken, this.sendMail, this.otpGenerator, this.logger)
         return response
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
