@@ -27,8 +27,6 @@ export function userRoute(router: Route) {
     })
   );
 
-  router.get("/resend-otp");
-
   router.get(
     "/get-upload-url",
     catchAsyncErrors((req: Req, res: Res, next: Next) => {
@@ -351,6 +349,44 @@ export function userRoute(router: Route) {
       userController.editUserProfile(req, res, next)
     })
   )
+
+  router.put(
+    "/changePassword",
+    recaptcha,
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.changePassword(req, res, next)
+    })
+  )
+
+  router.post(
+    "/forgotPasswordEmail",
+    recaptcha,
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.forgotPasswordEmail(req, res, next)
+    })
+  )
+
+  router.post(
+    "/forgotPasswordOtp",
+  catchAsyncErrors((req: Req, res: Res, next: Next) => {
+    userController.forgotPasswordOtp(req, res, next)
+  })
+  )
+
+  router.post(
+    "/changePasswordNotLoggedIn",
+    recaptcha,
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.changePasswordNotLoggedIn(req, res, next)
+    })
+  )
+
+  router.get(
+    "/resendOtp",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.resendOtp(req, res, next)
+    })
+  );
 
   return router;
 }
