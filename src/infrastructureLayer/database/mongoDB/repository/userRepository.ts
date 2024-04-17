@@ -52,6 +52,13 @@ import { notificationSeen } from "./userRepository/user/notificationSeen";
 import { notificationCount } from "./userRepository/user/notificationCount";
 import { chatUserSearch } from "./userRepository/user/chatUserSearch";
 import { editUserProfile } from "./userRepository/user/editUserProfile";
+import { changePassword } from "./userRepository/user/changePassword";
+import { forgotPasswordEmail } from "./userRepository/user/forgotPasswordEmail";
+import { IcreateOTP } from "../../../../usecasesLayer/interface/services/IcreateOTP";
+import { ISendMail } from "../../../../usecasesLayer/interface/services/IsendMail";
+import { forgotPasswordOtp } from "./userRepository/user/forgotPasswordOtp";
+import { changePasswordNotLoggedIN } from "./userRepository/user/changePasswordNotLoggedIN";
+import { resendOtp } from "./userRepository/user/resendOtp";
 
 
 
@@ -310,6 +317,31 @@ export class UserRepository implements IUserRepository {
     async editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string): Promise<any> {
         const result = await editUserProfile(personal_info, social_links, uploaded_image, userId)
         console.log(result)
+        return result
+    }
+
+    async changePassword(userId: string, newPassword: string): Promise<any> {
+        const result = await changePassword(userId, newPassword)
+        return result
+    }
+
+    async forgotPasswordEmail(email: string, otpGenerator: IcreateOTP, sendMail: ISendMail): Promise<any> {
+        const result = await forgotPasswordEmail(email, otpGenerator, sendMail)
+        return result
+    }
+      
+    async forgotPasswordUserOtp(otp: string, email: string): Promise<any> {
+        const result = await forgotPasswordOtp(otp, email)
+        return result
+    }
+
+    async changePasswordNotLoggedIn(email: string, newPassword: string): Promise<any> {
+        const result = await changePasswordNotLoggedIN(email, newPassword)
+        return result
+    }
+     
+    async resendOtp(email: string, sendMail: ISendMail, otpGenerator: IcreateOTP): Promise<any> {
+        const result = await resendOtp(email, sendMail, otpGenerator)
         return result
     }
 }
