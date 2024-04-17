@@ -16,6 +16,7 @@ async function recaptcha(req: Request, res: Response, next: NextFunction) {
     const recaptchaKey = process.env.recaptchaKey;
     const token = req.body?.token || req.body?.Token;
 
+
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaKey}&response=${token}`;
 
     try {
