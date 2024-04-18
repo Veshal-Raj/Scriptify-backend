@@ -388,5 +388,11 @@ export function userRoute(router: Route) {
     })
   );
 
+  router.post(
+    "/googleAuth",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.googleAuth(req, res, next)
+    })
+  )
   return router;
 }
