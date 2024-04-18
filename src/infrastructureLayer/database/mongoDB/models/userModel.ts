@@ -43,7 +43,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     role: { type: String, enum: ['user', 'advertiser', 'admin'], default: 'user' },
     status: { type: String, enum: ['active', 'freeze'] },
-    isVerified: {type: Boolean, default: false},
+    isVerified: {type: Boolean, default: true},
     isSubscribed: { type: Boolean, default: false },
     subscriptionId: { type: String, default: '' },
     NotificationToken: { type: String, default: ''},
