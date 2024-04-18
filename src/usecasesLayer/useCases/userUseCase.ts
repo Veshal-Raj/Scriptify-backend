@@ -60,6 +60,7 @@ import { forgotPasswordEmail } from "./user/forgotPasswordEmail";
 import { forgotPasswordUserOtp } from "./user/forgotPasswordUserOtp";
 import { changePasswordNotLoggedIn } from "./user/changePasswordNotLoggedIn";
 import { resendOtp } from "./user/resendOtp";
+import { googleAuth } from "./user/googleAuth";
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -165,6 +166,8 @@ export class UserUseCase implements IUserUseCase {
   ): Promise<void | { user: IUser; tokens: IToken }> {
     console.log('reached inside the login ')
     try {
+      console.log( 'email  in usecase--->> ', email)
+      console.log('password in usecase --->> ', password )
        return await login(
         this.userRepository,
         this.bcrypt,
@@ -630,6 +633,15 @@ export class UserUseCase implements IUserUseCase {
     try {
         const response = await resendOtp  (token, next,this.otpRepository, this.userRepository,this.jwtToken, this.sendMail, this.otpGenerator, this.logger)
         return response
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
+    }
+  }
+
+  async googleAuth(uid: string, next: Next): Promise<any | void> {
+    try {
+      const response = await googleAuth(uid, next, this.userRepository, this.logger)
+      return response
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
