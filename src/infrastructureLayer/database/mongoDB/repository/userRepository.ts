@@ -59,6 +59,7 @@ import { ISendMail } from "../../../../usecasesLayer/interface/services/IsendMai
 import { forgotPasswordOtp } from "./userRepository/user/forgotPasswordOtp";
 import { changePasswordNotLoggedIN } from "./userRepository/user/changePasswordNotLoggedIN";
 import { resendOtp } from "./userRepository/user/resendOtp";
+import { googleAuth } from "./userRepository/user/googleAuth";
 
 
 
@@ -68,7 +69,7 @@ export class UserRepository implements IUserRepository {
     // find user by email
     async findUserByEmail(email: string): Promise<IUser | null> {
         console.log('email in repostory -->>> ', email)
-        const userExist = await findUserByEmail(email, this.userModels);
+        const userExist = await findUserByEmail(email);
         console.log('userExist --->>> ', userExist)
         return userExist
     }
@@ -342,6 +343,11 @@ export class UserRepository implements IUserRepository {
      
     async resendOtp(email: string, sendMail: ISendMail, otpGenerator: IcreateOTP): Promise<any> {
         const result = await resendOtp(email, sendMail, otpGenerator)
+        return result
+    }
+
+    async googleAuth(uid: string): Promise<any> {
+        const result = await googleAuth(uid)
         return result
     }
 }
