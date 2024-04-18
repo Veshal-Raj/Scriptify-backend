@@ -19,7 +19,8 @@ export const login = async (
     logger: Ilogger
 ): Promise<{ user: IUser; tokens: IToken} | void> => {
     try {
-        
+        console.log('email in usecase engine --- ', email)
+        console.log('password in usecase engine -- >>', password)
         const user = await userRepository.findUserByEmail(email);
         console.log('user in userUseCase -->> ', user)
         if (!user) return next(new ErrorHandler(400, 'invalid email', logger ))
