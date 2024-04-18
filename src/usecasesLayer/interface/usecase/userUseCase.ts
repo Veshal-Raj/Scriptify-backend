@@ -130,4 +130,6 @@ export interface IUserUseCase {
   changePasswordNotLoggedIn(email: string, newPassword: string, next: Next): Promise<any | void>
 
   resendOtp(token: string, next: Next): Promise<any | void>
+
+  googleAuth(uid: string, next: Next): Promise<any | void>
 }
