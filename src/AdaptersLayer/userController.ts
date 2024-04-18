@@ -716,4 +716,15 @@ export class UserController {
             throw error
         }
     }
+
+    async googleAuth(req: Req, res: Res, next: Next) {
+        try {
+            const uid = req.body.uid;
+            console.log(uid)
+            const response = await this.userUseCase.googleAuth(uid, next)
+            return res.status(200).json({ response })
+        } catch (error: unknown | never) {
+            throw error
+        }
+    }
 }
