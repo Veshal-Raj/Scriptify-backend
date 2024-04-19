@@ -23,5 +23,26 @@ export function adminRoute(router: Route) {
         })
     )
 
+    router.get(
+        '/getAllBlogs',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            adminController.getAllBlogs(req, res, next)
+        })
+    )
+
+    router.post(
+        '/changeBlogStatus',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            adminController.changeBlogStatus(req, res, next)
+        })
+    )
+
+    router.get(
+        '/getAllReports',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            adminController.getAllReports(req, res, next)
+        })
+    )
+
     return router;
 }
