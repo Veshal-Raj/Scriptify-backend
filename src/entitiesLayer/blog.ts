@@ -15,6 +15,7 @@ interface IBlog  {
     };
     comments?: any[];
     draft: boolean;
+    isBlocked: boolean
     publishedAt: Date;
 }
 
