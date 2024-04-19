@@ -69,4 +69,7 @@ export interface IUserRepository {
     changePasswordNotLoggedIn(email: string, newPassword: string): Promise<any>
     resendOtp(email: string, sendMail: ISendMail, otpGenerator: IcreateOTP): Promise<any>
     googleAuth(uid: string): Promise<any>
+    // admin
+    getAllBlogs(): Promise<any>
+    changeBlogStatus(blogId: string): Promise<any>
 }
