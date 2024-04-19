@@ -88,7 +88,7 @@ export class UserRepository implements IUserRepository {
     async latestBlog(page: number,next: NextFunction): Promise<any> {
         console.log('reached inside userRepository')
         
-        const result = await latestBlogs(page,this.blogModels, this.userModels)
+        const result = await latestBlogs(page,this.blogModels)
         console.log('got the result in userrepository-->> ')
         return result
     }
@@ -96,7 +96,7 @@ export class UserRepository implements IUserRepository {
     // get trending blogs
     async trendingBlogs(next: NextFunction): Promise<any> {
         console.log('reached inside the userRepository')
-        const result = await trendingBlog(this.blogModels, this.userModels)   
+        const result = await trendingBlog(this.blogModels)   
         return result
     }
 
