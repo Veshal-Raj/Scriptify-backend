@@ -5,10 +5,7 @@ import BlogModel from "../models/blogModel";
 import CommentModel from "../models/commentModel";
 
 import { CreateBlog, createUser, findUserByEmail } from "./userRepository/user";
-import { getAllUser } from "./userRepository/admin";
-import { IUserResponse } from "../../../../usecasesLayer/interface/request_response/user";
-import { changeUserStatus } from "./userRepository/admin/changeUserStatus";
-import { NextFunction, response } from "express";
+import { NextFunction } from "express";
 import { latestBlogs } from "./userRepository/user/latestBlogs";
 import { trendingBlog } from "./userRepository/user/trendingBlog";
 import { fetchAllTags } from "./userRepository/user/fetchAllTags";
@@ -35,7 +32,6 @@ import { initialBlogComments } from "./userRepository/user/initialBlogComments";
 import { replyComment } from "./userRepository/user/replyComment";
 import { reportBlogbyUser } from "./userRepository/user/reportBlogbyUser";
 import { checkUserSubscribed } from "./userRepository/user/checkUserSubscribed";
-import PaymentModel from "../models/paymentMode";
 import { monthlyUserSubscription } from "./userRepository/user/monthlyUserSubscription";
 import { IPaymentService } from "../../../../usecasesLayer/interface/services/IpaymentService";
 import { annualSubscription } from "./userRepository/user/annualSubscription";
@@ -63,8 +59,9 @@ import { googleAuth } from "./userRepository/user/googleAuth";
 
 
 
+
 export class UserRepository implements IUserRepository {
-    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel, private commentModel: typeof CommentModel, private paymentModel: typeof PaymentModel) {}
+    constructor(private userModels: typeof UserModel, private blogModels: typeof BlogModel, private commentModel: typeof CommentModel,) {}
 
     // find user by email
     async findUserByEmail(email: string): Promise<IUser | null> {
@@ -77,20 +74,6 @@ export class UserRepository implements IUserRepository {
     // create user
     async createUser(newUser: IUser): Promise<IUser> {
         return await createUser(newUser, this.userModels)
-    }
-
-    // get all users
-    async getAllUser(role: string): Promise<IUser[]> {
-        const data = await getAllUser(role)
-        console.log(data)
-        return data
-    }
-
-    // change user status
-    async changeUserStatus(id: string): Promise<IUserResponse | null | IUser> {
-        console.log(id, 'in repository')
-        const data = await changeUserStatus(id)
-        return data
     }
 
     // create blog
@@ -350,4 +333,6 @@ export class UserRepository implements IUserRepository {
         const result = await googleAuth(uid)
         return result
     }
+
+    
 }
