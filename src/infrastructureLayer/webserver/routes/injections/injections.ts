@@ -1,10 +1,10 @@
 import UserModel from "../../../database/mongoDB/models/userModel";
 import BlogModel from "../../../database/mongoDB/models/blogModel";
 import CommentModel from "../../../database/mongoDB/models/commentModel";
-import PaymentModel from "../../../database/mongoDB/models/paymentMode";
 
 import { UserRepository } from "../../../database/mongoDB/repository/userRepository";
 import { OtpRepository } from "../../../database/mongoDB/repository/otpRepository";
+import { AdminRepository } from "../../../database/mongoDB/repository/adminRepository";
 
 import { Encrypt } from "../../../services/hashPassword";
 import { GenerateOtp } from "../../../services/generateOtp";
@@ -21,7 +21,8 @@ import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
 import { UserController } from "../../../../AdaptersLayer/userController";
 import { AdminController } from "../../../../AdaptersLayer/adminController";
 
-const userRepository = new UserRepository(UserModel, BlogModel, CommentModel, PaymentModel)
+const userRepository = new UserRepository(UserModel, BlogModel, CommentModel)
+const adminRepository = new AdminRepository()
 const bcryptService = new Encrypt()
 const generateOTP = new GenerateOtp()
 const sendMail = new SendMail()
@@ -47,7 +48,7 @@ const userUseCase = new UserUseCase(
 )
 
 const adminUseCase = new AdminUseCase(
-    userRepository,
+    adminRepository,
     logger
 )
 
