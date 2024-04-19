@@ -59,6 +59,10 @@ const blogSchema: Schema = new Schema<IBlog>(
         draft: {
             type: Boolean,
             default: false
+        },
+        isBlocked: {
+            type: Boolean,
+            default: false
         }
     },
     {
