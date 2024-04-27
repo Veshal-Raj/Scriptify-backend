@@ -1,6 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { IHashpassword } from "../../interface/services/IhashPassword";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
@@ -12,7 +11,7 @@ export const changePassword = async(
     next: Next,
     bcrypt: IHashpassword,
     userRepository: IUserRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         newPassword = await bcrypt.createHash(newPassword as string)
