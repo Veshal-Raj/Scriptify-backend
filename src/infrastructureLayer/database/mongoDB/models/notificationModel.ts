@@ -10,7 +10,6 @@ const notificationSchema: Schema<INotification> = new Schema<INotification>({
     },
     blog: {
         type: Schema.Types.ObjectId,
-        // required: true,
         ref: 'Blog'
     },
     notification_for: {
@@ -47,6 +46,6 @@ const notificationSchema: Schema<INotification> = new Schema<INotification>({
     timestamps: true
 });
 
-// Create and export the model
+
 const NotificationModel = mongoose.model<INotification>("Notification", notificationSchema);
 export default NotificationModel;
