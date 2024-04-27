@@ -26,7 +26,6 @@ interface IUser {
         total_posts?: number;
         total_reads?: number;
     };
-    // google_auth: boolean;
     blogs?: string[]; // an array of blog IDs
     userInteractions: {
         userReadBlogs: IUserInteraction[];
