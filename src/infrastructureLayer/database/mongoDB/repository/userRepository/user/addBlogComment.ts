@@ -1,5 +1,4 @@
-
-import { Comment, CommentData } from "../../../../../../@types/general/Comments";
+import { CommentData } from "../../../../../../@types/general/Comments";
 import { sendNotification } from "../../../../../services/notification";
 import BlogModel from "../../../models/blogModel";
 import CommentModel from "../../../models/commentModel";
@@ -7,99 +6,82 @@ import NotificationModel from "../../../models/notificationModel";
 import UserModel from "../../../models/userModel";
 
 export const addBlogComment = async (
-    commentData: CommentData,
-    comment: Comment,
-    userModel: typeof UserModel,
-    blogModel: typeof BlogModel,
-    commentModel: typeof CommentModel
+  commentData: CommentData,
+  comment: string,
+  userModel: typeof UserModel,
+  blogModel: typeof BlogModel
 ): Promise<any | void> => {
-    try {
-        console.log(' commentData --->>> ', commentData)
-        console.log('comment --->>> ', comment)
-        
-        const { userId, authorId, blogId, _id} = commentData
-        const parentComment = comment
+  try {
+    const { userId, authorId, blogId, _id } = commentData;
+    const parentComment = comment;
 
-        console.log('parentComment --- >> ', parentComment)
-        console.log('userId --- >> ', userId)
-        console.log('authorId --- >> ', authorId)
-        console.log('blog(d --- >> ', blogId)
-        console.log('_id --- >>', _id)
+    const newComment = new CommentModel({
+      blog_id: _id, // Assuming _id is the ID of the blog
+      blog_author: authorId,
+      comment: parentComment,
+      commented_by: userId,
+    });
 
-        const newComment = new CommentModel({
-            blog_id: _id, // Assuming _id is the ID of the blog
-            blog_author: authorId,
-            comment: parentComment,
-            commented_by: userId
-        });
+    const commentId = newComment._id;
+    const savedComment = await newComment.save();
 
-        const commentId = newComment._id
-        const savedComment = await newComment.save();
+     await blogModel.findByIdAndUpdate(
+      _id,
+      {
+        $inc: {
+          "activity.total_comments": 1,
+          "activity.total_parent_comments": 1,
+        },
+        $push: {
+          comments: commentId,
+        },
+      },
+      { new: true }
+    );
 
-        console.log('New Comment:', savedComment);
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          "userInteractions.userCommentBlogs": {
+            blogId: _id,
+            interactionAt: Date.now(),
+          },
+        },
+      },
+      { new: true }
+    );
 
-        const updatedBlog = await  blogModel.findByIdAndUpdate(
-            _id,
-            {
-                $inc: {
-                    "activity.total_comments": 1,
-                    "activity.total_parent_comments": 1
-                },
-                $push: {
-                    comments: commentId
-                }
-            },
-            {new: true}
-        )
+    await NotificationModel.create({
+      type: "comment",
+      blog: _id,
+      notification_for: authorId,
+      user: userId,
+      comment: commentId,
+      seen: false,
+    });
 
-        console.log('updatedBlog --->>> ', updatedBlog)
+    const user = await userModel.findById(userId);
+    const authorData = await UserModel.findById(authorId);
 
-        const updatedUser = await userModel.findByIdAndUpdate(
-            userId,
-            {
-                $push: {
-                    "userInteractions.userCommentBlogs": {
-                        blogId: _id,
-                        interactionAt: Date.now()
-                    }
-                }
-            },
-            { new: true }
-        )
+    const title = " ❤️ Your blog has been Commented. ❤️";
 
-        console.log('updatedUser -->> ', updatedUser)
+    const body = ` ${user?.personal_info.username} commented on your blog`;
 
-        await NotificationModel.create({
-            type: "comment",
-            blog: _id,
-            notification_for: authorId,
-            user: userId,
-            comment: commentId,
-            seen: false
-        })
-
-        const user = await userModel.findById(userId);
-        const authorData = await UserModel.findById(authorId)
-
-        const title = " ❤️ Your blog has been Commented. ❤️"
-        
-        const body = ` ${user?.personal_info.username} commented on your blog`
-
-        if (authorData?.NotificationToken) {
-            await sendNotification(authorData.NotificationToken, body, title)
-        }
-
-        return {
-            commentID: commentId,
-            commentedUser: {
-                id: updatedUser?._id,
-                username: updatedUser?.personal_info.username
-            },
-            comment: savedComment.comment,
-            commentTime: savedComment.commentedAt
-        };
-
-    } catch (error) {
-        throw error
+    if (authorData?.NotificationToken) {
+      await sendNotification(authorData.NotificationToken, body, title);
     }
-}
+
+    return {
+      commentID: commentId,
+      commentedUser: {
+        id: updatedUser?._id,
+        username: updatedUser?.personal_info.username,
+      },
+      comment: savedComment.comment,
+      commentTime: savedComment.commentedAt,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
