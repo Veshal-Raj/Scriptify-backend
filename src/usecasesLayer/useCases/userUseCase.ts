@@ -1,66 +1,28 @@
 import IUser from "../../entitiesLayer/user";
-import { IUserUseCase } from "../interface/usecase/userUseCase";
-import { IUserRepository } from "../interface/repository/IuserRepository";
-import { Next } from "../../infrastructureLayer/types/serverPackageTypes";
 import { ErrorHandler } from "../middlewares/errorHandler";
-
-import { createUser, registerUser, login, userCreateBlog } from "./user/index";
+import { Next } from "../../infrastructureLayer/types/serverPackageTypes";
+import CustomLogger from "../../infrastructureLayer/services/errorLogging";
+import { IUserRepository } from "../interface/repository/IuserRepository";
+import { IOtpRepository } from "../interface/repository/IotpRepository";
+import { IUserUseCase } from "../interface/usecase/userUseCase";
 import { IHashpassword } from "../interface/services/IhashPassword";
 import { IcreateOTP } from "../interface/services/IcreateOTP";
 import { ISendMail } from "../interface/services/IsendMail";
 import { IJwt, IToken } from "../interface/services/Ijwt.types";
-import { IOtpRepository } from "../interface/repository/IotpRepository";
-import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IcloudSession } from "../interface/services/IcloudSession";
 import { IcloudStorage } from "../interface/services/IcloudStorage";
-import { latestBlogs } from "./user/latestBlogs";
-import { trendingBlogs } from "./user/trendingBlogs";
-import { Tags } from "./user/tags";
-import { filteredByTag } from "./user/filteredByTag";
-import { searchByQueries } from "./user/searchByQueries";
-import { getUserProfile } from "./user/getUserProfile";
-import { fetchUserblog } from "./user/fetchUserblog";
-import { fetchBlog } from "./user/fetchBlog";
-import { fetchSimilarBlog } from "./user/fetchSimilarBlog";
-import { increaseBlogReadCount } from "./user/increaseBlogReadCount";
-import { FollowUser } from "./user/FollowUser";
-import { unFollowUser } from "./user/unFollowUser";
-import { likeBlogByUser } from "./user/likeBlogByUser";
-import { unLikeBlogByUser } from "./user/unLikeBlogByUser";
-import { initialLikebyUser } from "./user/initialLikebyUser";
-import { saveBlogByUser } from "./user/saveBlogByUser";
-import { unSavedBlogByUser } from "./user/unSavedBlogByUser";
-import { savedBlogsByUser } from "./user/savedBlogsByUser";
-import { listUserFollowers } from "./user/listUserFollowers";
-import { listUserFollowings } from "./user/listUserFollowings";
-import { Comment, CommentData } from "../../@types/general/Comments";
-import { addBlogComment } from "./user/addBlogComment";
-import { initialBlogComment } from "./user/initialBlogComment";
-import { replyComment } from "./user/replyComment";
-import { reportBlogbyUser } from "./user/reportBlogbyUser";
-import { checkUserSubscribed } from "./user/checkUserSubscribed";
-import { monthlyUserSubscription } from "./user/monthlyUserSubscription";
 import { IPaymentService } from "../interface/services/IpaymentService";
-import { annualSubscription } from "./user/annualSubscription";
-import { webhookUseCaseEngine } from "./user/webhookUseCaseEngine";
-import { savePaymentData } from "./user/savePaymentData";
-import { reciptUrlForUser } from "./user/reciptUrlForUser";
-import { fetchAllUserList } from "./user/fetchAllUserList";
+import { Comment, CommentData } from "../../@types/general/Comments";
 import { IConversation } from "../../@types/general/chatData";
-import { sendChatFromSender } from "./user/sendChatFromSender";
-import { getChatOfUser } from "./user/getChatOfUser";
-import { registerToken } from "./user/registerToken";
-import { fetchUserNotification } from "./user/fetchUserNotification";
-import { notificationSeenByUser } from "./user/notificationSeenByUser";
-import { notificationCount } from "./user/notificationCount";
-import { chatUserSearchText } from "./user/chatUserSearchText";
-import { editUserProfileData } from "./user/editUserProfileData";
-import { changePassword } from "./user/changePassword";
-import { forgotPasswordEmail } from "./user/forgotPasswordEmail";
-import { forgotPasswordUserOtp } from "./user/forgotPasswordUserOtp";
-import { changePasswordNotLoggedIn } from "./user/changePasswordNotLoggedIn";
-import { resendOtp } from "./user/resendOtp";
-import { googleAuth } from "./user/googleAuth";
+
+import { createUser, registerUser, login, userCreateBlog, latestBlogs, trendingBlogs, Tags, filteredByTag, searchByQueries, 
+  getUserProfile , fetchUserblog, fetchBlog, fetchSimilarBlog, increaseBlogReadCount, FollowUser, unFollowUser, likeBlogByUser,
+  unLikeBlogByUser, initialLikebyUser, saveBlogByUser, unSavedBlogByUser, savedBlogsByUser, listUserFollowers, listUserFollowings,
+  addBlogComment, initialBlogComment, replyComment, reportBlogbyUser, checkUserSubscribed, monthlyUserSubscription, annualSubscription,
+  savePaymentData, reciptUrlForUser, fetchAllUserList, sendChatFromSender, getChatOfUser, registerToken, fetchUserNotification,
+  notificationSeenByUser, notificationCount, chatUserSearchText, editUserProfileData, changePassword, forgotPasswordEmail, forgotPasswordUserOtp,
+  changePasswordNotLoggedIn, resendOtp, googleAuth} from "./user/index";
+
 
 export class UserUseCase implements IUserUseCase {
   private readonly userRepository: IUserRepository;
@@ -99,86 +61,28 @@ export class UserUseCase implements IUserUseCase {
   }
 
   // register user
-  async registerUser(
-    {
-      username,
-      email,
-      password,
-    }: { username: string; email: string; password: string },
-    next: Next
-  ): Promise<string | void | never> {
+  async registerUser({username,email,password,}: { username: string; email: string; password: string },next: Next): Promise<string | void | never> {
     try {
-      let result = await registerUser(
-        this.otpRepository,
-        this.userRepository,
-        this.sendMail,
-        this.otpGenerator,
-        this.jwtToken,
-        this.bcrypt,
-        email,
-        username,
-        password,
-        next,
-        this.logger
-      );
-
-      return result;
+      return await registerUser(this.otpRepository, this.userRepository, this.sendMail, this.otpGenerator, this.jwtToken, this.bcrypt,
+        email, username, password, next, this.logger);
     } catch (error: unknown | never) {
-      return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
+      return next(new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error",this.logger)
       );
     }
   }
 
-  async createUser(
-    otpFromUser: string,
-    token: string,
-    next: Next
-  ): Promise<void | IUser | { message: string }> {
+  async createUser(otpFromUser: string,token: string,next: Next): Promise<void | IUser | { message: string }> {
     try {
-      console.log(
-        "otp from user ---->>>> ",
-        otpFromUser,
-        "token ------->>>>> ",
-        token
-      );
-      return await createUser(
-        this.userRepository,
-        this.otpRepository,
-        this.jwtToken,
-        otpFromUser,
-        token,
-        next,
-        this.logger
-      );
+      console.log("otp from user ---->>>> ",otpFromUser,"token ------->>>>> ",token);
+      return await createUser( this.userRepository, this.otpRepository, this.jwtToken, otpFromUser, token, next, this.logger );
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
-  async login(
-    { email, password }: { email: string; password: string },
-    next: Next
-  ): Promise<void | { user: IUser; tokens: IToken }> {
-    console.log('reached inside the login ')
-    try {
-      console.log( 'email  in usecase--->> ', email)
-      console.log('password in usecase --->> ', password )
-       return await login(
-        this.userRepository,
-        this.bcrypt,
-        this.jwtToken,
-        this.cloudSession,
-        email,
-        password,
-        next,
-        this.logger
-      );
-      
+  async login({ email, password }: { email: string; password: string },next: Next): Promise<void | { user: IUser; tokens: IToken }> {
+    try {      
+       return await login( this.userRepository, this.bcrypt, this.jwtToken, this.cloudSession,email,password, next, this.logger);      
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -186,7 +90,6 @@ export class UserUseCase implements IUserUseCase {
 
   async generateUploadURL(next: Next): Promise<any | void> {
     try {
-      console.log('reached inside the usecaselayer')
       const uploadURL = await this.cloudStorage.generateUploadURL(next);
         console.log(uploadURL)
       return uploadURL
@@ -197,10 +100,7 @@ export class UserUseCase implements IUserUseCase {
 
   async createBlog(title: string, des: string, banner: string, content: any, tags: string[], author: string, blog_id: string, draft: boolean, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaseLayer')
-      const result =  await userCreateBlog( this.userRepository, title, des, banner, content, tags, author, blog_id, draft, this.logger )
-      console.log('result in userusecase -->> ', result)
-      return result
+      return  await userCreateBlog( this.userRepository, title, des, banner, content, tags, author, blog_id, draft, this.logger )
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -208,10 +108,7 @@ export class UserUseCase implements IUserUseCase {
 
   async latestBlog(page: number,next: Next): Promise<any> {
     try {
-        console.log('reached inside the usecaselayer')
-        const response = await latestBlogs(page,this.userRepository, next, this.logger)
-        // console.log(response) 
-        return response
+        return await latestBlogs(page,this.userRepository, next, this.logger) 
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -219,9 +116,7 @@ export class UserUseCase implements IUserUseCase {
 
   async trendingBlog(next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await trendingBlogs(this.userRepository, next, this.logger)
-      return response 
+      return await trendingBlogs(this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -229,9 +124,7 @@ export class UserUseCase implements IUserUseCase {
 
   async exploreTags(next: Next): Promise<any> {
     try {
-        console.log('reached inside the usecaselayer')
-        const response = await Tags(this.userRepository, next, this.logger)
-        return response
+        return await Tags(this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -239,10 +132,7 @@ export class UserUseCase implements IUserUseCase {
 
   async filterByTags(tag:string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await filteredByTag(tag, this.userRepository, next, this.logger)
-      // console.log(response) 
-      return response
+      return await filteredByTag(tag, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -250,9 +140,7 @@ export class UserUseCase implements IUserUseCase {
 
   async searchByQuery(query: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await searchByQueries(query, this.userRepository, next, this.logger)
-      return response
+      return await searchByQueries(query, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -260,9 +148,7 @@ export class UserUseCase implements IUserUseCase {
   
   async getProfile(userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await getUserProfile(userId, this.userRepository, next, this.logger)
-      return response
+      return await getUserProfile(userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -270,9 +156,7 @@ export class UserUseCase implements IUserUseCase {
   
   async fetchUserBlogs(userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await fetchUserblog(userId, this.userRepository, next, this.logger)
-      return response
+      return await fetchUserblog(userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -280,9 +164,7 @@ export class UserUseCase implements IUserUseCase {
 
   async fetchSingleBlog(blog_id: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await fetchBlog(blog_id, this.userRepository, next, this.logger)
-      return response
+      return await fetchBlog(blog_id, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -290,10 +172,7 @@ export class UserUseCase implements IUserUseCase {
 
   async fetchSimilarBlogs(tags: string[], next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await fetchSimilarBlog(tags, this.userRepository, next, this.logger)
-      return response
-
+      return await fetchSimilarBlog(tags, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -301,10 +180,7 @@ export class UserUseCase implements IUserUseCase {
 
   async increaseReadCount(userId: string, blogId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await increaseBlogReadCount(userId, blogId, this.userRepository, next, this.logger)
-      return response
-
+      return await increaseBlogReadCount(userId, blogId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -312,9 +188,7 @@ export class UserUseCase implements IUserUseCase {
 
   async followUser(authorId: string, userId: string, next: Next): Promise<any> {
     try {
-      console.log(' reached inside the usecaseLayer')
-    const response = await FollowUser(authorId, userId, this.userRepository, next, this.logger)
-      return response
+      return await FollowUser(authorId, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -322,9 +196,7 @@ export class UserUseCase implements IUserUseCase {
 
   async unfollowUser(authorId: string, userId: string, next: Next): Promise<any> {
     try {
-      console.log(' reached inside the usecaseLayer')
-      const response = await unFollowUser(authorId, userId, this.userRepository, next, this.logger)
-      return response
+      return await unFollowUser(authorId, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -332,9 +204,7 @@ export class UserUseCase implements IUserUseCase {
 
   async likeBlog (blogId: string, userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await likeBlogByUser(blogId, userId, this.userRepository, next, this.logger)
-      return response
+      return await likeBlogByUser(blogId, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -342,9 +212,7 @@ export class UserUseCase implements IUserUseCase {
 
   async unLikeBlog (blogId: string, userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await unLikeBlogByUser(blogId, userId, this.userRepository, next, this.logger)
-      return response
+      return await unLikeBlogByUser(blogId, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -352,9 +220,7 @@ export class UserUseCase implements IUserUseCase {
 
   async initialLike (userId: string, blogId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the usecaselayer')
-      const response = await initialLikebyUser(userId, blogId, this.userRepository, next, this.logger)
-      return response
+      return await initialLikebyUser(userId, blogId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -362,9 +228,7 @@ export class UserUseCase implements IUserUseCase {
 
   async saveBlog(blogId: string, userId: string, next: Next): Promise<any> {
     try{
-        console.log('reached inside the usecaselayer')
-        const response = await saveBlogByUser(blogId, userId, this.userRepository, next, this.logger)
-        return response
+        return await saveBlogByUser(blogId, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -372,9 +236,7 @@ export class UserUseCase implements IUserUseCase {
 
   async unSaveBlog(blogId: string, userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the userCaselayer')
-      const response = await unSavedBlogByUser(blogId, userId, this.userRepository, next, this.logger)
-      return response
+      return await unSavedBlogByUser(blogId, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -382,9 +244,7 @@ export class UserUseCase implements IUserUseCase {
 
   async savedBlogs(userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the userUsecaseLayer')
-      const response = await savedBlogsByUser(userId, next, this.userRepository, this.logger)
-      return response
+      return await savedBlogsByUser(userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -392,9 +252,7 @@ export class UserUseCase implements IUserUseCase {
 
   async listFollowers(userId: string, next: Next): Promise<any> {
     try{
-      console.log('reached inside the userUsecaselayer')
-      const response = await listUserFollowers(userId, next, this.userRepository, this.logger)
-      return response
+      return await listUserFollowers(userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -402,9 +260,7 @@ export class UserUseCase implements IUserUseCase {
 
   async listFollowings(userId: string, next: Next): Promise<any> {
     try {
-      console.log('reached inside the userUsecaselayer')
-      const response = await listUserFollowings(userId, next, this.userRepository, this.logger)
-      return response
+      return await listUserFollowings(userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -412,9 +268,7 @@ export class UserUseCase implements IUserUseCase {
 
   async addComment( commentData: CommentData, comment: Comment, next: Next) : Promise<any> {
     try {
-      console.log('reached inside the userUsecaselayer')
-      const response = await addBlogComment( commentData, comment, next, this.userRepository, this.logger)
-      return response
+      return await addBlogComment( commentData, comment, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -422,9 +276,7 @@ export class UserUseCase implements IUserUseCase {
 
   async initialComments(blogId: string, next: Next ): Promise<any>{ 
     try {
-      console.log('reached inside the userUsecaselayer')
-      const response = await initialBlogComment(blogId, next, this.userRepository, this.logger)
-      return response 
+      return await initialBlogComment(blogId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -432,9 +284,7 @@ export class UserUseCase implements IUserUseCase {
 
   async addReplyComment(comment: string, parentCommentId: string, commentData: CommentData ,next: Next): Promise<any> {
     try {
-        console.log('reached inside the userUsecaselayer')
-        const response = await replyComment(comment, parentCommentId, commentData, next, this.userRepository, this.logger)
-        return response
+        return await replyComment(comment, parentCommentId, commentData, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -442,9 +292,7 @@ export class UserUseCase implements IUserUseCase {
 
   async reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any | void> {
     try {
-      console.log('reached inside the userUsecaslayer')
-      const response = await reportBlogbyUser(blog_id, reason, reportedBy, next, this.userRepository, this.logger)
-      return response
+      return await reportBlogbyUser(blog_id, reason, reportedBy, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -452,10 +300,7 @@ export class UserUseCase implements IUserUseCase {
 
   async checkIsSubscribed(userId: string, next: Next): Promise<any | void> {
     try { 
-        console.log('reached inside the userUsecaselayer')
-        const response = await checkUserSubscribed(userId, next, this.userRepository, this.logger)
-        console.log('response ', response)
-        return response
+        return await checkUserSubscribed(userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -463,9 +308,7 @@ export class UserUseCase implements IUserUseCase {
 
   async monthlySubscription(userId: string, subscriptionType: string, next:Next): Promise<any | void> {
     try {
-      console.log('reached inside the userUsecaselayer')
-      const response = await monthlyUserSubscription(userId, subscriptionType,next,this.userRepository,this.paymentService, this.logger)
-      return response
+      return await monthlyUserSubscription(userId, subscriptionType,next,this.userRepository,this.paymentService, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -473,21 +316,17 @@ export class UserUseCase implements IUserUseCase {
 
   async annuallySubscription(userId: string, subscriptionType: string, next: Next): Promise<any | void> {
     try {
-      const response = await annualSubscription(userId, subscriptionType, next, this.userRepository, this.paymentService, this.logger)
-      return response
+      return await annualSubscription(userId, subscriptionType, next, this.userRepository, this.paymentService, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
   }
 
-  async webhook(data: any, body: any, sig: any, next: Next): Promise<any | void> {
+  async webhook( body: any, sig: any, next: Next): Promise<any | void> {
     try {
         const response = await this.paymentService.webHook(body, sig)
         console.log('response in usecase --->>>> ', response)
         return response
-        // const response = await webhookUseCaseEngine( body, sig, next, this.userRepository, this.paymentService, this.logger)
-        // if (!response) return null
-        // return response
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -495,8 +334,7 @@ export class UserUseCase implements IUserUseCase {
 
   async savingPaymentData(paymentMethod: string, userId: string, receipt_url: string, subscriptionType: string, next: Next): Promise<any | void> {
     try {
-        const response = await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType, next, this.userRepository, this.logger)
-        return response
+        return await savePaymentData(paymentMethod, userId, receipt_url, subscriptionType, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -504,8 +342,7 @@ export class UserUseCase implements IUserUseCase {
 
   async reciptUrl(userId: string, next: Next): Promise<any | void> {
     try {
-        const response = await reciptUrlForUser(userId, next, this.userRepository, this.logger)
-        return response
+        return await reciptUrlForUser(userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -513,8 +350,7 @@ export class UserUseCase implements IUserUseCase {
 
   async  fetchAllUsers(next: Next): Promise<any | void>  {
     try {
-        const response = await fetchAllUserList(next, this.userRepository, this.logger)
-        return response
+        return await fetchAllUserList(next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -522,8 +358,7 @@ export class UserUseCase implements IUserUseCase {
 
   async sendChat(data: IConversation, next: Next): Promise<any | void> {
     try {
-        const response = await sendChatFromSender(data, this.userRepository, next, this.logger)
-        return response
+        return await sendChatFromSender(data, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -531,8 +366,7 @@ export class UserUseCase implements IUserUseCase {
 
   async getChat(senderId: string, receiverId: string, next: Next): Promise<any | void> {
     try {
-        const response = await getChatOfUser(senderId, receiverId, this.userRepository, next, this.logger)
-        return response 
+        return await getChatOfUser(senderId, receiverId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -540,8 +374,7 @@ export class UserUseCase implements IUserUseCase {
 
   async registerNotificationToken(token: string, userId: string, next: Next): Promise<any | void> {
     try {
-        const response = await registerToken(token, userId, this.userRepository, next, this.logger)
-        return response
+        return await registerToken(token, userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -549,8 +382,7 @@ export class UserUseCase implements IUserUseCase {
 
   async fetchAllUserNotification(userId: string, next: Next): Promise<any | void> {
     try {
-        const response = await fetchUserNotification(userId, this.userRepository, next, this.logger)
-        return response
+        return await fetchUserNotification(userId, this.userRepository, next, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -558,8 +390,7 @@ export class UserUseCase implements IUserUseCase {
 
   async notificationSeen(notificationId: string, next: Next): Promise<any | void> {
     try {
-        const response = await notificationSeenByUser(notificationId, next, this.userRepository, this.logger)
-        return response
+        return await notificationSeenByUser(notificationId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -567,8 +398,7 @@ export class UserUseCase implements IUserUseCase {
 
   async notificationCount(userId: string, next: Next): Promise<any | void> {
     try {
-        const response = await notificationCount(userId, next, this.userRepository, this.logger)
-        return response
+        return await notificationCount(userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -576,8 +406,7 @@ export class UserUseCase implements IUserUseCase {
 
   async chatUserSearch(query: string, next: Next): Promise<any | void> {
     try {
-      const response = await chatUserSearchText(query, next, this.userRepository, this.logger)
-      return response
+      return await chatUserSearchText(query, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -585,8 +414,7 @@ export class UserUseCase implements IUserUseCase {
 
   async editUserProfile(personal_info: any, social_links: any, uploaded_image: string, userId: string, next: Next): Promise<any | void> {
     try {
-        const response = await editUserProfileData(personal_info, social_links, uploaded_image, userId, next, this.userRepository, this.logger)
-        return response
+        return await editUserProfileData(personal_info, social_links, uploaded_image, userId, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
@@ -594,18 +422,15 @@ export class UserUseCase implements IUserUseCase {
 
   async changePassword(userId: string, newPassword: string, next: Next): Promise<any | void> {
     try {
-        const response = await changePassword(userId, newPassword, next, this.bcrypt, this.userRepository, this.logger)
-        return response
+        return await changePassword(userId, newPassword, next, this.bcrypt, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
   }
 
   async forgotPasswordEmail(email: string, next: Next): Promise<any | void> {
-    try {
-        
-        const response = await forgotPasswordEmail(email, next, this.userRepository,this.otpGenerator, this.sendMail,  this.logger)
-        return response
+    try {        
+        return await forgotPasswordEmail(email, next, this.userRepository,this.otpGenerator, this.sendMail,  this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
@@ -613,8 +438,7 @@ export class UserUseCase implements IUserUseCase {
   
   async forgotPasswordOtp(otp: string, email: string, next: Next): Promise<any | void> {
     try {
-        const response = await forgotPasswordUserOtp(otp, email, next, this.userRepository, this.logger)
-        return response
+        return await forgotPasswordUserOtp(otp, email, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
@@ -622,8 +446,7 @@ export class UserUseCase implements IUserUseCase {
 
   async changePasswordNotLoggedIn(email: string, newPassword: string, next: Next): Promise<any | void>{
     try {
-        const response = await changePasswordNotLoggedIn(email, newPassword, next, this.bcrypt, this.userRepository, this.logger)
-        return response
+        return await changePasswordNotLoggedIn(email, newPassword, next, this.bcrypt, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
@@ -631,8 +454,7 @@ export class UserUseCase implements IUserUseCase {
 
   async resendOtp(token: string, next: Next): Promise<any | void> {
     try {
-        const response = await resendOtp  (token, next,this.otpRepository, this.userRepository,this.jwtToken, this.sendMail, this.otpGenerator, this.logger)
-        return response
+        return await resendOtp  (token, next,this.otpRepository, this.userRepository,this.jwtToken, this.sendMail, this.otpGenerator, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
@@ -640,8 +462,7 @@ export class UserUseCase implements IUserUseCase {
 
   async googleAuth(uid: string, next: Next): Promise<any | void> {
     try {
-      const response = await googleAuth(uid, next, this.userRepository, this.logger)
-      return response
+      return await googleAuth(uid, next, this.userRepository, this.logger)
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)); 
     }
