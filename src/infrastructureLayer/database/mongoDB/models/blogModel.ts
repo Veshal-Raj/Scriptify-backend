@@ -14,20 +14,16 @@ const blogSchema: Schema = new Schema<IBlog>(
         },
         banner: {
             type: String,
-            // required: true,
         },
         des: {
             type: String,
             maxlength: 200,
-            // required: true
         },
         content: {
             type: [],
-            // required: true
         },
         tags: {
             type: [String],
-            // required: true
         },
         author: {
             type: Schema.Types.ObjectId,
