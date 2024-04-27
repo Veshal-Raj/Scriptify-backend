@@ -14,7 +14,7 @@ export const reportBlogbyUser = async (
 )=> {
     try {
         console.log('reached inside the usecase engine')
-        const response = await userRepository.reportBlog(blog_id, reason, reportedBy,next)
+        const response = await userRepository.reportBlog(blog_id, reason, reportedBy)
         return response
     } catch (error: unknown | never) {
         return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', logger));
