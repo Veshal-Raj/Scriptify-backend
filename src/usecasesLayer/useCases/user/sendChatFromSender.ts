@@ -1,7 +1,6 @@
 import { IConversation } from "../../../@types/general/chatData";
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
@@ -10,7 +9,7 @@ export const sendChatFromSender = async (
     data: IConversation,
     userRepository: IUserRepository,
     next: Next,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         console.log('reached inside engine usecase sentchatfromsender')
