@@ -1,6 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { IPaymentService } from "../../interface/services/IpaymentService";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
@@ -11,7 +10,7 @@ export const annualSubscription = async (
     next: Next,
     userRepository: IUserRepository,
     paymentService: IPaymentService,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         const response = await userRepository.annuallySubscription(userId, subscriptionType, paymentService)
