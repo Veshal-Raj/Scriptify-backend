@@ -1,6 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
@@ -12,7 +11,7 @@ export const editUserProfileData = async (
     userId: string,
     next: Next,
     userRepository: IUserRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         const response = await userRepository.editUserProfile(personal_info, social_links, uploaded_image, userId)
