@@ -1,8 +1,6 @@
-import { Comment, CommentData } from "../../../@types/general/Comments";
+import { CommentData } from "../../../@types/general/Comments";
 import { IConversation } from "../../../@types/general/chatData";
 import IUser from "../../../entitiesLayer/user";
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
-import { IUserResponse } from "../request_response/user";
 import { IcreateOTP } from "../services/IcreateOTP";
 import { IPaymentService } from "../services/IpaymentService";
 import { ISendMail } from "../services/IsendMail";
@@ -12,43 +10,41 @@ import { ISendMail } from "../services/IsendMail";
 export interface IUserRepository {
     findUserByEmail(email: string): Promise<IUser | null>;
     createUser(newUser: IUser): Promise<IUser>;
-    getAllUser(role: string): Promise<IUser []>;
-    changeUserStatus(id: string): Promise<IUserResponse | null | IUser>
     userCreateBlog(
         title: string,
         des: string,
         banner: string,
-        content: any, // Adjust the type according to your content structure
+        content: any,
         tags: string[],
-        authorId: string, // Assuming authorId is a string representing the ID of the author
+        authorId: string, 
         blog_id: string,
         draft: boolean
     ): Promise<any>;
-    latestBlog(page: number,next: Next ): Promise<any>
-    trendingBlogs(next: Next): Promise<any>
-    fetchTags(next: Next): Promise<any>
-    filterByTag(tag: string, next:Next): Promise<any>
-    searchByQueries(query: string, next: Next): Promise<any>
-    getProfile(userId: string, next: Next): Promise<any>
-    fetchUserBlogs(userId: string, next: Next): Promise<any>
-    fetchSingleBlog(blog_id: string, next: Next): Promise<any>
-    fetchSimilarBlogs(tags: string[], next: Next): Promise<any>
-    increaseReadCount(userId: string, blogId: string, next: Next): Promise<any>
-    followUser(authorId: string, userId: string, next: Next): Promise<any>
-    unfollowUser(authorId: string, userId: string, next: Next): Promise<any>
-    likeBlog(blogId: string, userId: string, next: Next): Promise<any>
-    unLikeBlog(blogId: string, userId: string, next: Next): Promise<any>
-    intialLike(userId: string, blogId: string, next: Next): Promise<any>
-    saveBlog(blogId: string, userId: string, next: Next): Promise<any>
-    unSaveBlog(blogId: string, userId: string, next: Next): Promise<any>
-    savedBlogs(userId: string, next: Next): Promise<any>
-    listFollowers(userId: string, next: Next): Promise<any>
-    listFollowings(userId: string, next: Next): Promise<any>
-    addComment(commentData: CommentData, comment: Comment, next: Next): Promise<any>
-    initialComments(blogId: string, next: Next): Promise<any>
-    addReplyComments(comment: string, parentCommentId: string, commentData: CommentData, next: Next): Promise<any>
-    reportBlog(blog_id: string, reason: string, reportedBy: string, next: Next): Promise<any>
-    checkIsSubscribed(userId: string, next: Next): Promise<any>
+    latestBlog(page: number  ): Promise<any>
+    trendingBlogs( ): Promise<any>
+    fetchTags( ): Promise<any>
+    filterByTag(tag: string): Promise<any>
+    searchByQueries(query: string ): Promise<any>
+    getProfile(userId: string ): Promise<any>
+    fetchUserBlogs(userId: string ): Promise<any>
+    fetchSingleBlog(blog_id: string ): Promise<any>
+    fetchSimilarBlogs(tags: string[] ): Promise<any>
+    increaseReadCount(userId: string, blogId: string ): Promise<any>
+    followUser(authorId: string, userId: string ): Promise<any>
+    unfollowUser(authorId: string, userId: string ): Promise<any>
+    likeBlog(blogId: string, userId: string ): Promise<any>
+    unLikeBlog(blogId: string, userId: string ): Promise<any>
+    intialLike(userId: string, blogId: string ): Promise<any>
+    saveBlog(blogId: string, userId: string ): Promise<any>
+    unSaveBlog(blogId: string, userId: string ): Promise<any>
+    savedBlogs(userId: string ): Promise<any>
+    listFollowers(userId: string): Promise<any>
+    listFollowings(userId: string ): Promise<any>
+    addComment(commentData: CommentData, comment: string ): Promise<any>
+    initialComments(blogId: string ): Promise<any>
+    addReplyComments(comment: string, parentCommentId: string, commentData: CommentData ): Promise<any>
+    reportBlog(blog_id: string, reason: string, reportedBy: string ): Promise<any>
+    checkIsSubscribed(userId: string ): Promise<any>
     monthlySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any>
     annuallySubscription(userId: string, subscriptionType: string, paymentService: IPaymentService): Promise<any>
     webhook(body: any, sig: any ): Promise<any>
@@ -69,7 +65,4 @@ export interface IUserRepository {
     changePasswordNotLoggedIn(email: string, newPassword: string): Promise<any>
     resendOtp(email: string, sendMail: ISendMail, otpGenerator: IcreateOTP): Promise<any>
     googleAuth(uid: string): Promise<any>
-    // admin
-    getAllBlogs(): Promise<any>
-    changeBlogStatus(blogId: string): Promise<any>
 }
