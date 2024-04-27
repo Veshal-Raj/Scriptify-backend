@@ -1,8 +1,6 @@
 
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
-
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
@@ -12,7 +10,7 @@ export const forgotPasswordUserOtp = async (
     email: string,
     next: Next,
     userRepository: IUserRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         
