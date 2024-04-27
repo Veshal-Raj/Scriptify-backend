@@ -1,7 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes"
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes"
 import { ErrorHandler } from "../../middlewares/errorHandler"
-import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { IAdminRepository } from "../../interface/repository/IadminRepository";
 
 
@@ -11,7 +9,7 @@ import { IAdminRepository } from "../../interface/repository/IadminRepository";
 export const getAllBlogs = async (
     next: Next,
     adminRepository: IAdminRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         const result = adminRepository.getAllBlogs()
