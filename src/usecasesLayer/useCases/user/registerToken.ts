@@ -1,6 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
@@ -9,7 +8,7 @@ export const registerToken = async (
     userId: string,
     userRepository: IUserRepository,
     next: Next,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         const response = await userRepository.registerUserToken(token, userId)
