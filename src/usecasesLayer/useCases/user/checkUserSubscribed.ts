@@ -1,6 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
@@ -8,12 +7,12 @@ export const checkUserSubscribed = async (
     userId: string,
     next: Next,
     userRepository: IUserRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         console.log('reached inside the usecase engine')
         console.log(userId)
-        const response = await userRepository.checkIsSubscribed(userId, next)
+        const response = await userRepository.checkIsSubscribed(userId)
         console.log(response)
         return response
     } catch (error: unknown | never) {
