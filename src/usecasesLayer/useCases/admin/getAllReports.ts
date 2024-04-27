@@ -1,6 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IAdminRepository } from "../../interface/repository/IadminRepository";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
@@ -9,7 +8,7 @@ import { ErrorHandler } from "../../middlewares/errorHandler";
 export const getAllReports = async (
     next: Next,
     adminRepository: IAdminRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
             const result = await adminRepository.getAllReports()
