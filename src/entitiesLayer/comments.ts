@@ -1,6 +1,7 @@
 
 // Define interface for the comment
 interface IComment  {
+    _id: any;
     blog_id: any;
     blog_author: any;
     comment: string;
