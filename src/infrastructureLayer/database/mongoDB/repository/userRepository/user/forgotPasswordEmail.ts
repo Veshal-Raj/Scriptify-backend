@@ -9,29 +9,25 @@ export const forgotPasswordEmail = async (
   sendMail: ISendMail
 ) => {
   try {
-    const existingUser = await UserModel.findOne({ 'personal_info.email': email });
+    const existingUser = await UserModel.findOne({
+      "personal_info.email": email,
+    });
 
     const existingOTP = await OtpModel.findOne({ email });
 
-    if (existingOTP) return { message: 'Otp already send!'}
+    if (existingOTP) return { message: "Otp already send!" };
 
     if (existingUser && !existingOTP) {
-        const username = existingUser.personal_info.username
-        const otp = await otpGenerator.generateOTP() 
-        console.log('otp --- ', otp)
-        console.log('email --- ',email)
-        const mail = await sendMail.sendEmailVerification(username,email, otp)
-        console.log('mail --- ', mail)
-        
-        const otpDoc =   await OtpModel.create({ email, otp });
-        console.log(otpDoc)
+      const username = existingUser.personal_info.username;
+      const otp = await otpGenerator.generateOTP();
 
-      console.log('Email already exists:', email);
-      return { message: "OTP send successfully"}
+      await sendMail.sendEmailVerification(username, email, otp);
+
+      await OtpModel.create({ email, otp });
+
+      return { message: "OTP send successfully" };
     } else {
-      // Email doesn't exist, handle accordingly (e.g., send error message)
-      console.log('Email does not exist:', email);
-      return { message: 'Email does not exist'}
+      return { message: "Email does not exist" };
     }
   } catch (error) {
     throw error;
