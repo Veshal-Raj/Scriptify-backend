@@ -4,7 +4,7 @@ interface IBlog  {
     title: string;
     banner?: string;
     des?: string;
-    content?: any[]; // You might want to replace any[] with a more specific type
+    content?: any[]; 
     tags?: string[];
     author: any;
     activity: {
