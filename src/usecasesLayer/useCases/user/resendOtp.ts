@@ -1,9 +1,8 @@
 import IUser from "../../../entitiesLayer/user";
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IOtpRepository } from "../../interface/repository/IotpRepository";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
 import { IcreateOTP } from "../../interface/services/IcreateOTP";
-import { ILogger } from "../../interface/services/IerrorLog";
 import { IJwt } from "../../interface/services/Ijwt.types";
 import { ISendMail } from "../../interface/services/IsendMail";
 import { ErrorHandler } from "../../middlewares/errorHandler";
@@ -20,7 +19,7 @@ export const resendOtp = async (
     jwtVerifier: IJwt,
     sendMail: ISendMail,
     otpGenerator: IcreateOTP,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         let decode = (await jwtVerifier.verifyJwt(token)) as IUser;
