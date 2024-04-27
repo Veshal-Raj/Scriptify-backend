@@ -21,7 +21,7 @@ import { AdminUseCase } from "../../../../usecasesLayer/useCases/adminUseCase";
 import { UserController } from "../../../../AdaptersLayer/userController";
 import { AdminController } from "../../../../AdaptersLayer/adminController";
 
-const userRepository = new UserRepository(UserModel, BlogModel, CommentModel)
+const userRepository = new UserRepository(UserModel, BlogModel)
 const adminRepository = new AdminRepository()
 const bcryptService = new Encrypt()
 const generateOTP = new GenerateOtp()
