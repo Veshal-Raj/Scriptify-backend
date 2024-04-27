@@ -19,10 +19,14 @@ export const login = async (
     logger: Ilogger
 ): Promise<{ user: IUser; tokens: IToken} | void> => {
     try {
-        console.log('email in usecase engine --- ', email)
-        console.log('password in usecase engine -- >>', password)
+        // console.log('email in usecase engine --- ', email)
+        // console.log('password in usecase engine -- >>', password)
+        console.log('--------------------------------------- 1 ')
+        console.log('email here -- ', email)
         const user = await userRepository.findUserByEmail(email);
+        console.log('------------------------------- 2')
         console.log('user in userUseCase -->> ', user)
+        console.log('--------------------------------- 3')
         if (!user) return next(new ErrorHandler(400, 'invalid email', logger ))
 
         if (user.status === 'freeze') next (new ErrorHandler(400, 'access has been denied.', logger))
@@ -34,14 +38,14 @@ export const login = async (
         if (!result) next(new ErrorHandler(400, 'invalid password', logger))
 
         user.personal_info.password = ''
-        console.log('before createAccessAndRefreshToken')
+        // console.log('before createAccessAndRefreshToken')
         const tokens = await token.createAccessAndRefreshToken(user?._id as string);
-        console.log('tokens -->>>> ', tokens)
-        console.log(user?._id,'<------>' ,user)
+        // console.log('tokens -->>>> ', tokens)
+        // console.log(user?._id,'<------>' ,user)
        let a =  await cloudSession.createUserSession(user?._id as string, user)
-       console.log(a)
-       console.log('cloudsession.createUserSession is sucessfull')
-       console.log(tokens)
+    //    console.log(a)
+    //    console.log('cloudsession.createUserSession is sucessfull')
+    //    console.log(tokens)
         return { user, tokens }
     } catch (error) {
         throw error
