@@ -1,7 +1,5 @@
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes"
+import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes"
 import { IAdminRepository } from "../../interface/repository/IadminRepository"
-import { IUserRepository } from "../../interface/repository/IuserRepository"
-import { ILogger } from "../../interface/services/IerrorLog"
 import { ErrorHandler } from "../../middlewares/errorHandler"
 
 
@@ -10,7 +8,7 @@ export const changeBlogStatus = async (
     blogId: string,
     next: Next,
     adminRepository: IAdminRepository,
-    logger: ILogger
+    logger: Ilogger
 ) => {
     try {
         const result = await adminRepository.changeBlogStatus(blogId)
