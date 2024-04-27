@@ -1,15 +1,11 @@
 import IUser from "../../entitiesLayer/user";
-import { Next, Req } from "../../infrastructureLayer/types/serverPackageTypes";
-import { IUserRepository } from "../interface/repository/IuserRepository";
+import { Next } from "../../infrastructureLayer/types/serverPackageTypes";
 import { IAdminUseCase } from "../interface/usecase/adminUseCase";
 import { ErrorHandler } from "../middlewares/errorHandler";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IUserResponse } from "../interface/request_response/user";
-import { getAllUser, changeUserStatus } from "./admin/index";
-import { getAllBlogs } from "./admin/getAllBlogs";
-import { changeBlogStatus } from "./admin/changeBlogStatus";
+import { getAllUser, changeUserStatus, getAllBlogs, changeBlogStatus, getAllReports } from "./admin/index";
 import { IAdminRepository } from "../interface/repository/IadminRepository";
-import { getAllReports } from "./admin/getAllReports";
 
 export class AdminUseCase implements IAdminUseCase {
   private readonly adminRepository: IAdminRepository;
@@ -34,62 +30,42 @@ export class AdminUseCase implements IAdminUseCase {
     }
   }
 
- async changeUserStatus(req: Req, next: Next): Promise<IUserResponse | void> {
-    try {
-      console.log(req.params.id, 'in usercases adminUsecase')
-      return await changeUserStatus(this.adminRepository, req, next, this.logger)
+ async changeUserStatus(userId: string, next: Next): Promise<IUserResponse | void | IUser | null> {
+    try {      
+      return await changeUserStatus(this.adminRepository, userId, next, this.logger)
     } catch (error) {
       return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
+        new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)
       );
     }
   }
 
   async getAllBlogs(next: Next): Promise<any> {
     try {
-        const response = await getAllBlogs(next, this.adminRepository,  this.logger)
-        return response
+        return await getAllBlogs(next, this.adminRepository,  this.logger)        
     } catch (error) {
       return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
+        new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)
       );
     }
   }
 
   async changeBlogStatus(blogId: string, next: Next): Promise<any> {
     try {
-        const response = await changeBlogStatus(blogId, next, this.adminRepository, this.logger)
-        return response
+        return await changeBlogStatus(blogId, next, this.adminRepository, this.logger)        
     } catch (error) {
       return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
+        new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger)
       );
     }
   }
 
   async getAllReports(next: Next): Promise<any> {
     try {
-      const response = await getAllReports(next, this.adminRepository, this.logger)
-      return response
+      return await getAllReports(next, this.adminRepository, this.logger)
     } catch (error) {
       return next(
-        new ErrorHandler(
-          500,
-          error instanceof Error ? error.message : "Unknown error",
-          this.logger
-        )
+        new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger )
       );
     }
   }
