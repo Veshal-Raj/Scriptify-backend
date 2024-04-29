@@ -1,7 +1,7 @@
 import { Comment, CommentData } from "../../../@types/general/Comments";
 import { IConversation } from "../../../@types/general/chatData";
 import IUser from "../../../entitiesLayer/user";
-import { Next } from "../../../infrastructureLayer/types/serverPackageTypes";
+import { Next, Req, Res } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IToken } from "../services/Ijwt.types";
 
 
@@ -12,6 +12,8 @@ export interface IUserUseCase {
   createUser(verificationCode: string, token: string, next: Next ): Promise<IUser | void | { message: string }>;
 
   login({ email, password }: { email: string; password: string },next: Next): Promise<{ user: IUser; tokens: IToken } | void>;
+
+  logout(req: Req, res: Res, next: Next) : Promise<any | void>
 
   generateUploadURL(next: Next): Promise< any | void>
 

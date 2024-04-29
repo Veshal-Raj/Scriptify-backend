@@ -11,7 +11,8 @@ export const filteredByTag = async (
     logger: Ilogger
 ) => {
     try {
-       console.log('reached inside the latestBlog usecase engine ')
+       console.log('tag  ----- ',tag)
+    //    const newTag = tag?.tag
        const response = await userRepository.filterByTag(tag)
        return response
     } catch (error: unknown | never) {

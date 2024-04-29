@@ -1,6 +1,7 @@
 import http from 'http'
 import { Server } from 'socket.io'
 import { app } from '../webserver/config/app';
+require("dotenv").config();
 
 interface IUsers {
     userId: string;
@@ -14,7 +15,7 @@ export const server = http.createServer(app)
 export const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: "*",
+        origin: process.env.CLIENT_SERVER,
         methods: ["GET", "POST"]
     }
 });

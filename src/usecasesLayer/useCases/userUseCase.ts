@@ -1,6 +1,6 @@
 import IUser from "../../entitiesLayer/user";
 import { ErrorHandler } from "../middlewares/errorHandler";
-import { Next } from "../../infrastructureLayer/types/serverPackageTypes";
+import { Next, Req, Res } from "../../infrastructureLayer/types/serverPackageTypes";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IUserRepository } from "../interface/repository/IuserRepository";
 import { IOtpRepository } from "../interface/repository/IotpRepository";
@@ -21,7 +21,7 @@ import { createUser, registerUser, login, userCreateBlog, latestBlogs, trendingB
   addBlogComment, initialBlogComment, replyComment, reportBlogbyUser, checkUserSubscribed, monthlyUserSubscription, annualSubscription,
   savePaymentData, reciptUrlForUser, fetchAllUserList, sendChatFromSender, getChatOfUser, registerToken, fetchUserNotification,
   notificationSeenByUser, notificationCount, chatUserSearchText, editUserProfileData, changePassword, forgotPasswordEmail, forgotPasswordUserOtp,
-  changePasswordNotLoggedIn, resendOtp, googleAuth} from "./user/index";
+  changePasswordNotLoggedIn, resendOtp, googleAuth, logout} from "./user/root/index";
 
 
 export class UserUseCase implements IUserUseCase {
@@ -74,7 +74,7 @@ export class UserUseCase implements IUserUseCase {
   async createUser(otpFromUser: string,token: string,next: Next): Promise<void | IUser | { message: string }> {
     try {
       console.log("otp from user ---->>>> ",otpFromUser,"token ------->>>>> ",token);
-      return await createUser( this.userRepository, this.otpRepository, this.jwtToken, otpFromUser, token, next, this.logger );
+      return await createUser( this.userRepository, this.otpRepository, this.jwtToken, this.cloudSession, otpFromUser, token, next, this.logger );
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }
@@ -83,6 +83,14 @@ export class UserUseCase implements IUserUseCase {
   async login({ email, password }: { email: string; password: string },next: Next): Promise<void | { user: IUser; tokens: IToken }> {
     try {      
        return await login( this.userRepository, this.bcrypt, this.jwtToken, this.cloudSession,email,password, next, this.logger);      
+    } catch (error: unknown | never) {
+      return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
+    }
+  }
+
+  async logout(req: Req, res: Res, next: Next): Promise<any | void> {
+    try {
+      return await logout(this.cloudSession, req, res, next, this.logger)      
     } catch (error: unknown | never) {
       return next( new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger));
     }

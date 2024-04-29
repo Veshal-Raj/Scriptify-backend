@@ -1,4 +1,5 @@
 import IUser from "../../../entitiesLayer/user";
+import { CloudSession } from "../../../infrastructureLayer/services/cloudSession";
 import { Ilogger, Next } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IOtpRepository } from "../../interface/repository/IotpRepository";
 import { IUserRepository } from "../../interface/repository/IuserRepository";
@@ -9,6 +10,7 @@ export const createUser = async (
     userRepository: IUserRepository,
     otpRepository: IOtpRepository,
     jwtVerifier: IJwt,
+    cloudSession: CloudSession,
     otpFromUser: string,
     token: string,
     next: Next,
@@ -16,11 +18,9 @@ export const createUser = async (
 )=>{
     try {
         let decode = (await jwtVerifier.verifyJwt(token)) as IUser;
-        console.log('decode ----->>>> ', decode)
-        if (!decode) {
-            
-            return next(new ErrorHandler(400, "token has been expired, register again",logger))
-        }
+       
+        if (!decode) return next(new ErrorHandler(400, "token has been expired, register again",logger))
+
         // check whether use exists
         const email = decode.personal_info.email
         console.log('email --->>>>> ', email)
@@ -28,7 +28,8 @@ export const createUser = async (
         console.log('checkUser ----->>>>>> ', checkUser)
 
         if (!checkUser) {
-            throw new ErrorHandler(401,  'OTP mismatch', logger)
+        //    return next(new ErrorHandler(500,  'OTP  mismatch', logger));
+        return {status: 404,  message: 'OTP mismatch'};
     }
         let otp = checkUser.otp
         
@@ -43,9 +44,15 @@ export const createUser = async (
                 return {message: 'user already exists'};
         };
             const newUser = await userRepository.createUser(decode);
+            console.log('new user  --- ', newUser)
             newUser.personal_info.password = '' // no need of sending password
+
+            const a = await cloudSession.createUserSession(newUser._id as string, newUser)
+
+            console.log(' ---- a ---- ', a)
+
             return newUser;            
-        } else throw new ErrorHandler(401, "OTP mismatch", logger)
+        } else return next( new ErrorHandler(401, "OTP mismatch", logger))
 
     } catch (error: unknown | never) {
         return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', logger));

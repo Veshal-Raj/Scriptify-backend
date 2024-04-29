@@ -2,6 +2,7 @@ import IUser from "../../../entitiesLayer/user";
 import { Req } from "../../../infrastructureLayer/types/serverPackageTypes";
 import { IcloudSession } from "../../interface/services/IcloudSession";
 import { IJwt, IToken } from "../../interface/services/Ijwt.types";
+import { ErrorHandler } from "../../middlewares/errorHandler";
 
 
 export const refresh = async (
@@ -19,7 +20,8 @@ export const refresh = async (
             req.user as IUser
         )
         return token as IToken;
-    } catch (error) {
+    } catch (error: unknown | never) {
         throw error
+        // return next(new ErrorHandler(500, error instanceof Error ? error.message : 'Unknown error', logger));
     }
 }

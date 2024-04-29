@@ -3,6 +3,8 @@ import { changeBlogStatus } from "../changeBlogStatus";
 import { changeUserStatus } from "../changeUserStatus";
 import { getAllBlogs } from "../getAllBlogs";
 import { getAllReports } from "../getAllReports";
+import { getUserSubscribedData } from "../getUserSubscribedData";
+import { getTotalBlogData } from "../getTotalBlogData";
 
 export {
   getAllUser,
@@ -10,4 +12,6 @@ export {
   changeUserStatus,
   getAllBlogs,
   getAllReports,
+  getUserSubscribedData,
+  getTotalBlogData
 };

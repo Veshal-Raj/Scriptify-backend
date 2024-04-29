@@ -27,6 +27,13 @@ export function userRoute(router: Route) {
     })
   );
 
+  router.post(
+    "/logout",
+    catchAsyncErrors((req: Req, res: Res, next: Next) => {
+      userController.logout(req, res, next)
+    })
+  )
+
   router.get(
     "/get-upload-url",
     catchAsyncErrors((req: Req, res: Res, next: Next) => {
