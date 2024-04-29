@@ -44,5 +44,19 @@ export function adminRoute(router: Route) {
         })
     )
 
+    router.get(
+        '/getUserSubscribedData',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            adminController.getUserSubscribedData(req, res, next)
+        })
+    )
+
+    router.get(
+        '/getTotalBlogData',
+        catchAsyncErrors((req: Req, res: Res, next: Next) => {
+            adminController.getTotalBlogData(req, res, next)
+        })
+    )
+
     return router;
 }

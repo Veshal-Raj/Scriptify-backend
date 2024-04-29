@@ -9,4 +9,6 @@ export interface IAdminUseCase {
     getAllBlogs(next: Next): Promise<any>
     changeBlogStatus(blogId: string, next: Next): Promise<any>
     getAllReports(next: Next): Promise<any>
+    getUserSubscribedData(next: Next): Promise<any>
+    getTotalBlogData(next: Next): Promise<any>
 }

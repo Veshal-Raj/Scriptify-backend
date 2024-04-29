@@ -84,4 +84,35 @@ export class AdminController {
       throw error;
     }
   }
+
+  async getUserSubscribedData (req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.adminUseCase.getUserSubscribedData(next)
+      return res
+        .status(200)
+        .json({
+          success: true,
+          message: "user subscribed data",
+          data: result,
+        });
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getTotalBlogData(req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.adminUseCase.getTotalBlogData(next)
+      return res
+        .status(200)
+        .json({
+          success: true,
+          message: "user subscribed data",
+          data: result,
+        });
+    } catch (error) {
+      throw error
+    }
+
+  }
 }

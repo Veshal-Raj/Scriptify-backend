@@ -1,7 +1,7 @@
 import IUser from "../../../../entitiesLayer/user";
 import { IAdminRepository } from "../../../../usecasesLayer/interface/repository/IadminRepository";
 import { IUserResponse } from "../../../../usecasesLayer/interface/request_response/user";
-import { changeBlogStatus, changeUserStatus, getAllBlogs, getAllReports, getAllUser } from "./userRepository/admin/root";
+import { changeBlogStatus, changeUserStatus, getAllBlogs, getAllReports, getAllUser, getTotalBlogData, getUserSubscribedData } from "./userRepository/admin/root";
 
 
 
@@ -31,5 +31,13 @@ export class AdminRepository implements IAdminRepository {
 
     async getAllReports(): Promise<any> {
         return await getAllReports()
+    }
+
+    async getUserSubscribedData(): Promise<any> {
+        return await getUserSubscribedData()
+    }
+
+    async getTotalBlogData(): Promise<any> {
+        return await getTotalBlogData()
     }
 }

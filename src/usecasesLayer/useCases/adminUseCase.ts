@@ -4,7 +4,7 @@ import { IAdminUseCase } from "../interface/usecase/adminUseCase";
 import { ErrorHandler } from "../middlewares/errorHandler";
 import CustomLogger from "../../infrastructureLayer/services/errorLogging";
 import { IUserResponse } from "../interface/request_response/user";
-import { getAllUser, changeUserStatus, getAllBlogs, changeBlogStatus, getAllReports } from "./admin/index";
+import { getAllUser, changeUserStatus, getAllBlogs, changeBlogStatus, getAllReports, getUserSubscribedData, getTotalBlogData } from "./admin/index";
 import { IAdminRepository } from "../interface/repository/IadminRepository";
 
 export class AdminUseCase implements IAdminUseCase {
@@ -63,6 +63,26 @@ export class AdminUseCase implements IAdminUseCase {
   async getAllReports(next: Next): Promise<any> {
     try {
       return await getAllReports(next, this.adminRepository, this.logger)
+    } catch (error) {
+      return next(
+        new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger )
+      );
+    }
+  }
+
+  async  getUserSubscribedData(next: Next): Promise<any> {
+    try {
+      return await getUserSubscribedData(next, this.adminRepository, this.logger)
+    } catch (error) {
+      return next(
+        new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger )
+      );
+    }
+  }
+
+  async getTotalBlogData(next: Next): Promise<any> {
+    try {
+      return await getTotalBlogData(next, this.adminRepository, this.logger)
     } catch (error) {
       return next(
         new ErrorHandler(500, error instanceof Error ? error.message : "Unknown error", this.logger )

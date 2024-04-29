@@ -11,4 +11,6 @@ export interface IAdminRepository {
     getAllBlogs(): Promise<any>
     changeBlogStatus(blogId: string): Promise<any>
     getAllReports(): Promise<any>
+    getUserSubscribedData(): Promise<any>
+    getTotalBlogData(): Promise<any>
 }
