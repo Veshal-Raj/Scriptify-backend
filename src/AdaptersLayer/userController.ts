@@ -30,19 +30,22 @@ export class UserController {
       const token = await this.userUseCase.registerUser(req.body, next);
 
       if (!token)
-        return res
-          .status(400)
+        return res.status(400)
           .json({ success: false, message: "No verification token found" });
 
       res.cookie("verficationToken", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
+        // domain: 'https://frontend-docker-test.vercel.app',
+        // path: '/',
         expires: new Date(Date.now() + 30 * 60 * 1000),
+        secure: true
       });
 
-      res
-        .status(200)
-        .json({
+      
+      
+
+      res.status(200).json({
           success: true,
           message: "verification otp has been send to the mail",
         });
@@ -53,12 +56,17 @@ export class UserController {
 
   async createUser(req: Req, res: Res, next: Next) {
     try {
+      
+      console.log('-------',req.cookies.verficationToken)
+
       let token = req.cookies.verficationToken;
+      console.log('reaced here')
+      console.log(token)
 
       if (!token)
-        return res
-          .status(400)
-          .json({ success: false, message: "No verification token found" });
+        return res.status(400).json({
+          success: false, message: "No verification token found" 
+        });
 
       const result = await this.userUseCase.createUser(
         req.body.otp,
@@ -66,7 +74,7 @@ export class UserController {
         next
       );
 
-      if (result) res.clearCookie("verificationToken").send(result);
+      if (result) res.clearCookie("verificationToken").status(200).send(result);
       else res.status(401).json({ message: "otp mismatch" });
     } catch (error: unknown | never) {
       throw error;
@@ -96,6 +104,15 @@ export class UserController {
       res.status(200).json(result?.user);
     } catch (error: unknown | never) {
       throw error;
+    }
+  }
+
+  async logout (req: Req, res: Res, next: Next) {
+    try {
+      await this.userUseCase.logout(req, res, next)
+      res.status(200).json({ success: true, message: "User has been logged out successfully!"})
+    } catch (error: unknown | never) {
+      throw error
     }
   }
 
@@ -204,7 +221,7 @@ export class UserController {
 
   async filterByTags(req: Req, res: Res, next: Next) {
     try {
-      let tag = req.body.tag;
+      let tag = req.body.tag.tag;
       const response = await this.userUseCase.filterByTags(tag, next);
       return res.status(200).json({ response });
     } catch (error: unknown | never) {
